@@ -1,0 +1,72 @@
+<div class="table-responsive">
+    <form id="opt-form">
+        <table class="table table-bordered">
+
+            <tr>
+                <td class="form-item-title">
+                    主题
+                </td>
+                <td>
+                    <input required type="text" name="topic" id="topic" tips-id="topic-tips" data-length="255"
+                           maxlength="20" onblur="checkRegular(this);" class="form-control"
+                           placeholder="请输入主题">
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span> <span id="topic-tips"></span></td>
+
+            </tr>
+
+            <tr>
+                <td class="form-item-title">
+                    发送提醒
+                </td>
+                <td>可以使用“#{标签名}” 格式获取接收人信息，<br>
+                    可用标签为 name(名字)，number（学号），phone(手机号)，email（邮箱），<br>
+                    academy（学院），major(专业)，class(班级)，branch（党支部）；<br>
+                    发送示例：#{name} 您好！ <br>
+                    显示为：张三（接收人名字）您好！<br>
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+
+            <tr>
+                <td class="form-item-title">
+                    内容
+                </td>
+                <td>
+                    <textarea rows="3" cols="85" name="content" id="content" tips-id="content-tips" data-length="255"
+                              onblur="checkRegular(this);" placeholder="请输入内容"></textarea>
+
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span> <span id="content-tips"></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    目的服务器
+                </td>
+                <td>
+                    <select required type="text" name="server" tips-id="server-tips" maxlength="20" data-length="3"
+                            onblur="checkRegular(this);" class="form-control">
+                        <option value=1 selected="selected">PC/微信</option>
+                        <option value=0>后台</option>
+
+                    </select>
+
+
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span> <span id="server-tips"></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    推送范围
+                </td>
+                <td>
+                    <ul id="rangeTree" class="ztree">
+                    </ul>
+
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span> <span></span></td>
+            </tr>
+
+        </table>
+    </form>
+</div>

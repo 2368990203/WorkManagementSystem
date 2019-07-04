@@ -1,0 +1,99 @@
+<div class="table-responsive">
+    <form id="opt-form">
+        <table class="table table-striped">
+            <tr>
+                <td class="form-item-title">
+                    登录名
+                </td>
+                <td>
+                    <input required type="text" maxlength="20" name="loginName"  tips-id = "loginName-tips"  data-type="loginName" data-length="20" maxlength="20"  onblur="checkRegular(this);" class="form-control" placeholder="请输入登录名">
+                </td>
+                <td class="form-item-remark" style="width: 40%;"  >*<span style="color:black">必填</span>  <span id = "loginName-tips"></span></td>
+            </tr>
+            <tr>
+                <td width="100px" style="text-align: right;">
+                    登录密码
+                </td>
+                <td>
+                    <input required type="text"  tips-id = "password-tips"  data-type="password" data-length="20" maxlength="20"  onblur="checkRegular(this);" name="password" class="form-control" placeholder="请输入登录密码">
+                </td>
+                <td class="form-item-remark" >
+                    <button class="btn btn-primary btn-sm" type="button" onclick="user.random()">
+                        <i class="fa fa-random"></i>&nbsp;随机密码
+                    </button>
+                    <span  id = "password-tips"  ></span>
+                </td>
+            </tr>
+            <tr>
+                <td width="100px" style="text-align: right;">
+                    真实姓名
+                </td>
+                <td>
+                    <input type="text" tips-id = "name-tips"  data-type="name" data-length="20" maxlength="20"  onblur="checkRegular(this);"  name="trueName" class="form-control" placeholder="请输入真实姓名">
+                </td>
+                <td class="form-item-remark" >*<span style="color:black">必填</span>  <span  id = "name-tips" ></span></td>
+            </tr>
+            <tr>
+            <tr>
+                <td width="100px" style="text-align: right;">
+                    学号/工号
+                </td>
+                <td>
+                    <input required type="text"  tips-id = "number-tips"  data-length="20" data-type="regnumber" maxlength="20"  onblur="checkRegular(this);" name="number" class="form-control" placeholder="请输入学号/工号">
+                </td>
+            <td class="form-item-remark"  >*<span style="color:black">必填</span>  <span id = "number-tips" ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    用户类型
+                </td>
+                <td>
+                    <select required type="text" name="type" maxlength="20" class="form-control">
+                        <option value = 1 >教职工</option>
+                        <option value = 2 selected="selected">学生</option>
+
+                    </select>
+
+
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span>  <span ></span></td>
+            </tr>
+            <tr>
+                <td width="100px" style="text-align: right;">
+                    角色
+                </td>
+                <td>
+                    <select required name="roleId" id="roleId" maxlength="20" class="form-control"
+                            placeholder="请选择角色">
+                        <option value="*">请选择角色</option>
+                    </select>
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span>  <span ></span></td>
+            </tr>
+
+            <tr>
+                <td width="100px" style="text-align: right;">
+                    手机号
+                </td>
+                <td>
+                    <input type="tel" maxlength="11" name="mobile"   tips-id = "phone-tips"  data-type="phone" data-length="11" maxlength="11"  onblur="checkRegular(this);"  class="form-control" placeholder="请输入手机号">
+                </td>
+                <td class="form-item-remark" >*<span style="color:black">必填</span>  <span  id = "phone-tips" ></span></td>
+            </tr>
+        </table>
+    </form>
+    <form id="opt2-form">
+        <table class="table table-striped">
+            <thead>
+            <th colspan="3" style="text-align: center">
+                组织机构信息
+            </th>
+
+            </thead>
+            <tbody id="departInfo">
+
+            </tbody>
+        </table>
+    </form>
+</div>
+

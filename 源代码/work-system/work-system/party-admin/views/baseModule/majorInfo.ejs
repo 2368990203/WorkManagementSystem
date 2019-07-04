@@ -1,0 +1,160 @@
+<% include ../inc/header.ejs %>
+<style>
+    .date-table {
+        overflow-y: auto;
+    }
+</style>
+<% include ../inc/body.ejs %>
+<!-- html主体代码 start -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title" style="padding-top: 3px !important;">
+                <div style="width: 140px; display: block;float: left;padding-top: 10px;">
+                    专业信息管理
+                </div>
+
+                <div class="ibox-tools">
+                    <button style="margin-top: 8px;" class="btn btn-primary btn-xs" type="button"
+                            onclick="majorInfo.create(this);">
+                        <i class="fa fa-plus"></i>&nbsp;新增
+                    </button>
+<!--                    <button style="margin-top: 8px;" class="btn btn-primary btn-xs" type="button"-->
+<!--                            onclick="majorInfo.importModel(this);">-->
+<!--                        <i class="fa fa-download"></i>&nbsp;下载专业信息模板-->
+<!--                    </button>-->
+
+<!--                    <button style="margin-top: 8px;" class="btn btn-primary btn-xs" type="button"-->
+<!--                            onclick="majorInfo.import(this);">-->
+<!--                        <i class="fa fa-plus"></i>&nbsp;导入专业信息-->
+<!--                    </button>-->
+
+                </div>
+
+            </div>
+            <div class="ibox-content">
+                <div class="input-group" style="width: 200px; display: flex" id="search-key">
+                    <input style="min-min-width: 200px;width: 200px;min-width: 200px;width: 200px;height:30px;"
+                           type="text" id="name" placeholder="请输入专业名称" class="input-sm form-control">
+                    <span class="input-group-btn" style="float:left;flex: 4">
+                            <button onclick="majorInfo.select(this);" id="search_button" style="width: 50px;"
+                                    type="button" class="btn btn-sm btn-primary"> 搜索</button>
+                        </span>
+                </div>
+            </div>
+            <div class="ibox-content data-view" style="overflow-y: auto;">
+                <div class="col-sm-12">
+                    <div class=" col-sm-12 date-table">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>专业代码</th>
+                                <th>专业名称</th>
+                                <th>所属学院</th>
+                                <th>状态</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody id="item-list">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-12 pages M-box3 list-page">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- html主体代码 end -->
+<!-- 管理的课程模板 -->
+<script id="major-template" type="text/x-dot-template">
+    {{ if(it.length == 0) { }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i=0;i < it.length;i++){ }}
+    <tr>
+        <td>
+            {{= ((index-1) * size +i+1)}}
+        </td>
+        <td>
+            {{= it[i].code}}
+        </td>
+
+        <td>
+            {{= it[i].name }}
+        </td>
+        <td>
+            {{= it[i].academyName }}
+        </td>
+        <td>
+            {{= helper.status(it[i].status) }}
+        </td>
+
+
+        <td>
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle">操作 <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="majorInfo.update(this);">修改</a>
+                    </li>
+                    <!--<li>-->
+                    <!--<a href="#" data-id="{{= it[i].id}}" onclick="majorInfo.read(this);">查询</a>-->
+                    <!--</li>-->
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="majorInfo.delete(this);">删除</a>
+                    </li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+    {{ } }}
+    {{ } }}
+</script>
+
+
+<script id="academy-select-template" type="text/x-dot-template">
+    {{ if(it.length == 0 ){ }}
+    暂无数据
+    {{ }else{ }}
+    <option value=" ">请选择学院</option>
+    {{ for(var i = 0 ; i < it.length ; i++){ }}
+    <option value="{{=it[i].code }}">{{=it[i].name }}</option>
+    {{ } }}
+    {{ } }}
+</script>
+<script id="error-template" type="text/x-dot-template">
+    {{ if(it.length == 0) { }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i=0;i < it.length;i++){ }}
+    <tr>
+        <td>
+            {{=(i+1)}}
+        </td>
+        <td>
+            {{= it[i].code|| ""}}
+        </td>
+        <td>
+            {{= it[i].name || ""}}
+        </td>
+        <td>
+            {{= it[i].academyName || ""}}
+        </td>
+        <td>
+            {{= it[i].info || ""}}
+        </td>
+    </tr>
+    {{ } }}
+    {{ } }}
+</script>
+<% include ../inc/js.ejs %>
+<!-- 私有脚本 start -->
+<script src="../../js/baseModule/_majorInfo.js"></script>
+<!-- 私有脚本 end -->
+<% include ../inc/footer.ejs %>

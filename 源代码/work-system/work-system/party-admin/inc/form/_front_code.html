@@ -1,0 +1,62 @@
+<div class="table-responsive">
+    <form id="opt-form">
+        <table class="table table-striped">
+            <tr>
+                <td class="form-item-title">
+                    表名
+                </td>
+                <td>
+                    <input required type="text" maxlength="20" name="table" id="tableName" class="form-control"
+                           readonly="readonly">
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+            <tr>
+                <td width="100px" style="text-align: right;">
+                    生成文件
+                </td>
+                <td>
+                    <input type="checkbox" name="htmlSelect" value="1" checked="checked"
+                           onchange="frontCode.changeCheck(this)" class=""/>html
+
+                    <input type="checkbox" name="jsSelect" value="2" checked="checked"
+                           onchange="frontCode.changeCheck(this)" class=""/>js
+
+                    <input type="checkbox" name="ejsSelect" value="3" checked="checked"
+                           onchange="frontCode.changeCheck(this)" class=""/>ejs
+                </td>
+            </tr>
+            <tr>
+                <td width="100px" style="text-align: right;">
+                    html生成路径
+                </td>
+                <td>
+                    <input type="text" name="htmlPath" id="htmlPath" class="form-control"
+                    value="/party-admin/views/test/form/">
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+            <tr>
+                <td width="100px" style="text-align: right;">
+                    js生成路径
+                </td>
+                <td>
+                    <input type="text" name="jsPath" id="jsPath" class="form-control"
+                           value="/party-admin/views/test/js/">
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+            <tr>
+                <td width="100px" style="text-align: right;">
+                    ejs生成路径
+                </td>
+                <td>
+                    <input type="text" name="ejsPath" id="ejsPath" class="form-control"
+                           value="/party-admin/views/test/ejs/">
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+        </table>
+    </form>
+</div>
+

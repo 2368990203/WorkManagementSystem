@@ -1,0 +1,797 @@
+* {
+    margin: 0;
+    padding: 0
+}
+
+a {
+    text-decoration: none;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    font-family: "微软雅黑";
+    background-color: #FFFFFF;
+    text-align: center;
+    min-width: 1200px;
+    min-height: 100%;
+    margin: 0px;
+    padding-bottom: 60px;
+    background-image: url(../images/background.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+#imgs {
+    width: 68%;
+    clear: both;
+}
+
+.header {
+    background-image: url(../images/banner.png);
+    height: 60px;
+}
+
+.content {
+    min-width: 960px;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 150px;
+
+}
+
+.left {
+    width: 12%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.left li {
+    list-style: none;
+    background-color: #FFFFFF;
+    border-radius: 0.3em;
+    height: 45px;
+    line-height: 45px;
+    border: solid 1px #CCCCCC;
+}
+
+.left li.active {
+    border-left: solid 4px #B7372A;
+}
+
+.right {
+    width: 78%;
+    margin-left: 10px;
+    display: inline-block;
+
+}
+
+.location {
+    background-color: #FFFFFF;
+    border: solid 1px #CCCCCC;
+    border-radius: 0.3em;
+    height: 45px;
+    line-height: 45px;
+    text-align: left;
+    padding: 0 30px 0 10px;
+    margin-bottom: 10px
+}
+
+.location a {
+    color: #2d2d2d;
+}
+
+.course_details {
+    background-color: #FFFFFF;
+    border: solid 1px #CCCCCC;
+    border-radius: 0.3em;
+    height: auto;
+    text-align: left;
+
+}
+
+.details {
+    background-color: #FFFFFF;
+    border: solid 1px #CCCCCC;
+    border-radius: 0.3em;
+    height: auto;
+    text-align: left;
+    padding: 30px;
+    overflow: auto;
+
+}
+
+.detail {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.detail_title {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box; /* Firefox */
+    -webkit-box-sizing: border-box; /* Safari */
+    display: inline-block;
+    border-left: 4px solid #B7372A;
+    vertical-align: top;
+
+}
+
+.detail_content {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box; /* Firefox */
+    -webkit-box-sizing: border-box; /* Safari */
+    display: inline-block;
+    width: 88%;
+}
+
+.buttom {
+    margin: 20px auto;
+
+}
+
+.buttom a .button {
+    background-color: #D85342;
+    -webkit-border-radius: 6;
+    -moz-border-radius: 6;
+    border-radius: 6px;
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 14px;
+    padding: 8px 25px;
+    text-decoration: none;
+    border: none;
+}
+
+.buttom .button {
+    background-color: #D85342;
+    -webkit-border-radius: 6;
+    -moz-border-radius: 6;
+    border-radius: 6px;
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 14px;
+    padding: 8px 25px;
+    text-decoration: none;
+    border: none;
+}
+
+.jquery-word-export {
+    float: right;
+}
+
+.buttom .button:hover {
+    color: #ffffff;
+    background: #d6d0cf;
+    text-decoration: none;
+}
+
+.buttom a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.upload-manage {
+    background-color: #D85342;
+    border-radius: 6px;
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 16px;
+    padding: 5px 15px;
+    text-decoration: none;
+    border: none;
+    float: right;
+}
+
+
+.title {
+    font-size: 18px;
+    text-align: center;
+
+}
+
+.small {
+    text-align: center;
+    margin: 5px;
+}
+
+.time {
+    display: inline-block;
+    font-size: 12px;
+    color: #666666;
+    border-right: solid 1px #666666;
+    width: 170px
+}
+
+.source {
+    display: inline-block;
+    font-size: 12px;
+    color: #666666;
+    border-right: solid 1px #666666;
+    padding: 0 8px;
+}
+
+.browse {
+    display: inline-block;
+    font-size: 12px;
+    color: #666666;
+    width: 90px
+}
+
+.text {
+    padding: 20px 45px;
+    line-height: 30px;
+    display: inline-block;
+}
+
+.text img {
+    text-align: center;
+    width: 500px;
+    height: 300px;
+    vertical-align: middle;
+}
+
+.last {
+    float: right;
+    padding-right: 45px;
+    font-size: 14px;
+
+}
+
+.last a {
+    color: #333333;
+}
+
+
+.course {
+    height: 250px;
+}
+
+.course img {
+    display: inline-block;
+    width: 380px;
+    height: 250px;
+    border-radius: 0.5em;
+}
+
+.course_study {
+    display: inline-block;
+    width: 50%;
+    vertical-align: top;
+    margin-left: 25px;
+}
+
+.course_title {
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.course_teacher {
+    font-size: 16px;
+}
+
+.course_introduce {
+    font-size: 16px;
+    position: relative;
+    line-height: 1.4em;
+    /* 3 times the line-height to show 3 lines */
+    height: 4.2em;
+    overflow: hidden;
+}
+
+.course_introduce::after {
+    content: "...";
+    font-weight: bold;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 0 20px 1px 45px;
+
+}
+
+.progress {
+    font-size: 14px;
+    margin: 40px 0;
+    display: inline-block;
+}
+
+.line {
+    margin: 20px 0;
+    width: 100%;
+}
+
+.menuTree {
+    margin-left: 0px;
+    margin-top: 10px;
+    background-color: #e6e6e6;
+}
+
+.menuTree div {
+    padding-left: 1px;
+}
+
+.menuTree div ul {
+    overflow: hidden;
+    display: none;
+    height: auto;
+    margin: 0;
+    padding-left: 34px;
+    background-color: #FFFFFF;
+}
+
+.menuTree span {
+    font-size: 16px;
+    display: block;
+    height: 20px;
+    line-height: 55px;
+    padding-left: 80px;
+    margin: 1px 0;
+    cursor: pointer;
+}
+
+/*.menuTree span:hover{ background-color:#ccc; color:#cf0404;}*/
+.menuTree a {
+    color: #333;
+    text-decoration: none;
+}
+
+.menuTree a:hover {
+    color: #06F;
+}
+
+.menuTree span {
+    height: 50px;
+}
+
+
+.application {
+    float: left;
+}
+
+.help {
+    float: right;
+    line-height: 45px;
+
+}
+
+.help img {
+    width: 20px;
+    height: 20px;
+    vertical-align: text-bottom;
+}
+
+.background {
+    padding: 30px;
+}
+
+/*���ν�����*/
+.vertical {
+    width: 170px;
+    display: inline-block;
+}
+
+.finish {
+    background-color: #fff;
+}
+
+.finish img {
+    height: 30px;
+    width: 30px;
+}
+
+.words {
+    display: inline-block;
+    line-height: 15px;
+    margin-left: 10px;
+}
+
+.connecting {
+    border-left: solid 3px #03B778;
+    height: 105px;
+    margin: -3px 13px;
+}
+
+.unbegin {
+    border-left: solid 3px #BFBFBF;
+    height: 100px;
+    margin: -3px 13px;
+}
+
+
+.list1 {
+    padding: 60px 60px;
+}
+
+.list1 {
+    font-size: 16px;
+}
+
+.list1 video {
+    margin: 25px 10% 0px 10%;
+}
+
+.rowwrap {
+    margin-bottom: 60px;
+}
+
+.main-below-img {
+    margin: 20px 10px;
+}
+
+.below-img {
+    width: 162px;
+    text-align: center;
+    border-radius: 15px;
+    float: left;
+    margin: 0px 10px;
+}
+
+.no1 {
+    margin-left: 0px;
+}
+
+.no6 {
+    margin-right: 0px;
+}
+
+.main-below-img a {
+    color: #000000;
+    text-decoration: none;
+}
+
+.main-below-img .txtline {
+    margin: 10px 0px;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 165px;
+}
+
+.img-redius {
+    border-radius: 10px;
+    height: 110px;
+}
+
+.bar p {
+    float: left;
+    height: 5px;
+    width: 100px;
+    background-color: #EFEFEF;
+}
+
+.bar .progress-txt, .bar .vnum {
+    float: left;
+    font-size: 10px;
+    color: #2aa15d;
+    font-weight: normal;
+}
+
+.bar {
+    height: 10px;
+}
+
+.litem {
+    margin-top: 5px;
+    width: 85px !important;
+}
+
+.bar p span {
+    float: left;
+    height: 5px;
+}
+
+.vnum {
+    margin-left: 5px;
+}
+
+/*视频播放*/
+.buttom_frame {
+    height: 40px;
+    background-color: #000000;
+    color: #fff;
+    opacity: 0.8;
+    border-radius: 0 0 0.3em 0.3em;
+}
+
+.comments {
+    margin: 60px;
+}
+
+.comments_title {
+    border-left: solid #D84A3B;
+    padding-left: 5px;
+    margin: 50px 0 20px 0;
+}
+
+.comments_content {
+    border: solid 1px #CCCCCC;
+    border-radius: 0.3em 0.3em 0 0;
+    height: auto;
+    text-align: left;
+}
+
+.comments_content hr {
+    width: 95%;
+    margin: 0 20px;
+}
+
+.comment_content {
+    height: auto;
+    padding: 20px;
+
+}
+
+.comments_user {
+    line-height: 26px;
+}
+
+.user_name {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.user_content {
+    display: inline-block;
+    width: 70%;
+}
+
+.reply {
+    display: inline-block;
+    float: right;
+    line-height: 50px;
+}
+
+.reply a {
+    color: #9a9a9a;
+}
+
+.more_comment {
+    border: solid 1px #CCCCCC;
+    border-radius: 0 0 0.3em 0.3em;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+}
+
+.more_comment a {
+    color: #D84A3B;
+}
+
+.release button {
+    background-color: #CCCCCC;
+    -webkit-border-radius: 6;
+    -moz-border-radius: 6;
+    border-radius: 6px;
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 16px;
+    padding: 8px 25px;
+    text-decoration: none;
+    border: none;
+}
+
+.release button:hover {
+    color: #fff;
+    background: #D85342;
+    text-decoration: none;
+}
+
+.buttom a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.review {
+    resize: none;
+    width: 98%;
+    height: 100px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px 0 20px;
+    font-size: 16px;
+    background-color: #fff;
+}
+
+/* 个人信息*/
+.left_portrait {
+    list-style: none;
+    background-color: #FFFFFF;
+    border-radius: 0.3em;
+    height: auto;
+    line-height: 30px;
+    border: solid 1px #CCCCCC;
+    padding: 20px;
+    margin-bottom: 10px;
+}
+
+.left_portrait img {
+    height: 50px;
+    width: 50px;
+}
+
+.right_top {
+    background-color: #FFFFFF;
+    border: solid 1px #CCCCCC;
+    border-radius: 0.3em;
+    padding: 30px;
+    margin-bottom: 5px;
+    line-height: 20px;
+}
+
+.right_top img {
+    height: 50px;
+    width: 50px;
+    float: left;
+}
+
+.user_finish {
+    display: inline-block;
+    float: left;
+    text-align: left;
+    margin: 0 20px;
+}
+
+.user_finish p {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.edit {
+    display: inline-block;
+}
+
+.edit button {
+    background-color: #D85342;
+    -webkit-border-radius: 6;
+    -moz-border-radius: 6;
+    border-radius: 6px;
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 16px;
+    padding: 8px 25px;
+    text-decoration: none;
+    border: none;
+}
+
+.edit button:hover {
+    color: #ffffff;
+    background: #d6d0cf;
+    text-decoration: none;
+}
+
+.edit a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.right_bottom {
+    background-color: #FFFFFF;
+    border: solid 1px #CCCCCC;
+    border-radius: 0.3em;
+    height: auto;
+    text-align: left;
+    padding: 30px 100px;
+    line-height: 45px;
+}
+
+.table {
+    width: 50%;
+}
+
+.table select {
+    /*width:98%;*/
+}
+
+.table-title {
+    font-size: 16px;
+    font-family: "微软雅黑";
+}
+
+.table_input {
+    display: block;
+    border-radius: 5px;
+    width: 93%;
+    height: 30px;
+    padding: 0 5px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    border: 1px solid #cdcdce;
+    box-shadow: none;
+    margin-bottom: 12px;
+}
+
+.table_remark {
+    color: red;
+    margin-left: 10px;
+}
+
+
+/*考察记录*/
+.survey_location {
+    text-align: center;
+    background-color: #FFFFFF;
+    border: solid 1px #CCCCCC;
+    border-radius: 0.3em;
+    height: 45px;
+    line-height: 45px;
+    padding: 0 30px 0 10px;
+    margin-bottom: 10px;
+
+}
+
+.main-top {
+    margin: 35px 60px;
+}
+
+.parallel-step {
+    background-color: #fff;
+}
+
+.parallel-step img {
+    height: 30px;
+    width: 30px;
+}
+
+.step1 {
+    display: inline-block;
+}
+
+.connect-line {
+    display: inline-block;
+    border-top: solid 3px #03B778;
+    width: 300px;
+    height: 15px;
+    margin: 0 -7px;
+}
+
+.unbegin-line {
+    display: inline-block;
+    border-top: solid 3px #BFBFBF;
+    width: 300px;
+    height: 15px;
+    margin: 0 -7px;
+}
+
+.user-info {
+    margin: 50px 0;
+}
+
+.submit-info {
+    margin: 30px 0;
+}
+
+.submit-info button {
+    background-color: #D85342;
+    -webkit-border-radius: 6;
+    -moz-border-radius: 6;
+    border-radius: 6px;
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 16px;
+    padding: 8px 25px;
+    text-decoration: none;
+    border: none;
+}
+
+.submit-info button:hover {
+    color: #ffffff;
+    background: #d6d0cf;
+    text-decoration: none;
+}
+
+
+/*思想汇报模板*/
+.template {
+    font-size: 16px;
+    line-height: 35px;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

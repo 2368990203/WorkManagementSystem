@@ -1,0 +1,104 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+/*out-line: nonecolor: #*****;}*/
+
+html, ul li {
+    list-style-type: none;
+}
+
+html, body {
+    min-width: 1200px;
+    margin: 0px;
+    padding: 0px;
+    background-image: url(../images/backgroud.png);
+    background-color: #FFFFFF;
+    background-size: cover;
+    background-repeat: no-repeat;
+    text-align: center;
+    height: 100%
+}
+
+.header {
+    background-image: url(../images/banner.png);
+    height: 10%;
+}
+
+
+.title {
+    background-color: #FFFFFF;
+    border: solid 1px #CCCCCC;
+    border-radius: 0.3em;
+    height: 45px;
+    line-height: 40px;
+    text-align: left;
+    padding: 0 30px 0 10px;
+    margin-bottom: 8px
+}
+
+.detail {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.detail_title {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box; /* Firefox */
+    -webkit-box-sizing: border-box; /* Safari */
+    display: inline-block;
+    border-left: 4px solid #B7372A;
+    vertical-align: top;
+    margin-top: 5%;
+
+
+}
+
+.detail_content {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box; /* Firefox */
+    -webkit-box-sizing: border-box; /* Safari */
+    display: inline-block;
+    width: 88%;
+    margin-left: 10%;
+
+}
+
+.btn {
+
+}
+
+.btn button {
+    background: #ed422e;
+    background-image: -webkit-linear-gradient(top, #ed422e, #9f1304);
+    background-image: -moz-linear-gradient(top, #ed422e, #9f1304);
+    background-image: -ms-linear-gradient(top, #ed422e, #9f1304);
+    background-image: -o-linear-gradient(top, #ed422e, #9f1304);
+    background-image: linear-gradient(to bottom, #ed422e, #9f1304);
+    -webkit-border-radius: 6;
+    -moz-border-radius: 6;
+    border-radius: 6px;
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 16px;
+    padding: 8px 25px;
+    text-decoration: none;
+    border: none;
+    float: right;
+}
+
+.btn button:hover {
+    color: #ffffff;
+    background: #e44101;
+    text-decoration: none;
+}
+
+a {
+    text-decoration: none;
+    color: #fff;
+} 

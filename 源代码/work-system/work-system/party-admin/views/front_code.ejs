@@ -1,0 +1,63 @@
+<% include inc/header.ejs %>
+<% include inc/body.ejs %>
+<!-- html主体代码 start -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox-content" id="code-view-list" style="overflow-y: auto;">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>表名</th>
+                    <th>生成时间</th>
+                    <th>修改时间</th>
+                    <th>代码</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody id="code-list">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- html主体代码 end -->
+
+<!-- 子系统模板 -->
+<script id="code-tmpl" type="text/x-dot-template">
+    {{ if(it.length>0){ }}
+    {{ for(var i=0;i
+    <it.length;i++){ }}
+    <tr>
+        <td>{{= it[i].name}}</td>
+        <td>{{= time.timestamp2time(it[i].createTime)}}</td>
+        <td>{{= time.timestamp2time(it[i].reviseTime)}}</td>
+        <td>
+            {{ if(it[i].code.model != 'undefined'){ }}
+            <button onclick="frontCode.info(this);" data-index="{{= i}}" data-type="html" type="button"
+                    class="btn btn-info">html
+            </button>
+            <button onclick="frontCode.info(this);" data-index="{{= i}}" data-type="ejs" type="button"
+                    class="btn btn-info">ejs
+            </button>
+            <button onclick="frontCode.info(this);" data-index="{{= i}}" data-type="js" type="button"
+                    class="btn btn-info">js
+            </button>
+            {{ } }}
+        </td>
+        <td>
+            <button data-name="{{= it[i].name}}" onclick="frontCode.create(this);" type="button"
+                    class="btn btn-w-m btn-success">生成
+            </button>
+        </td>
+    </tr>
+    {{ } }}
+    {{ } }}
+
+</script>
+
+<% include inc/js.ejs %>
+<!-- 私有脚本 start -->
+<script src="../../js/_front_code.js"></script>
+<!-- 私有脚本 end -->
+<% include inc/footer.ejs %>

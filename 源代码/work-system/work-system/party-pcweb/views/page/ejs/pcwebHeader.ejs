@@ -1,0 +1,277 @@
+<% include ../../inc/js.ejs %>
+
+<link href="assets/css/zTreeStyle/zTreeStyle.css" rel="stylesheet"/>
+<link href="assets/css/plugins/sweetalert/sweetalert.css" rel="stylesheet"> <!--退出登录弹窗css-->
+
+<style>
+    .nav .open > a, .nav .open > a:focus, .nav .open > a:hover {
+        background-color: rgba(0, 0, 0, 0) !important;
+    }
+
+    a {
+        text-decoration: none !important;
+    }
+
+</style>
+<div id="wrapper">
+    <div class="top">
+        <nav class="top1 navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <img src="page/images/logo.png" style="margin: 10px;height: 30px">
+            </div>
+            <!-- /.navbar-header -->
+            <ul class="nav navbar-nav navbar-right">
+                <div class="index-login" id="unlogin" hidden="hidden">
+                    <span><a href="login/" style="text-decoration: none;color: #ffffff;"> 登录</a></span>
+                    <!--<span><a href="register"> &nbsp&nbsp注册</a></span>-->
+                </div>
+
+                <!--</ul>-->
+                <div id="login" class="login" hidden="hidden">
+
+                    <li class="dropdown">
+                        <a style="background-color: transparent;" href="#" class="dropdown-toggle avatar"
+                           data-toggle="dropdown"><img src="page/images/user.png"></a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-menu-header text-center">
+                                <strong id="user-name"></strong>
+                            </li>
+<!--                            <li class="m_2"><a href="updateUserInfo"><i><img src="page/images/userinfo.png"-->
+<!--                                                                             style="width: 17px;height: 17px"></i>个人中心-->
+<!--                                </a></li>-->
+                            <li class="m_2" onclick="cacheUpdate();"><a href="#"><i><img
+                                                src="page/images/icon-update.png" style="width: 17px;height: 17px"></i>更新缓存
+                                </a></li>
+                            <li class="m_2" onclick="loginOut();"><a href="#"><i><img src="page/images/quit.png"
+                                                                                      style="width: 17px;height: 17px"></i>退出系统
+                                </a></li>
+                        </ul>
+                    </li>
+
+
+                    <li class="dropdown">
+<!--                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><img-->
+<!--                                    src="page/images/message_02.png"/>-->
+                            <span class="badge" id="messageCount"></span></a>
+                        <ul class="dropdown-menu" id="message-list">
+
+                        </ul>
+                    </li>
+
+
+            </ul>
+
+            <!-- /.navbar-static-side -->
+        </nav>
+<!--        <div class="menu">-->
+<!--            <ul>-->
+<!--                <a href="/" id="header_index">-->
+<!--                    <li class="nav_pr no1">首页</li>-->
+<!--                </a>-->
+<!--                <li class="divide">|</li>-->
+<!--                <a href="meetingList">-->
+<!--                    <li class="nav_pr">会议安排</li>-->
+<!--                </a>-->
+<!--                <li class="divide">|</li>-->
+<!--                <a href="courseArrangementList">-->
+<!--                    <li class="nav_pr">课程安排</li>-->
+<!--                </a>-->
+<!--                <li class="divide">|</li>-->
+<!--                <a href="videoList">-->
+<!--                    <li class="nav_pr">网课学习</li>-->
+<!--                </a>-->
+<!--                <li class="divide">|</li>-->
+<!--                <a href="examList">-->
+<!--                    <li class="nav_pr ">作业</li>-->
+<!--                </a>-->
+<!--                <li class="divide">|</li>-->
+<!--                <a href="#" onclick="checkAuth_local('applicationTemplate','applicationManage')">-->
+<!--                    <li class="nav_pr">入党申请书</li>-->
+<!--                </a>-->
+<!--                <li class="divide">|</li>-->
+<!--                <a href="#" onclick="checkAuth_local('thoughReportTemplate','thoughReportList')">-->
+<!--                    <li class="nav_pr">思想汇报</li>-->
+<!--                </a>-->
+<!--                <li class="divide">|</li>-->
+<!--                <a href="surveyRecordList">-->
+<!--                    <li class="nav_pr  no8">考察谈话</li>-->
+<!--                </a>-->
+
+<!--            </ul>-->
+
+<!--        </div>-->
+
+    </div>
+</div>
+
+
+<!--消息模板-->
+<script id="message-list-template" type="text/x-dot-template">
+    {{ if(typeof it == "undefined" || it.length == 0) { }}
+    <a style="color: black;text-align: center">
+        <li class="avatar">
+            <div>暂无消息提醒</div>
+
+        </li>
+    </a>
+    {{ }else{ }}
+    {{ for(var i = 0; i < it.length; i++ ) { }}
+    <li class="avatar">
+        <a href="messageDetail?id={{=it[i].id }}">
+
+            {{ if(it[i].readStatus==null||it[i].readStatus==""||it[i].readStatus!=1) { }}
+            <div>{{=it[i].topic.length<=15?it[i].topic:it[i].topic.substr(0,15) }}</div>
+            <small> {{=it[i].sendTimeStr }}</small>
+            <span class="label label-info">NEW</span>
+            {{ }else{ }}
+            <div style="color:#a2a2a2;">{{=it[i].topic.length<=15?it[i].topic:it[i].topic.substr(0,15) }}</div>
+            <small style="color:#a2a2a2;"> {{=it[i].sendTimeStr }}</small>
+
+            {{ } }}
+        </a>
+    </li>
+    {{ } }}
+    {{ } }}
+</script>
+
+
+<script>
+
+    // 登录按钮
+    $(function () {
+
+        $("#header_index").attr("href", server_root);
+
+        var user = store.get(cache_user_key);
+        if (user != undefined) {
+            $('#unlogin').hide();
+            $('#login').show();
+            // getMessage();
+            // setInterval(getMessage, 60000);
+            //
+            // function getMessage() {
+            //     var param = {url: commonModule.indexMessageListApi};
+            //     var request = ajax.get(param);
+            //     request.done(function (d) {
+            //         var messageData = d.result;
+            //         var count = parseInt(messageData.count);
+            //         messageListData = messageData.messages;
+            //         if (count > 0) {
+            //             $('#messageCount').html(count);
+            //         }
+            //         var template = doT.template($("#message-list-template").text());//获取的模板
+            //         $('#message-list').html(template(messageListData));//模板装入数据
+            //
+            //         $('#latestMessage').show();
+            //
+            //         if (messageListData.length >= 3) {
+            //             $('#message-list').append(' <li class="dropdown-menu-footer text-center">' +
+            //                 '<a href="message">查看全部消息</a>' +
+            //                 ' </li>');
+            //         }
+            //
+            //     })
+            // }
+
+            var info = user.loginName;
+            $('#user-name').html("欢迎您，" + info);
+        } else {
+            $('#login').hide();
+            $('#unlogin').show();
+        }
+    });
+
+    //更新缓存
+    function cacheUpdate() {
+
+        if ((typeof store_user_info) == 'undefined') {
+            swal({
+                    title: '缓存数据已失效，请重新登录！',
+                    type: "info",
+                    showCancelButton: false,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "确定",
+                    closeOnConfirm: false
+                },
+                function () {
+                    store.clear();
+                    window.location.href = server_root + 'login?url=' + location.href;
+                }
+            );
+            return false;
+        } else {
+            var request = $.ajax({
+                type: 'PUT',
+                url: userModule.cacheUpdateApi,
+                headers: {token: store_user_info.token},
+                error: function (e) {
+                    var obj = e.responseJSON;
+                    if (e.status == 403) {
+                        swal({
+                                title: obj.message,
+                                type: "info",
+                                showCancelButton: false,
+                                confirmButtonColor: "#DD6B55",
+                                confirmButtonText: "确定",
+                                closeOnConfirm: false
+                            },
+                            function () {
+                                store.clear();
+                                window.location.href = server_root + 'login?url=' + location.href;
+                            }
+                        );
+                    } else {
+                        swal('', obj.message, "warning");
+                    }
+                }
+            });
+            request.done(function (res) {
+                store.set(cache_user_key, res.result);
+                tips.ok("缓存更新成功！");
+                //window.location.href = '/login';
+            })
+        }
+    }
+
+    // 退出登录
+    function loginOut() {
+        if ((typeof store_user_info) == 'undefined') {
+            tips.ok("退出登录成功！");
+            window.location.href = server_root;
+
+        } else {
+            swal({
+                    title: "",
+                    text: '是否要退出系统？',
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "退出",
+                    cancelButtonText: "再等等",
+                    closeOnConfirm: true
+                },
+                function () {
+
+                    var request = $.ajax({
+                        type: 'POST',
+                        url: userModule.loginOutApi,
+                        headers: {token: store_user_info.token},
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        error: function (e) {
+                            var obj = e.responseJSON;
+                            swal('', obj.message, "warning");
+                        }
+                    });
+                    request.done(function (res) {
+                        store.clear();
+                        tips.ok("退出登录成功！");
+                        window.location.href = server_root;
+                    })
+                }
+            );
+        }
+    }
+</script>
+
+

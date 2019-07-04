@@ -1,0 +1,639 @@
+
+<style>
+    .folder-list li{ line-height: 30px; padding-left: 10px;}
+    .folder-list li a{padding: 0px !important;}
+    .folder-list li span:hover{cursor: pointer;}
+    .folder-parent:hover{ cursor: pointer; color: #0a6aa1;}
+    .folder-item:hover{ cursor: pointer; color: #0a6aa1;}
+</style>
+<link href="../../assets/css/plugins/fancybox/jquery.fancybox.css" rel="stylesheet">
+<link href="../../assets/css/animate.css" rel="stylesheet">
+<!-- html主体代码 start -->
+<div class="wrapper wrapper-content" style="padding:0px;margin:0px;">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content" >
+                    <div class="file-manager" style="min-height: 140px;">
+                        <button class="btn btn-primary" onclick="selectFile();">选择文件</button>
+                        <!--accept="image/*"-->
+                        <input type="file" class="hide" name="file" id="uploadFile" multiple="multiple"
+                               onchange="javascript:setImagePreviews();"  />
+                        <div id="dd" class="row" style="min-height: 80px;padding-top: 3px;"></div>
+                        <button autocomplete="off" data-loading-text="认证中..." id="up-btn"
+                                class="btn btn-success pull-right" onclick="oss.up();">上传</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 animated fadeInRight">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>
+                                <span class="folder-parent" onclick="oss.back();">全部</span>  <span class="folder-sub"> </span>
+                            </h5>
+                            <div class="ibox-tools folder-opt" data-toggle="tooltip" data-placement="bottom" title="创建">
+
+                            </div>
+
+                        </div>
+                        <div class="ibox-content folder-file-list" style="overflow-y: auto;">
+                            <div id="folder-file-list" style="margin: 0 auto; height: 100%;"></div>
+                        </div>
+                        <div class="ibox-title" style="padding: 5px 0px 2px 10px;background-color: #edf1f2;">
+                            <div class="pages M-box3 list-page">
+
+                            </div>
+                        </div>
+                        <!--<div class="ibox-title" style="padding: 5px 0px 2px 10px;background-color: #edf1f2;">-->
+                        <!--<button autocomplete="off" style="margin: 0px 15px 0px 15px"-->
+                        <!--class="btn btn-success pull-right" onclick="getOssFile();">选取图片</button>-->
+                        <!--&nbsp;&nbsp;&nbsp;&nbsp;-->
+                        <!--<button autocomplete="off"-->
+                        <!--class="btn btn-danger pull-right" onclick="oss.close();">关闭窗体</button>-->
+                        <!--&nbsp;&nbsp;&nbsp;&nbsp;-->
+                        <!--</div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="loadingSmallModalLabel" style="top:50px;z-index: 900000;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h4 class="modal-title">努力上传中请等待...</h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- html主体代码 end -->
+<script id="folder-list-tmpl" type="text/x-dot-template">
+    {{ for(var i=0;i<it.length;i++){ }}
+    <div class="file-box">
+        <div class="file">
+            <a href="#">
+                <span class="corner"></span>
+                <div class="icon" data-name="{{= it[i].folder}}" data-id="{{= it[i].id}}" onclick="oss.open(this);">
+                    <i class="fa fa-folder"></i>
+                </div>
+                <div class="file-name">
+                    {{= it[i].folder}}
+                    <br/>
+                    <small>{{= time.timestamp2time(it[i].createTime)}}</small>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    {{ } }}
+</script>
+
+<script id="file-list-tmpl" type="text/x-dot-template">
+    {{ for(var i=0;i<it.length;i++){ }}
+    <div class="file-box" style="margin:0 auto;">
+        <div class="file">
+            <a href="#">
+                <span class="corner"></span>
+                <div class="icon fancybox" href="{{= it[i].fullPath + style.hd}}" title="{{= it[i].name}}">
+                    <img style="margin: 0 auto;" class="img-responsive col-sm-12"
+                         src="{{ if((it[i].type).indexOf('image') >=0) { }}
+                         {{= it[i].fullPath + style.low}}
+                         {{ } else { }}
+                         /assets/images/file.png
+                         {{ } }}
+                         ">
+                </div>
+                <div class="file-name">
+                    <div class="i-checks" alt="{{= it[i].name}}">
+                        <label>
+                            <input name="oss-file" type="checkbox" data-id="{{= it[i].id}}" data-path="{{= it[i].fullPath}}">
+                            {{= string.cut(it[i].name,6) }} / {{= (it[i].size/1024).toFixed(2)}} M
+                        </label>
+                    </div>
+                    <small>
+                        {{= time.timestamp2time(it[i].createTime)}}</small>
+
+                    <a style="float: right;">
+                        <i class="fa fa-remove" data-toggle="tooltip" data-placement="bottom"
+                           title="删除" data-id="{{= it[i].id}}"
+                           onclick="oss.deleteThisFile(this);"></i>&nbsp;&nbsp;&nbsp;
+                    </a>
+                </div>
+            </a>
+        </div>
+    </div>
+
+
+    {{ } }}
+</script>
+
+<!-- 私有脚本 start -->
+<script src="http://gosspublic.alicdn.com/aliyun-oss-sdk-4.4.4.min.js"></script>
+<script src="../assets/js/plugins/fancybox/jquery.fancybox.js"></script>
+<script>
+    var coreId,optId;
+    var fileList = [];
+    var $btnUp;
+    var fileInfo,folder;
+    var thisFolderId = 0,thisFolderName='';
+    var upItem = [],folderFile = [],fileData = [],ids = [];
+    var useCapacity = 0,fileCapacity = 0,fileMax = 0;
+    var index = 1, size = 12, key='';
+    var temFun = '';
+    function optFolder(event) {
+        if(fileInfo.fileFolder <= folder.length){
+            tips.warning('当前文件夹数量超出了系统最大限额不允许增加更多的文件夹了');
+            return false;
+        }
+
+        var title = "";
+        var _type = getData(event,'data-type');
+        if(_type == 1){
+            title = '创建文件夹';
+        }else {
+            title = '重命名文件夹';
+            optId = getId(event);
+            var model = result.get(folder,optId);
+            $('.sweet-alert').find('input').val(model.folder);
+        }
+
+        swal({
+            title: title,
+            type: "input",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            animation: "slide-from-top",
+            inputPlaceholder: "请输入文件夹名称",
+            confirmButtonText: "确定",
+            cancelButtonText: "关闭",
+        }, function(inputValue) {
+            if (inputValue === false)
+                return false;
+            if (inputValue === "") {
+                swal.showInputError("请输入文件夹名称!");
+                return false
+            }
+            if(_type == 1){
+                createFolder(inputValue);
+            }else {
+                renameFolder(inputValue);
+            }
+        });
+
+        if(_type > 1){
+            optId = getId(event);
+            var model = result.get(folder,optId);
+            $('.sweet-alert').find('input').val(model.folder);
+        }
+    }
+    var oss = {
+        deleteFolder:function (event) {
+            optId = getId(event);
+            tips.confirm({message:'是否要删除这个文件夹？',fun:"deleteFolder();"});
+        },
+        deleteFile:function(event){
+            ids = [];
+            $("input[name='oss-file']:checkbox").each(function(){
+                if(true == $(this).is(':checked')){
+                    ids.push($(this).attr('data-id'));
+                }
+            });
+            if(ids.length == 0){
+                tips.warning('请选择要删除的文件');
+                return false;
+            }
+            tips.confirm({message:'是否要删除选中的文件？',fun:"deleteFile();"});
+        },
+        deleteThisFile:function(event){
+            ids = [];
+            optId = getId(event);
+            ids.push(optId);
+            tips.confirm({message:'是否要删除这个文件？',fun:"deleteFile();"});
+        },
+        up:function () {
+            upItem = [];
+            if(fileList.length == 0){
+                tips.warning('请先选择要上传的图片');
+                return false;
+            }
+            if(thisFolderId == 0){
+                tips.warning('请选择要上传到的文件夹中');
+                return false;
+            }
+            // 检查文件大小
+            var temCapacity = 0;
+            for(var i=0;i<fileList.length;i++){
+                temCapacity += fileList[i].size;
+            }
+            temCapacity = parseFloat((temCapacity/1024000).toFixed(2))+parseFloat(useCapacity);
+            if(fileCapacity < temCapacity){
+                tips.warning('存储空间不足');
+                return false;
+            }
+            ossUpload(fileList);
+            fileList = [];
+        },
+        open:function (event) {
+            thisFolderId = getId(event);
+            thisFolderName = getData(event,'data-name');
+            $('.folder-sub').html(' > '+thisFolderName);
+            $('#folder-file-list').html('');
+            getFile();
+            isFolder(false);
+        },
+        back:function () {
+            thisFolderId = 0;
+            thisFolderName = '';
+            $('.folder-sub').html('');
+            renderFolder();
+            $('.list-page').html('');
+            isFolder(true);
+        },
+        getFile:function(){
+            var paths = [];
+            $("input[name='oss-file']:checkbox").each(function(){
+                if(true == $(this).is(':checked')){
+                    paths.push($(this).attr('data-path'));
+                }
+            });
+            return paths;
+        },
+        close:function () {
+            $('#oss-dialog-win').hide();
+            $('#oss-dialog').html('');
+        }
+    }
+
+    function isFolder(_flag){
+        if(_flag){
+            $('.folder-opt').show();
+            $('.file-opt').hide();
+        }else {
+            $('.folder-opt').hide();
+            $('.file-opt').show();
+        }
+    }
+    function getFile() {
+        var param = {url:uploadModule.baseApi+'/'+index+'-'+size+'-'+thisFolderId+'-'+key};
+        var request = ajax.get(param);
+        request.done(function (d) {
+            fileData = d.result.data;
+            renderFileList();
+            initPage(d.result.totalPage,d.result.totalCount);
+        })
+    }
+    function renderFileList() {
+        var tmpl = doT.template($('#file-list-tmpl').text());
+        $("#folder-file-list").html(tmpl(fileData));
+        renderTip();
+        renderFancybox();
+        renderIChenk();
+    }
+    $(function(){
+        isFolder(true);
+        $btnUp = $('#up-btn');
+        initView();
+        autoHeight();
+        $(window).resize(function(){
+            autoHeight();
+        });
+        renderTip();
+    })
+
+    function animationHover(element, animation) {
+        element = $(element);
+        element.hover(
+            function () {
+                element.addClass('animated ' + animation);
+            },
+            function () {
+                //动画完成之前移除class
+                window.setTimeout(function () {
+                    element.removeClass('animated ' + animation);
+                }, 2000);
+            });
+    }
+    function renderAnimation() {
+        $('.file-box').each(function () {
+            animationHover(this, 'pulse');
+        });
+    }
+    function uploading(){
+        $('#loadingSmallModalLabel').modal({
+            keyboard:false,
+            backdrop:'static'
+        });
+    }
+    function uploadingClose(){
+        $('#loadingSmallModalLabel').modal('hide');
+    }
+    function createFolder(_folder) {
+        var data = {"folder":_folder};
+        var param = {url:uploadModule.baseApi,data:data};
+        var request = ajax.post(param);
+        request.done(function (d) {
+            tips.ok(d);
+            folder.push(d.result);
+            renderFolder(folder);
+        })
+    }
+    function renameFolder(_folder) {
+        var data = {"folder":_folder};
+        var param = {url:uploadModule.baseApi+'/'+optId,data:data};
+        var request = ajax.put(param);
+        request.done(function (d) {
+            tips.ok(d.message);
+            folder = json.update(folder,d.result);
+            renderFolder();
+        })
+    }
+    function deleteFolder() {
+        var param = {url:uploadModule.baseApi+'/'+optId};
+        var request = ajax.delete(param);
+        request.done(function (d) {
+            tips.ok(d.message);
+            folder = json.delete(folder,optId);
+            renderFolder();
+            if(thisFolderId == optId){
+                folderFile = [];
+                renderFolderFile();
+                thisFolderId = 0;
+                thisFolderName = '';
+                $('#folder-name').html('请选择文件夹');
+            }
+        })
+    }
+    function deleteFile() {
+        var param = {url:uploadModule.fileApi+'/'+ids.join(',')};
+        var request = ajax.delete(param);
+        request.done(function (d) {
+            tips.ok(d.message);
+            fileInfo.useCapacity = parseFloat(fileInfo.useCapacity)-(parseFloat(d.result.size));
+            renderPer();
+            getFile();
+        })
+    }
+    function autoHeight() {
+        var h = $('body').height();
+        var h = (h - 190)+'px';
+        $('.folder-file-list').css('height',h);
+    }
+    function selectFile() {
+        $("#uploadFile").trigger("click");
+    }
+    function btnLoading(flag) {
+        if(flag){
+            $btnUp.button('上传至服务中...')
+        }else {
+            $btnUp.button('reset')
+        }
+    }
+
+    function initPage(_pageSize,_total) {
+        $('.list-page').pagination({
+            pageCount:_pageSize,
+            current:index,
+            jump:true,
+            coping:true,
+            homePage:'首页',
+            endPage:'末页',
+            prevContent:'上页',
+            nextContent:'下页',
+            pageSize:size,
+            pageArray:[12,24,64],
+            totalCount:_total,
+            callback:function(api){
+                index = api.getCurrent();
+                getFile();
+            }
+        });
+        if(_pageSize>0)
+            $('.list-page').show();
+    }
+
+    function pageChange(event){
+        size = $(event).val();
+        index = 1;
+        getFile();
+    }
+    function ossUpload(_file) {
+        var param = {url:tpsModule.ossApi+'/sts'};
+        var request = ajax.get(param);
+        request.done(function (d) {
+            var config = d.result;
+            var ossClient = new OSS.Wrapper({
+                endpoint: config.Endpoint,
+                accessKeyId: config.AccessKeyID,
+                accessKeySecret: config.AccessKeySecret,
+                stsToken: config.SecurityToken,
+                bucket: config.Bucket
+            });
+            var dir = config.Dir;
+            var len = _file.length;
+            var total = 0;
+            var host = config.Host;
+            uploading();
+            for(var i=0;i<len;i++){
+                var storeAs = dir+'/'+string.random(8) + '-' + _file[i]['name'];
+                var data = {
+                    "parentId":thisFolderId,
+                    "path":storeAs,
+                    "fullPath":host + storeAs,
+                    "name":_file[i]['name'],
+                    "size":parseInt(_file[i]['size']/1024),
+                    "type":_file[i]['type'],
+                    "status":0
+                }
+                upItem.push(data);
+
+                ossClient.multipartUpload(storeAs, _file[i])
+                    .then(function (result) {
+                        formatUrl(result.name);
+                        total += 1;
+                        if(total == len){
+                            uploadFile(upItem);
+                        }
+                    }).catch(function (err) {
+                    total += 1;
+                    if(total == len){
+                        uploadFile(upItem);
+                    }
+                    console.log(err);
+                })
+            }
+            uploadSuccessRemoveImg();
+        }).fail(function (d) {
+
+        })
+    }
+
+    //初始化加载
+    function initView() {
+        var param = {url:uploadModule.baseApi};
+        var request = ajax.get(param);
+        request.done(function (d) {
+            var data = d.result;
+            fileInfo = data.info;
+            folder = data.folder;
+            coreId = fileInfo.id;
+            fileMax = fileInfo.fileMax;
+            $('#config-len').html(fileInfo.fileLen+'个文件');
+            $('#config-file').html(fileMax+'kb');
+            $('#config-folder').html(fileInfo.fileFolder+'个文件夹');
+            renderPer();
+            renderFolder();
+        });
+    }
+
+    function renderPer() {
+        //总大小
+        var total = fileInfo.fileCapacity / 1024;
+        //已经使用
+        var use = fileInfo.useCapacity;
+        //百分比
+        var per = 0;
+        var message ;
+        $('#oss-per').addClass('progress-bar-info');
+        if(use > 0){
+            use = (use / 1024).toFixed(2);
+            if(use >= total){
+                use = total;
+                per = 100;
+            }else{
+                per = (use / total) * 100;
+            }
+            setHtml('oss-per',per.toFixed(2)+'%');
+            $('#oss-per').attr('aria-valuenow',per.toFixed(2));
+            $('#oss-per').css('width',per.toFixed(2) + '%');
+            if(per.toFixed(2) > 60){
+                $('#oss-per').addClass('progress-bar-danger');
+            }
+            message = use +'M/'+total+'M';
+        }else{
+            setHtml('oss-per','0%');
+            message = (use/1014)+'M/'+total+'M';
+        }
+        useCapacity = use;
+        fileCapacity = total;
+        $('#oss-file-info').html(message);
+    }
+
+    function renderFolder() {
+        var tmpl = doT.template($('#folder-list-tmpl').text());
+        $("#folder-file-list").html(tmpl(folder));
+        renderTip();
+        renderAnimation();
+    }
+    function renderFolderFile() {
+
+    }
+    function uploadFile(_file) {
+        var param = {url:uploadModule.fileApi,data:_file,cl:true};
+        var request = ajax.post(param);
+        request.done(function (d) {
+            var data = d.result;
+            fileInfo.useCapacity = parseFloat(fileInfo.useCapacity)+(parseFloat(data.size));
+            renderPer();
+            uploadingClose();
+            getFile();
+        }).fail(function () {
+            uploadingClose();
+        });
+    }
+    //下面用于多图片上传预览功能
+    function setImagePreviews() {
+        var docObj = document.getElementById("uploadFile");
+        var dd = document.getElementById("dd");
+
+        var temFile = docObj.files;
+        var temLen = temFile.length;
+        var fileLen = fileList.length;
+
+        if((fileLen+temLen) >6){
+            tips.warning('待上传数量最多为6张图片')
+            return false;
+        }
+        dd.innerHTML = "";
+        var noUpfile = [];
+        for(var i=0;i<temLen;i++){
+            var checkSize = fileMax * 1000;
+            log.d(temFile[i])
+            if(temFile[i].size < checkSize){
+                fileList.push(temFile[i]);
+            }else {
+                noUpfile.push(temFile[i]);
+            }
+        }
+
+
+        var fileName = [];
+        for(var i=0;i<noUpfile.length;i++){
+            fileName.push(noUpfile[i].name);
+        }
+        log.d('fileName.length='+fileName.length)
+        if(fileName.length >0){
+            tips.warning('文件['+fileName.join(',')+']超出了上传限制');
+        }
+
+        docObj.outerHTML=docObj.outerHTML.replace(/(value=\").+\"/i,"$1\"");
+
+        for (var i = 0; i < fileList.length; i++) {
+            dd.innerHTML += "<div data-name='"+fileList[i].name+"' data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"点击移除文件\" " +
+                "style='float:left;cursor: pointer;margin-right: 2px; margin-left: 15px; margin-top: 10px;' onclick='removeImg(this);'>" +
+                "<img height='128px' class='upload-file img-responsive' data-index='"+i+"' id='img" + i + "'/>" +
+                "<span>"+string.cut(fileList[i].name,6)+"</span>"+
+                "</div>";
+            var imgObjPreview = document.getElementById("img"+i);
+
+            if (fileList && fileList[i]) {
+                //火狐下，直接设img属性
+                imgObjPreview.style.display = 'block';
+                imgObjPreview.style.width = '60px';
+                imgObjPreview.style.height = '48px';
+                //imgObjPreview.src = docObj.files[0].getAsDataURL();
+                //火狐7以上版本不能用上面的getAsDataURL()方式获取，需要一下方式
+                var type = (fileList[i].type).toLowerCase();
+                log.d(fileList[i])
+                if(type.indexOf('image') >=0){
+                    imgObjPreview.src = window.URL.createObjectURL(fileList[i]);
+                }else{
+                    imgObjPreview.src = '/assets/images/file.png';
+                }
+
+            }
+        }
+        renderTip();
+        return true;
+    }
+    function removeImg(event) {
+        var name = $(event).attr('data-name');
+        for(var i=0;i<fileList.length;i++){
+            if(name == fileList[i].name){
+                fileList.splice(i,1);
+                break;
+            }
+        }
+        var obj = $(event).empty();
+        obj.remove();
+        $('.tooltip').empty().remove();
+    }
+    function uploadSuccessRemoveImg() {
+        var dd = document.getElementById("dd");
+        dd.innerHTML = "";
+    }
+
+    function formatUrl(_path) {
+        for(var i=0;i<upItem.length;i++){
+            if(upItem[i].path == _path){
+                upItem[i].status = 1;
+            }
+        }
+    }
+</script>

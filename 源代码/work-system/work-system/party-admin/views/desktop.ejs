@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <title>WIN10-UI-DEMO</title>
+    <link rel='Shortcut Icon' type='image/x-icon' href='/desktop/img/windows.ico'>
+
+    <link href="../../desktop/css/animate.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="../../desktop/component/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link href="../../desktop/css/default.css" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: "Microsoft YaHei", 微软雅黑, "MicrosoftJhengHei", 华文细黑, STHeiti, MingLiu
+        }
+
+        /*磁贴自定义样式*/
+        .win10-block-content-text {
+            line-height: 44px;
+            text-align: center;
+            font-size: 16px;
+        }
+    </style>
+
+</head>
+<body>
+<div id="win10">
+    <div class="desktop work-desktop">
+
+    </div>
+    <div id="win10-menu" class="hidden">
+        <div class="list win10-menu-hidden animated animated-slideOutLeft">
+
+            <div class="item" onclick=" Win10.exit();"><i class="black icon fa fa-power-off fa-fw"></i>关闭</div>
+        </div>
+    </div>
+
+    <div id="win10_menu_center" class="hidden_right">
+        <div class="title">
+            <h4 style="float: left">Admin/超级glyuan </h4>
+        </div>
+        <div class="msgs"></div>
+    </div>
+
+    <div id="win10_command_center" class="hidden_right">
+        <div class="title">
+            <h4 style="float: left">消息中心 </h4>
+            <span id="win10_btn_command_center_clean_all">全部清除</span>
+        </div>
+        <div class="msgs"></div>
+    </div>
+    <div id="win10_task_bar">
+        <div id="win10_btn_group_left" class="btn_group">
+            <div id="win10_btn_win" class="btn"><span class="fa fa-windows"></span></div>
+        </div>
+        <div id="win10_btn_group_middle" class="btn_group"></div>
+        <div id="win10_btn_group_right" class="btn_group">
+            <div class="btn" id="win10_btn_time">
+                <!--0:00<br/>-->
+                <!--1900/1/1-->
+            </div>
+            <div class="btn" id="win10_btn_command"><span id="win10-msg-nof" class="fa fa-comment-o"></span></div>
+            <div class="btn" id="win10_btn_show_desktop"></div>
+        </div>
+    </div>
+</div>
+
+<script id="desktop-icon-tmpl" type="text/x-dot-template">
+    <div id="win10-shortcuts" class="shortcuts-hidden">
+        {{ for(var i=0;i
+        <it.length
+        ;i++){ }}
+        <div class="shortcut win10-open-window" data-url="{{= it[i].url}}">
+            <i class="icon fa fa-fw {{= it[i].icon}} red"></i>
+            <div class="title">{{= it[i].title}}</div>
+        </div>
+        {{ } }}
+    </div>
+    <div id="win10-desktop-scene"></div>
+</script>
+
+<script src="../desktop/js/jquery-2.2.4.min.js"></script>
+<script src="../desktop/component/layer-v3.0.3/layer/layer.js"></script>
+<script src="../assets/js/util/doT.min.js"></script>
+<script src="../desktop/js/win10.js"></script>
+<script>
+    var data = [
+        {"url": "/1", "icon": "fa-bank", "title": "title1"},
+        {"url": "/admin", "icon": "/desktop/img/icon/win10.png", "title": "title2"},
+        {"url": "baidu.com", "icon": "/desktop/img/icon/win10.png", "title": "title3"},
+        {"url": "/3", "icon": "/desktop/img/icon/win10.png", "title": "title4"},
+        {"url": "/4", "icon": "/desktop/img/icon/win10.png", "title": "title5"},
+        {"url": "/5", "icon": "/desktop/img/icon/win10.png", "title": "title36"}
+    ];
+
+
+    $(function () {
+        var tmpl = doT.template($("#desktop-icon-tmpl").text());
+        $('.work-desktop').html(tmpl(data));
+
+        Win10._init();
+        for (var i in Win10._handleReady) {
+            var handle = Win10._handleReady[i];
+            handle();
+        }
+        Win10.setBgUrl({
+            main: '/desktop/img/wallpapers/main.jpg',
+            mobile: '/desktop/img/wallpapers/mobile.jpg',
+        });
+
+        Win10.setAnimated([
+            'animated flip',
+            'animated bounceIn',
+        ], 0.01);
+
+        $('.work-desktop').click(function (index) {
+            Win10.commandMenuClose();
+        })
+    });
+
+    Win10.onReady(function () {
+        //设置壁纸
+        //Win10.newMsg('消息标题', '内容 ')
+
+//        Win10.openUrl('/message?id=12313',
+//            '<i class="fa fa-newspaper-o icon red"></i>最新资讯',
+//            [['300px', '380px'],'rt'],
+//            false
+//        );
+    });
+
+</script>
+</body>
+</html>

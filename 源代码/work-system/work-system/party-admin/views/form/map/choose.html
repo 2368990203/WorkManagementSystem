@@ -1,0 +1,76 @@
+<style>
+    .map {
+        height: 100%;
+        width: 60%;
+        float: left;
+    }
+
+    #map-right {
+        color: #444;
+        background-color: #f8f8f8;
+        width: 40%;
+        float: right;
+        height: 100%;
+    }
+
+
+    #map-right input {
+        margin: 4px;
+        margin-left: 15px;
+    }
+
+    .title {
+        width: 100%;
+        background-color: #dadada
+    }
+
+    button {
+        border: solid 1px;
+        margin-left: 15px;
+        background-color: #dadafa;
+    }
+
+    .c {
+        font-weight: 600;
+        padding-left: 15px;
+        padding-top: 4px;
+    }
+
+    #map-lnglat,
+    #map-address,
+    #map-nearestJunction,
+    #map-nearestRoad,
+    #map-nearestPOI,
+    .title {
+        padding-left: 15px;
+    }
+</style>
+
+<div id="map-container" class="map" tabindex="0" style="position: absolute !important;"></div>
+
+
+<div id='map-right'>
+    <div>
+        <div class='title'>选择模式</div>
+        <input type='radio' name='mode' value='dragMap' checked>拖拽地图模式</input>
+        </br>
+        <input type='radio' name='mode' value='dragMarker'>拖拽标记模式</input>
+    </div>
+
+    <div>
+        <div class='title'>选址结果</div>
+        <div class='c'>经纬度:</div>
+        <div id='map-lnglat'></div>
+        <div class='c'>地址:</div>
+        <div id='map-address'></div>
+        <div class='c'>最近的路口:</div>
+        <div id='map-nearestJunction'></div>
+        <div class='c'>最近的路:</div>
+        <div id='map-nearestRoad'></div>
+        <div class='c'>最近的POI:</div>
+        <div id='map-nearestPOI'></div>
+    </div>
+</div>
+
+
+

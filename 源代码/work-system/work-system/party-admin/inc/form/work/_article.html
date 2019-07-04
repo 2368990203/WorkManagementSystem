@@ -1,0 +1,158 @@
+<div class="table-responsive">
+    <form id="opt-form">
+        <table class="table table-bordered">
+            <tr>
+                <td class="form-item-title">
+                    文章标题
+                </td>
+                <td>
+                    <input required type="text" name="title" maxlength="20" class="form-control"
+                           placeholder="请输入文章标题">
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    文章主题代码
+                </td>
+                <td>
+                    <input required type="text" name="topic" maxlength="20" class="form-control"
+                           placeholder="请输入文章主题代码">
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    文章类型代码
+                </td>
+                <td>
+                    <input required type="text" name="type" maxlength="20" class="form-control"
+                           placeholder="请输入文章类型代码">
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    作者
+                </td>
+                <td>
+                    <input required type="text" name="author" maxlength="20" class="form-control"
+                           placeholder="请输入作者">
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    来源
+                </td>
+                <td>
+                    <input required type="text" name="source" maxlength="20" class="form-control"
+                           placeholder="请输入来源">
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    文章摘要
+                </td>
+                <td>
+                    <input required type="text" name="summary" maxlength="20" class="form-control"
+                           placeholder="请输入文章摘要">
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    发布时间
+                </td>
+                <td>
+                    <input required type="text" id="releaseTimeStr" name="releaseTime" maxlength="20" class="form-control"
+                           placeholder="请选择发布时间">
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    文章内容
+                </td>
+                <td>
+                    <textarea required type="text" id="content"  name="content" maxlength="20" class="form-control"
+                              placeholder="请输入文章内容"></textarea>
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    是否需要审核
+                </td>
+                <td>
+                    <input required type="text" name="isNeedAuditing" maxlength="20" class="form-control"
+                           placeholder="请输入是否需要审核">
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    审核人
+                </td>
+                <td>
+                    <input required type="text" name="auditor" maxlength="20" class="form-control"
+                           placeholder="请输入审核人">
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    置顶状态
+                </td>
+                <td>
+                    <input required type="text" name="setTopStatus" maxlength="20" class="form-control"
+                           placeholder="请输入置顶状态">
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    排序号
+                </td>
+                <td>
+                    <input required type="text" name="sortNumber" maxlength="20" class="form-control"
+                           placeholder="请输入排序号">
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    缩略图
+                </td>
+                <td>
+                    <input required type="text" name="thumbnailURL" maxlength="20" class="form-control"
+                           placeholder="请输入缩略图">
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    //日历控件的渲染
+    laydate.render({
+        elem:"#releaseTimeStr"
+    });
+
+    //如果有多个日历控件则多复制几个，注意分号隔开，如：
+    // laydate.render({
+    //     elem:"#releaseTime2Str"
+    // });
+
+
+    //富文本控件的渲染
+    $(function () {
+        editor.render('#content');
+        //如有多个富文本，直接在这个方法里加一行即可，如：
+        //editor.render("#content2");
+    })
+
+</script>

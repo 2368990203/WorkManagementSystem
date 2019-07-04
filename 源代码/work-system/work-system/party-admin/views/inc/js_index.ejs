@@ -1,0 +1,364 @@
+<!-- 全局js -->
+<script src="../assets/js/jquery.min.js?v=2.1.4"></script>
+<script src="../assets/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../assets/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="../assets/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="../assets/js/plugins/laydate/laydate.js"></script>
+<script src="../assets/js/plugins/pagination/jquery.pagination.js"></script>
+<script src="../assets/js/plugins/iCheck/icheck.min.js"></script>
+<script src="../assets/js/jquery.ztree.all.js"></script>
+
+<script src="../assets/js/util/doT.min.js"></script>
+<script src="../assets/js/util/store.min.js"></script>
+<script src="../assets/js/util/FileSaver.min.js"></script>
+<script src="../assets/js/util/tableExport.min.js"></script>
+<script src="../assets/js/util/jsencrypt.min.js"></script>
+
+
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/routes.js"></script>
+
+<script src="../assets/js/util/log.js"></script>
+<script src="../assets/js/util/title.js"></script>
+<script src="../assets/js/util/tools.js"></script>
+<script src="../assets/js/util/ajax.js"></script>
+
+<script src="../assets/js/cos-js-sdk-v4.js"></script>
+<script src="../assets/js/util/cos.kit.js"></script>
+
+<!--富文本脚本-->
+<script src="../assets/js/summernote/summernote.js"></script>
+<script src="../assets/js/summernote/lang/summernote-zh-CN.js"></script>
+
+<script src="../assets/js/plugins/fancybox/jquery.fancybox.js"></script>
+
+
+<script>
+    var dialogHeight;
+    $(function () {
+        autoWin();
+        $('body').click(function () {
+            try {
+                parent.closeNav();
+            } catch (e) {
+            }
+        });
+        $(window).resize(function () {
+            autoWin();
+        });
+        //搜索框绑定搜索按钮
+        $('#search-key').bind('keyup', function (event) {
+            if (event.keyCode == "13") {
+                //回车执行查询
+                $('#search_button').click();
+            }
+        });
+        if (!((typeof store_user_info) == 'undefined')) {
+            cos.init();
+        }
+    })
+
+    // 获取id
+    function getId(event) {
+        return $(event).attr('data-id');
+    }
+
+    // 获取val
+    function getValue(event) {
+        return $(event).attr('data-value');
+    }
+
+    function getData(event, attr) {
+        return $(event).attr(attr);
+    }
+
+    //加载页面
+    function getView(_url) {
+        var html = '';
+        $.ajax({
+            type: 'get',
+            url: _url + '?t=' + Math.random(),
+            async: false,
+            success: function (data) {
+                html = data;
+            },
+            error: function (e) {
+                tips.error('找不到对应的view');
+                return false;
+            }
+        })
+        return html;
+    }
+
+    //自适应
+    function autoWin() {
+        var wh;
+        try {
+            wh = parent.adaptable();
+        } catch (e) {
+            var w = $('body').width();
+            var h = $('body').height();
+            wh = {w: w, h: h};
+        }
+        $('#loading-lay').css('width', wh.w - 30);
+        $('#loading-lay').css('height', wh.h - 30);
+        dialogHeight = wh.h - 180;
+    }
+
+    var layConfig, infoConfig, mapConfig;
+
+    //关闭弹出层
+
+    function closePreLay() {
+        $('#opt-dialog-html-pre').html('');
+        $('#opt-dialog-pre').modal('hide');
+    }
+
+    function ossLay() {
+        $('#oss-dialog').html(getView('/file-manager'));
+
+    }
+
+    //关闭弹出层
+    function closeLay(optid) {
+        var id = "";
+        if (optid == null || optid == "") {
+            id = "opt";
+        } else {
+            id = optid;
+        }
+
+        $('#' + id + '-dialog-html').html('');
+        $('#' + id + '-dialog').modal('hide');
+    }
+
+
+    //打开弹出层
+    function openLay(_config) {
+        layConfig = _config;
+
+        $('#opt-dialog-title').html(layConfig.title);
+        $('#opt-dialog-html').html(getView(_config.url));
+        $('#opt-dialog-html').css('max-height', dialogHeight);
+        $('#opt-dialog-enter').show();
+        //按钮
+        if (layConfig.enterHidden == true) {
+            $('#opt-dialog-enter').hide();
+        }
+
+        if (layConfig.cancelHidden == true) {
+            $('#opt-dialog-cancel').hide();
+        }
+
+        if ((typeof layConfig.enter) != 'undefined') {
+            $('#opt-dialog-enter').html(layConfig.enter);
+        }
+        if ((typeof layConfig.cancel) != 'undefined') {
+            $('#opt-dialog-cancel').html(layConfig.cancel);
+        }
+
+        $('#opt-dialog').modal({
+            keyboard: false,
+            backdrop: 'static'
+        });
+    }
+
+    //打开地图弹出层
+    function openMapLay(_config) {
+        mapConfig = _config;
+
+        $('#map-dialog-title').html(mapConfig.title);
+        $('#map-dialog-html').html(getView(_config.url));
+        $('#map-dialog-html').css('max-height', dialogHeight);
+        $('#map-dialog-enter').show();
+        //按钮
+        if (mapConfig.enterHidden == true) {
+            $('#map-dialog-enter').hide();
+        }
+
+        if ((typeof mapConfig.enter) != 'undefined') {
+            $('#map-dialog-enter').html(mapConfig.enter);
+        }
+        if ((typeof mapConfig.cancel) != 'undefined') {
+            $('#map-dialog-cancel').html(mapConfig.cancel);
+        }
+
+        $('#map-dialog').modal({
+            keyboard: false,
+            backdrop: 'static'
+        });
+
+
+    }
+
+
+    //关闭地图弹出层
+    function closeMapLay() {
+
+        $('#map-dialog-html').html('');
+        $('#map-dialog').modal('hide');
+    }
+
+    //操作按钮
+    function optMapLay() {
+        var fun = mapConfig.fun;
+        setTimeout(fun, 20);
+    }
+
+
+    //打开弹出层
+    function openPreLay(_config) {
+        // layConfig = _config;
+
+        $('#opt-dialog-title-pre').html(_config.title);
+        $('#opt-dialog-html-pre').html(getView(_config.url));
+        $('#opt-dialog-html-pre').css('max-height', dialogHeight);
+
+        if ((typeof _config.cancel) != 'undefined') {
+            $('#opt-dialog-cancel-pre').html(_config.cancel);
+        }
+
+        $('#opt-dialog-pre').modal({
+            keyboard: false,
+            backdrop: 'static'
+        });
+    }
+
+
+    //操作按钮
+    function optLay() {
+        var fun = layConfig.fun;
+        setTimeout(fun, 20);
+    }
+
+    //关闭Info弹出层
+    function closeInfoLay() {
+        $('#info-dialog-html').html('');
+        $('#info-dialog').modal('hide');
+    }
+
+    //打开Info弹出层
+    function openInfoLay(_config) {
+        infoConfig = _config;
+        $('#info-dialog-title').html(infoConfig.title);
+        if ((typeof infoConfig.html) != 'undefined') {
+            $('#info-dialog-html').html(infoConfig.html);
+        } else {
+            $('#info-dialog-html').html(getView(infoConfig.url));
+        }
+
+        $('#info-dialog-html').css('max-height', dialogHeight);
+        //按钮
+        if ((typeof infoConfig.hideEnter) != 'undefined') {
+            $('#info-dialog-enter').hide();
+        } else {
+            $('#info-dialog-enter').show();
+        }
+        if ((typeof infoConfig.enter) != 'undefined') {
+            $('#info-dialog-enter').html(infoConfig.enter);
+        }
+        if ((typeof infoConfig.cancel) != 'undefined') {
+            $('#info-dialog-cancel').html(infoConfig.cancel);
+        }
+        $('#info-dialog').modal({
+            keyboard: false,
+            backdrop: 'static'
+        });
+    }
+
+    //操作Info按钮
+    function infoLay() {
+        var fun = infoConfig.fun;
+        setTimeout(fun, 20);
+    }
+
+    //动态渲染组件
+    function renderTip() {
+        //工具提示
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+
+    function closeToolTip() {
+        $('[data-toggle="tooltip"]').tooltip('destroy');
+    }
+
+    function renderIChenk() {
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+    }
+
+    function setHtml(_id, _val) {
+        var id = '#' + _id;
+        $(id).html(_val);
+    }
+
+    function renderFancybox() {
+        $('.fancybox').fancybox({
+            openEffect: 'none',
+            closeEffect: 'none'
+        });
+    }
+
+    var fancy = {
+        init: function () {
+            $('.fancybox').fancybox({
+                openEffect: 'none',
+                closeEffect: 'none'
+            });
+        },
+        remove: function (event) {
+            $(event).parent().empty().remove();
+        },
+        append: function (_id, _url, _path) {
+            $(_id).append(this.image(_url, _path));
+        },
+        image: function (_url, _path) {
+            var html = '<div style=" height:70px;display: block;float: left;">' +
+                '            <div class="icon fancybox article-image" style="display: block;float: left;" ' +
+                '                 href="' + _url + '"' +
+                '                 data-path="' + _path + '" ' +
+                '                 title=""> ' +
+                '                       <img src="' + _url + '"' +
+                '                                     width="50" height="70" />' +
+                '            </div>' +
+                '            <span class="badge remove-image" style="float: right;" onclick="fancy.remove(this);">' +
+                '                  <i class="fa fa-remove"></i>' +
+                '            </span>' +
+                '        </div>';
+            return html;
+        },
+        get: function (_className) {
+            var images = [];
+            $(_className).each(function (i) {
+                images.push($(this).attr('data-path'));
+            })
+            return images.join(',');
+        },
+        empty: function () {
+            $('.article-image').each(function () {
+                $(this).parent().empty().remove();
+            })
+        },
+        create: function (_id, _list) {
+            if (_list.length > 0) {
+                $.each(_list, function (index, object) {
+                    fancy.append(_id, object.readPath, object.path);
+                });
+                this.init();
+            }
+        }
+    }
+    //视图界面
+    var view = {
+        initHeight: function () {
+            $('#data-view').css('height', (parent.adaptable().h) - 80);
+            $(window).resize(function () {
+                $('#data-view').css('height', (parent.adaptable().h) - 80);
+            });
+        }
+    }
+
+
+</script>

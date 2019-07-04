@@ -1,0 +1,159 @@
+.title-ms-info {
+    text-align: center;
+    margin: 0 20px;
+    font-size: 18px;
+    border-bottom: 1px solid #e5e9f1;
+    padding-left: 10px;
+}
+
+.title-ms-time {
+    color: #a2a2a2;
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.msg-content {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+
+
+#btn {
+    font-size: 16px;
+    line-height: 45px;
+    display: block;
+    background-color: #d85342;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    margin-top: 20px;
+    border-radius: 3px;
+}
+
+#Wrap {
+    min-width: 320px;
+    max-width: 600px;
+    margin: auto;
+    /*  padding:30px;*/
+
+}
+
+#inner {
+    background-color: #fff;
+    padding: 30px;
+}
+
+#title {
+    font-size: 20px;
+    line-height: 36px;
+    margin: 0 0 22px;
+    text-align: center;
+    font-weight: bold;
+}
+
+#content {
+    font-size: 14px;
+    color: #333;
+    line-height: 24px;
+    margin: 0;
+    text-align: left;
+}
+
+.ms-del-btn {
+    margin: 20px;
+    text-align: right;
+}
+
+.container-message-detail .del-btn {
+    border-radius: 0;
+}
+
+.del-btn {
+    height: 30px;
+    min-width: 24px;
+    padding: 0 20px;
+    background-color: #d85342;
+    color: #fff;
+    border: 1px solid #d85342;
+    line-height: 30px;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    outline: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.icon-page-prev {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    background-image: url(../images/msg-center-201807201132.svg);
+    background-position: 81.12% 11.59%;
+    background-size: 1325% 1125%;
+    background-repeat: no-repeat;
+}
+
+.icon-page-next {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    background-image: url(../images/msg-center-201807201132.svg);
+    background-position: 18.88% 77.44%;
+    background-size: 1325% 1125%;
+    background-repeat: no-repeat;
+}
+
+.btn-page {
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    width: 24px;
+    border: 1px solid #d1d2d3;
+    text-align: center;
+    background-color: #fcfcfc;
+    cursor: pointer;
+    font-size: 0 !important;
+    position: relative;
+}
+
+#page {
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.location {
+    background-color: #FFFFFF;
+    border-radius: 0.3em;
+    line-height: 45px;
+    text-align: left;
+    padding: 0 30px 0 10px;
+    margin-bottom: 10px;
+}
+
+.modal-header {
+    border-bottom: none !important;
+}
+
+.modal-footer {
+    border-top: none !important;
+}
+
+.modal-header {
+    display: none !important;
+}

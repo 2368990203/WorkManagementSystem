@@ -1,0 +1,165 @@
+<% include ../inc/header.ejs %>
+<% include ../inc/body.ejs %>
+
+<link href="../../assets/css/plugins/treetable/jquery.treetable.css" rel="stylesheet"/>
+
+<link href="../../assets/js/summernote/summernote.css" rel="stylesheet">
+
+<% include ../inc/js.ejs %>
+
+<!-- html主体代码 start -->
+<style>
+
+    .form-control,
+    .single-line {
+        width: 95% !important;
+    }
+
+</style>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title" style="padding-top: 3px !important;">
+                <div id="title" style="display: block;float: left;padding-top: 10px;">
+                    网络课程章节管理
+                </div>
+
+                <div class="ibox-tools">
+                    <button style="margin-top: 8px;" class="btn btn-primary btn-xs" type="button"
+                            onclick="base.expand(this);">
+                        &nbsp;展开全部章节
+                    </button>
+                    <button style="margin-top: 8px;" class="btn btn-primary btn-xs" type="button"
+                            onclick="base.collapse(this);">
+                        &nbsp;折叠全部章节
+                    </button>
+
+                    <button style="margin-top: 8px;" class="btn btn-primary btn-xs" type="button"
+                            onclick="base.goback(this);">
+                        &nbsp;返回网课列表
+                    </button>
+
+                </div>
+
+            </div>
+            <div class="ibox-content data-view" style="overflow-y: auto;">
+                <div class="col-sm-12">
+                    <div class=" col-sm-12 date-table">
+
+                        <table id="treeMenu" class="linetable table table-striped" cellpadding="0"
+                               cellspacing="0"></table>
+
+
+                    </div>
+                    <div class="col-sm-12 pages M-box3 list-page">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="course-note-template" type="text/x-dot-template">
+    {{ if(it.length == 0) { }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i=0;i < it.length;i++){ }}
+    <tr>
+        <td>
+            {{= i+1 }}
+        </td>
+        <td>
+            {{= it[i].academyName||""}}
+        </td>
+        <td>
+            {{= it[i].majorName||""}}
+        </td>
+        <td>
+            {{= it[i].myClass||"" }}
+        </td>
+        <td>
+            {{= it[i].departName||""}}
+        </td>
+        <td>
+            {{= it[i].number||""}}
+        </td>
+        <td>
+            {{= it[i].numberName||""}}
+        </td>
+        <td>
+            {{= it[i].learnPercent||0}}%
+        </td>
+        <td>
+            {{= (it[i].isFinish==2?"已完成":"未完成")}}
+        </td>
+        <td>
+            {{= (it[i].lastLearnTimeStr||"无")}}
+        </td>
+
+    </tr>
+    {{ } }}
+    {{ } }}
+</script>
+
+
+<script id="chapterSection-note-template" type="text/x-dot-template">
+    {{ if(it.length == 0) { }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i=0;i < it.length;i++){ }}
+    <tr>
+        <td>
+            {{= i +1}}
+        </td>
+        <td>
+            {{= it[i].academyName||""}}
+        </td>
+        <td>
+            {{= it[i].majorName||""}}
+        </td>
+        <td>
+            {{= it[i].myClass||"" }}
+        </td>
+        <td>
+            {{= it[i].departName||""}}
+        </td>
+        <td>
+            {{= it[i].number||""}}
+        </td>
+        <td>
+            {{= it[i].numberName||""}}
+        </td>
+        <td>
+            {{= it[i].learnPercent||0}}%
+        </td>
+        <td>
+            {{= (it[i].isFinish==2?"已完成":"未完成")}}
+        </td>
+        <td>
+            {{= (it[i].lastLearnTimeStr||"无")}}
+        </td>
+
+    </tr>
+    {{ } }}
+    {{ } }}
+</script>
+
+
+<!-- 私有脚本 start -->
+<script src="../../js/baseModule/_md5File.js"></script>
+
+<script src="../../assets/js/plugins/treetable/jquery-ui.js"></script>
+<script src="../../assets/js/plugins/treetable/jquery.treetable.js"></script>
+
+<script src="../../js/baseModule/_chapterSection.js"></script>
+
+
+<script src="../../assets/js/summernote/summernote_chapter.js"></script>
+
+<script src="../../assets/js/summernote/lang/summernote-zh-CN.js"></script>
+
+
+<!-- 私有脚本 end -->
+<% include ../inc/footer.ejs %>

@@ -1,0 +1,685 @@
+<a href=""></a><!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>作业管理系统</title>
+    <link href="page/css/style.css" rel='stylesheet' type='text/css'/>
+    <link href="assets/css/plugins/sweetalert/sweetalert.css" rel="stylesheet"> <!--退出登录弹窗css-->
+    <!-- Bootstrap Core CSS -->
+    <link href="page/css/bootstrap.min.css" rel='stylesheet' type='text/css'/>
+    <!-- Graph CSS -->
+    <link href="page/css/font-awesome.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="assets/js/jquery.min.js?v=2.1.4"></script>
+    <script>
+        //判断JS是否支持
+        //console.log(navigator);
+        if (!window.jQuery) {
+            alert("您当前正在使用" + navigator.appName + "浏览器，因安全考虑，本站暂不支持IE10以下内核浏览器访问；请使用IE10+内核浏览器、QQ浏览器、谷歌浏览器、火狐浏览器、Opera浏览器、360极速浏览器最新版进行访问！");
+        } else {
+            if (navigator.appName == "Microsoft Internet Explorer") {
+                if (navigator.appVersion.match(/7./i) == '6.' ||
+                    navigator.appVersion.match(/7./i) == '7.' ||
+                    navigator.appVersion.match(/7./i) == '8.' ||
+                    navigator.appVersion.match(/7./i) == '9.') {
+                    alert("您当前正在使用" + navigator.appName + "浏览器，因安全考虑，本站暂不支持IE10以下内核浏览器访问；请使用IE10+内核浏览器、QQ浏览器、谷歌浏览器、火狐浏览器、Opera浏览器、360极速浏览器最新版进行访问！");
+
+                }
+
+            }
+        }
+
+    </script>
+</head>
+<body>
+<div id="wrapper">
+    <!-- Navigation -->
+    <div class="top">
+        <nav class="top1 navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <img src="page/images/logo.png" style="margin: 10px; height: 30px;">
+            </div>
+            <!--/.navbar-header -->
+            <ul class="nav navbar-nav navbar-right">
+                <div class="index-login" id="unlogin" hidden="hidden">
+                    <span><a href="login/"> 登录</a></span>
+                    <!--<span><a href="register"> &nbsp&nbsp注册</a></span>-->
+                </div>
+
+                <div id="login" hidden="hidden">
+
+                    <li class="dropdown">
+                        <a style="background-color: transparent;" href="#" class="dropdown-toggle avatar"
+                           data-toggle="dropdown"><img src="page/images/user.png"></a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-menu-header text-center">
+                                <strong id="user-name"></strong>
+                            </li>
+                            <li class="m_2"><a href="updateUserInfo"><i><img src="page/images/userinfo.png"
+                                                                             style="width: 17px;height: 17px"></i>个人中心
+                                </a></li>
+                            <li class="m_2" onclick="cacheUpdate();"><a href="#"><i><img
+                                                src="page/images/icon-update.png" style="width: 17px;height: 17px"></i>更新缓存
+                                </a></li>
+                            <li class="m_2" onclick="loginOut();"><a href="#"><i><img src="page/images/quit.png"
+                                                                                      style="width: 17px;height: 17px"></i>
+                                    退出系统 </a></li>
+                            <!--  onclick="#"<li><a href="#"><i class="fa fa-comments"></i> Comments</a></li>-->
+                        </ul>
+                    </li>
+
+
+                    <li class="dropdown">
+<!--                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><img-->
+<!--                                    src="page/images/message_02.png"/>-->
+                            <span class="badge" id="messageCount"></span></a>
+                        <ul class="dropdown-menu" id="message-list">
+
+                        </ul>
+                    </li>
+
+                </div>
+
+            </ul>
+
+            <!--/.navbar-static-side -->
+        </nav>
+    </div>
+
+    <div id="page-wrapper">
+        <div class="banner">
+            <!--<div class="menu">-->
+            <!-- 轮播广告 -->
+
+            <div class="menu top-menu">
+                <ul>
+                    <a href="/" id="index">
+                        <li class="nav_pr">首页</li>
+                    </a>
+                    <li class="divide">|</li>
+                    <a href="meetingList">
+                        <li class="nav_pr">会议安排</li>
+                    </a>
+                    <li class="divide">|</li>
+                    <a href="courseArrangementList">
+                        <li class="nav_pr">课程安排</li>
+                    </a>
+                    <li class="divide">|</li>
+                    <a href="videoList">
+                        <li class="nav_pr">网课学习</li>
+                    </a>
+                    <li class="divide">|</li>
+                    <a href="examList">
+                        <li class="nav_pr">作业</li>
+                    </a>
+                    <li class="divide">|</li>
+                    <a href="#"  onclick="checkAuth_local('applicationTemplate','applicationManage')">
+                        <li class="nav_pr">入党申请书</li>
+                    </a>
+                    <li class="divide">|</li>
+                    <a href="#" onclick="checkAuth_local('thoughReportTemplate','thoughReportList')">
+                        <li class="nav_pr">思想汇报</li>
+                    </a>
+                    <li class="divide">|</li>
+                    <a href="surveyRecordList">
+                        <li class="nav_pr">考察谈话</li>
+                    </a>
+
+                </ul>
+            </div>
+
+            <div id="banner_tabs" class="flexslider" style="min-width: 1150px;height: 350px">
+                <ul class="slides">
+                    <li>
+                        <a title="" href="#">
+                            <img min-width="1150" height="350" alt="" src="page/images/banner2.png">
+                        </a>
+                    </li>
+                    <li>
+                        <a title="" href="#">
+                            <img min-width="1150" height="350" alt="" src="page/images/banner3.png">
+                        </a>
+                    </li>
+                    <li>
+                        <a title="" href="#">
+                            <img min-width="1150" height="350" alt="" src="page/images/banner4.png">
+                        </a>
+                    </li>
+                    <li>
+                        <a title="" href="#">
+                            <img min-width="1150" height="350" alt="" src="page/images/banner.png">
+                        </a>
+                    </li>
+                </ul>
+                <ul class="flex-direction-nav">
+                    <li><a class="flex-prev" href="javascript:;">Previous</a></li>
+                    <li><a class="flex-next" href="javascript:;">Next</a></li>
+                </ul>
+                <ol id="bannerCtrl" class="flex-control-nav flex-control-paging">
+                    <li><a>1</a></li>
+                    <li><a>2</a></li>
+                    <li><a>2</a></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-wrapper -->
+    <div class="main">
+        <div class="notice" hidden="hidden" id="latestMessage">
+            <div class="notice-line">
+                <div class="notice-img"><img src="page/images/notice-light.png" width="100%"></div>
+                <div class="notice-txt" id="latestMessageInfo">
+                </div>
+            </div>
+        </div>
+        <div class="five">
+            <div class="rowwrap">
+                <div class="five-alone first">
+                    <a href="enterProcess">
+                        <div class="five-img">
+                            <img src="page/images/process-white1.png" alt="" class=" " width="100%">
+                        </div>
+                        <div class="describe">
+                            <div class="txtline">入党流程</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="five-alone second">
+                    <a href="thoughReportList">
+                        <div class="five-img">
+                            <img src="page/images/submit-white1.png" alt="" class=" " width="100%">
+                        </div>
+                        <div class="describe">
+                            <div class="txtline">提交思想汇报</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="five-alone third">
+                    <a href="applicationManage" target="view_window">
+                        <div class="five-img">
+                            <img src="page/images/log-white1.png" alt="" class=" " width="100%">
+                        </div>
+                        <div class="describe">
+                            <div class="txtline">入党申请书</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="five-alone fourth">
+                    <a href="videoList">
+                        <div class="five-img">
+                            <img src="page/images/computer-white1.png" alt="" class=" " width="100%">
+                        </div>
+                        <div class="describe">
+                            <div class="txtline">网课学习</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="five-alone fifth">
+                    <a href="examList">
+                        <div class="five-img">
+                            <img src="page/images/testCall-white1.png" alt="" class=" " width="100%">
+                        </div>
+                        <div class="describe">
+                            <div class="txtline">作业</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="clear" style="clear:both"></div>
+
+        </div>
+        <div class="main-center">
+            <div class="main-crnter-left">
+                <div class="main-top-right">
+                    <ul id="myTab" class="nav nav-tabs">
+                        <li class="active notic">
+                            <a href="#home" data-toggle="tab" aria-expanded="true">
+                                公示公告
+                            </a>
+                        </li>
+                        <li class="news">
+                            <a href="#ios" data-toggle="tab" aria-expanded="false">
+                                时事新闻
+                            </a></li>
+
+                        <a href="noticeList" class="more-a">
+                            <div class="more">
+                                更多>
+                            </div>
+                        </a>
+                    </ul>
+
+                    <div id="myTabContent" class="tab-content">
+                        <div class="tab-pane fade active in" id="home">
+                            <div id="notice-list"></div>
+                        </div>
+
+                        <div class="tab-pane fade" id="ios">
+                            <div id="news-list"></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-crnter-right">
+                <div class="head-title">
+                    <div class="head-name">
+                        微信公众号
+                    </div>
+                </div>
+                <div class="but">
+                    <img src="page/images/code.png" width="100%"/>
+                </div>
+            </div>
+            <div class="clear" style="clear:both"></div>
+            <div class="main-below">
+                <div class="head-title">
+                    <div class="head-name">
+                        网络课程
+                    </div>
+                    <a href="videoList">
+                        <div class="more">
+                            更多>
+                        </div>
+                    </a>
+                </div>
+                <div class="main-below-img">
+                    <div class="rowwrap">
+                        <div id="video-list"></div>
+                    </div>
+                </div>
+
+                <div class="clear" style="clear:both"></div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <% include ejs/pcwebFooter.ejs %>
+
+</div>
+<!-- /#wrapper -->
+<!-- Bootstrap Core JavaScript -->
+<script src="page/js/bootstrap.min.js"></script>
+<script src="page/js/vote.js"></script>
+<!--首页轮播js-->
+<script src="page/js/slide/slider.js"></script>
+<!-- 全局js -->
+<script src="assets/js/jquery.min.js?v=2.1.4"></script>
+<script src="assets/js/util/store.min.js"></script>
+<script src="assets/js/util/doT.min.js"></script>
+<script src="assets/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/routes.js"></script>
+<script src="assets/js/util/title.js"></script>
+<script src="assets/js/util/tools.js"></script>
+
+<script src="assets/js/util/ajax.js"></script>
+<script>
+    // 登录按钮
+    $(function () {
+        $("#index").attr("href", server_root);
+
+        var user = store.get(cache_user_key);
+        if (user != undefined) {
+            $('#unlogin').hide();
+            $('#login').show();
+            // getMessage();
+            // setInterval(getMessage, 60000);
+            //
+            // function getMessage() {
+            //     var param = {url: commonModule.indexMessageListApi};
+            //     var request = ajax.get(param);
+            //     request.done(function (d) {
+            //         var messageData = d.result;
+            //         var count = parseInt(messageData.count);
+            //         messageListData = messageData.messages;
+            //         var latestMessageData = messageListData[0];
+            //         if (count > 0) {
+            //             $('#messageCount').html(count);
+            //             $('#latestMessageInfo').html('<a href="messageDetail?id=' + latestMessageData.id + '" style="color:black;text-decoration:none;">  <b>【' + (helper.type(latestMessageData.type) || "") + '】</b> ' + latestMessageData.topic + '</a>');
+            //             $('#latestMessage').show();
+            //
+            //         }
+            //         render.messageList();
+            //
+            //
+            //         if (messageListData.length >= 3) {
+            //             $('#message-list').append(' <li class="dropdown-menu-footer text-center">' +
+            //                 '<a href="message">查看全部消息</a>' +
+            //                 ' </li>');
+            //         }
+            //
+            //     })
+            // }
+
+            var helper = {
+                type: function (_type) {
+                    switch (parseInt(_type)) {
+                        case 0 :
+                            return "系统通知";
+                        case 1 :
+                            return "课程安排";
+                        case 2 :
+                            return "会议安排";
+                        case 3 :
+                            return "作业";
+                        case 4 :
+                            return "入党申请书";
+                        case 5 :
+                            return "思想汇报";
+                        default:
+                            return "系统通知";
+                    }
+                },
+            };
+
+            var info = user.loginName;
+            $('#user-name').html("欢迎您，" + info);
+        } else {
+            $('#login').hide();
+            $('#unlogin').show();
+        }
+    });
+
+    //更新缓存
+    function cacheUpdate() {
+
+        if ((typeof store_user_info) == 'undefined') {
+            swal({
+                    title: '缓存数据已失效，请重新登录！',
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "确定",
+                    closeOnConfirm: false
+                },
+                function () {
+                    store.clear();
+                    window.location.href = server_root + 'login?url=' + location.href;
+                }
+            );
+            return false;
+        } else {
+            var request = $.ajax({
+                type: 'PUT',
+                url: userModule.cacheUpdateApi,
+                headers: {token: store_user_info.token},
+                error: function (e) {
+                    var obj = e.responseJSON;
+                    if (e.status == 403) {
+                        swal({
+                                title: obj.message,
+                                type: "error",
+                                showCancelButton: false,
+                                confirmButtonColor: "#DD6B55",
+                                confirmButtonText: "确定",
+                                closeOnConfirm: false
+                            },
+                            function () {
+                                store.clear();
+                                window.location.href = server_root + 'login?url=' + location.href;
+                            }
+                        );
+                    } else {
+                        swal('', obj.message, "warning");
+                    }
+                }
+            });
+            request.done(function (res) {
+                store.set(cache_user_key, res.result);
+                tips.ok("缓存更新成功！");
+            })
+        }
+    }
+
+    // 退出登录
+    function loginOut() {
+        if ((typeof store_user_info) == 'undefined') {
+            tips.ok("退出登录成功！");
+            window.location.href = server_root;
+
+        } else {
+            swal({
+                    title: "",
+                    text: '是否要退出系统？',
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "退出",
+                    cancelButtonText: "再等等",
+                    closeOnConfirm: true
+                },
+                function () {
+
+                    var request = $.ajax({
+                        type: 'POST',
+                        url: userModule.loginOutApi,
+                        headers: {token: store_user_info.token},
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        error: function (e) {
+                            var obj = e.responseJSON;
+                            swal('', obj.message, "warning");
+                        }
+                    });
+                    request.done(function (res) {
+                        store.clear();
+                        tips.ok("退出登录成功！");
+                        window.location.href = server_root;
+                    })
+                }
+            );
+        }
+    }
+
+    // 首页轮播
+    $(function () {
+        var bannerSlider = new Slider($('#banner_tabs'), {
+            time: 5000,
+            delay: 400,
+            event: 'hover',
+            auto: true,
+            mode: 'fade',
+            controller: $('#bannerCtrl'),
+            activeControllerCls: 'active'
+        });
+        $('#banner_tabs .flex-prev').click(function () {
+            bannerSlider.prev()
+        });
+        $('#banner_tabs .flex-next').click(function () {
+            bannerSlider.next()
+        });
+    })
+
+    // 更多跳转页
+    $('#myTab li').click(function () {
+        if ($(this).hasClass("notic")) {
+            $("#myTab .more-a").attr("href", "/noticeList")
+        } else {
+            $("#myTab .more-a").attr("href", "/newsList")
+        }
+    })
+</script>
+<!--公告模板-->
+<script id="notice-list-template" type="text/x-dot-template">
+    {{ if(typeof it == "undefined" || it.length == 0) { }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i = 0; i < it.length; i++ ) { }}
+    <div class="line">
+        <a href="noticeDetail?id={{=it[i].id}}">
+
+            <div class="txt">
+                {{=it[i].title }}
+            </div>
+            <div class="time">
+                {{=it[i].releaseTimeStr ||"暂无数据"}}
+            </div>
+        </a>
+    </div>
+    {{ } }}
+    {{ } }}
+</script>
+<!--新闻模板-->
+<script id="news-list-template" type="text/x-dot-template">
+    {{ if(typeof it == "undefined" || it.length == 0) { }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i = 0; i < it.length; i++ ) { }}
+    <div class="line">
+        <a href="newsDetail?id={{=it[i].id}}">
+            <div class="txt">
+                {{=it[i].title }}
+            </div>
+            <div class="time">
+                {{=it[i].releaseTimeStr }}
+            </div>
+        </a>
+    </div>
+    {{ } }}
+    {{ } }}
+</script>
+<!--网课模板-->
+<script id="videoList-template" type="text/x-dot-template">
+    {{ if(typeof it == "undefined" || it.length == 0) { }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i = 0; i < it.length; i++ ) { }}
+    <div class="below-img">
+        <a href="onlineCourseDetail?id={{= it[i].id}}">
+            <div class="five-img">
+                <img src="{{= it[i].artworkURL}}" alt="" class="img-redius " width="100%">
+            </div>
+            <div class="describe">
+                <div class="txtline">{{= it[i].title}}</div>
+            </div>
+        </a>
+    </div>
+
+    {{ } }}
+    {{ } }}
+</script>
+
+<!--消息模板-->
+<script id="message-list-template" type="text/x-dot-template">
+    {{ if(typeof it == "undefined" || it.length == 0) { }}
+    <li class="avatar">
+        <a style="color: black;text-align:center;">
+
+            <div>暂无消息提醒</div>
+        </a>
+    </li>
+    {{ }else{ }}
+    {{ for(var i = 0; i < it.length; i++ ) { }}
+    <li class="avatar">
+        <a href="messageDetail?id={{=it[i].id}}">
+
+            {{ if(it[i].readStatus==null||it[i].readStatus==""||it[i].readStatus!=1) { }}
+            <div>{{=it[i].topic.length<=15?it[i].topic:it[i].topic.substr(0,15) }}</div>
+            <small> {{=it[i].sendTimeStr }}</small>
+            <span class="label label-info">NEW</span>
+            {{ }else{ }}
+            <div style="color:#a2a2a2;">{{=it[i].topic.length<=15?it[i].topic:it[i].topic.substr(0,15) }}</div>
+            <small style="color:#a2a2a2;"> {{=it[i].sendTimeStr }}</small>
+
+            {{ } }}
+
+        </a>
+    </li>
+    {{ } }}
+    {{ } }}
+</script>
+
+
+<script>
+    var index = '1', size = '6', title = ' ';
+    var noticeListData = [];
+    var newsListData = [];
+    var videoListData = [];
+    var messageListData = [];
+
+    //读取首页公告列表
+    $(function () {
+        noticeList.get();
+
+    })
+    var noticeList = {
+        get: function () {
+            var param = {url: commonModule.indexNoticeListApi + '/' + index + '-' + size + '-' + title};
+            var request = ajax.get(param);
+            request.done(function (d) {
+                var resultData = d.result;
+                noticeListData = resultData.data;
+                render.noticeList();
+            })
+        },
+    }
+    //读取首页新闻列表
+    $(function () {
+        newsList.get();
+    })
+    var newsList = {
+        get: function () {
+            var param = {url: commonModule.indexNewsListApi + '/' + index + '-' + size + '-' + title};
+            var request = ajax.get(param);
+            request.done(function (d) {
+                var resultData = d.result;
+                newsListData = resultData.data;
+                render.newsList();
+            })
+        },
+    }
+    //读取首页网课列表
+    $(function () {
+        videoList.get();
+    })
+    var videoList = {
+        get: function () {
+            var param = {url: commonModule.indexVideoListApi + '/' + index + '-' + size};
+            var request = ajax.get(param);
+            request.done(function (d) {
+                //  console.log(d);
+                videoListData = d.result.onlineCourse.data;
+                //  console.log(videoListData);
+
+                render.videoList();
+            })
+        },
+    }
+
+    //渲染首页公告列表
+    var render = {
+        noticeList: function () {
+            var template = doT.template($("#notice-list-template").text());
+            $('#notice-list').html(template(noticeListData));
+        },
+
+        //渲染首页新闻列表
+        newsList: function () {
+            var template = doT.template($("#news-list-template").text());
+            $('#news-list').html(template(newsListData));
+        },
+        //渲染首页网课
+        videoList: function () {
+            var template = doT.template($("#videoList-template").text());//获取的模板
+            $('#video-list').html(template(videoListData));//模板装入数据
+        },
+        messageList: function () {
+            var template = doT.template($("#message-list-template").text());//获取的模板
+            $('#message-list').html(template(messageListData));//模板装入数据
+
+        }
+    }
+
+
+</script>
+
+<!-- 第三方插件 -->
+<script src="assets/js/plugins/pace/pace.min.js"></script>
+
+</body>
+</html>

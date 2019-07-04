@@ -1,0 +1,287 @@
+<% include inc/header.ejs %>
+<style>
+    .draggable {
+        cursor: move;
+    }
+</style>
+<% include inc/body.ejs %>
+<!-- html主体代码 start -->
+<div class="row">
+    <div class="col-sm-2">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>组件列表</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="list-group original-data">
+                    <a href="#" class="list-group-item" data-type="1">
+                        单行文本
+                    </a>
+                    <a href="#" class="list-group-item" data-type="2">
+                        多行文本
+                    </a>
+                    <a href="#" class="list-group-item" data-type="3">
+                        单选
+                    </a>
+                    <a href="#" class="list-group-item" data-type="4">
+                        多选
+                    </a>
+                    <a href="#" class="list-group-item" data-type="5">
+                        下拉
+                    </a>
+                    <a href="#" class="list-group-item" data-type="6">
+                        日期组件
+                    </a>
+                    <a href="#" class="list-group-item" data-type="7">
+                        编辑器
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>表单预览</h5>
+            </div>
+            <div class="ibox-content">
+                <form class="sortable-list connectLists new-data">
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>组件配置</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="form-group">
+                    <input type="text" class="form-control setting-control" id="set-id" placeholder="组件Id">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control setting-control" id="set-title" placeholder="标题配置">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control setting-control" id="set-placeholder"
+                           placeholder="placeholder配置">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control setting-control" id="set-default" placeholder="默认值配置">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control setting-control" id="set-option"
+                           placeholder="选项配置针对单选多选下拉组件">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control setting-control" id="set-url" placeholder="动态选项url">
+                </div>
+                <div class="agile-detail" style="text-align: right;">
+                    <button type="button" class="btn btn-warning" onclick="renderForm()">
+                        渲染
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- html主体代码 end -->
+
+<% include inc/js.ejs %>
+<script src="../../assets/js/jquery-ui-1.10.4.min.js"></script>
+<!-- 私有脚本 start -->
+<script>
+    var componentObj;
+    $(function () {
+        $(".original-data a").draggable({
+            appendTo: "body",
+            helper: "clone"
+        });
+
+        $(".new-data").droppable({
+            activeClass: "ui-state-default",
+            hoverClass: "ui-state-hover",
+            accept: ":not(.ui-sortable-helper)",
+            drop: function (event, ui) {
+                $(this).find(".placeholder").remove();
+//                $('<li class="danger-element"><div class="agile-detail">'+ui.draggable.text()+'</li>')
+//                    .appendTo(this);
+                //log.d(ui.draggable.attr('data-type'));
+                var type = ui.draggable.attr('data-type');
+                var html = component(type);
+                $(this).append(html);
+                if (parseInt(type) == 7) {
+                    $('.summernote').summernote({
+                        lang: 'zh-CN'
+                    });
+                }
+            }
+        }).sortable({
+            items: "div:not(.placeholder)",
+            sort: function () {
+                // 获取由 droppable 与 sortable 交互而加入的条目
+                // 使用 connectWithSortable 可以解决这个问题，但不允许您自定义 active/hoverClass 选项
+                $(this).removeClass("ui-state-default");
+            }
+        });
+
+        $('.setting-control').keyup(function () {
+            if ((typeof componentObj) != 'undefined') {
+                renderForm();
+            }
+        })
+
+    })
+
+
+    function removeComponent(event) {
+        var obj = $(event).parent().empty().remove();
+    }
+
+    function component(_type) {
+        var html = '';
+
+        switch (parseInt(_type)) {
+            case 1:
+                html = '<div onclick="setting(this);" class="form-group" data-type="' + _type + '">' +
+                    '    <label>单行文本</label>' +
+                    '    <input type="text" class="form-control" name="" id="" placeholder="单行文本">' +
+                    '    <a onclick="removeComponent(this);" href="#" class="pull-right fa fa-remove" style="margin: 5px 10px 2px 0px;"></a>' +
+                    '  </div>'
+                break;
+            case 2:
+                html = '<div onclick="setting(this);" class="form-group" data-type="' + _type + '">\n' +
+                    '    <label>多行文本</label>\n' +
+                    '    <textarea class="form-control" name="" id="" placeholder="多行文本"></textarea>' +
+                    '    <a onclick="removeComponent(this);" href="#" class="pull-right fa fa-remove" style="margin: 5px 10px 2px 0px;"></a>' +
+                    '  </div>'
+                break;
+            case 3:
+                html = '<div onclick="setting(this);" class="form-group" data-type="' + _type + '">' +
+                    '    <label>单选</label><br>' +
+                    '  &nbsp;&nbsp;&nbsp;&nbsp;' +
+                    '   <input type="radio" name="radio" value="1">&nbsp;&nbsp;<span>1</span>' +
+                    '  &nbsp;&nbsp;&nbsp;&nbsp;' +
+                    '   <input type="radio" name="radio" value="2">&nbsp;&nbsp;<span>2</span>' +
+                    '    <a onclick="removeComponent(this);" href="#" class="pull-right fa fa-remove" style="margin: 5px 10px 2px 0px;"></a>' +
+                    '  </div>'
+                break;
+            case 4:
+                html = '<div onclick="setting(this);" class="form-group" data-type="' + _type + '">' +
+                    '    <label>多选</label><br>' +
+                    '  &nbsp;&nbsp;&nbsp;&nbsp;' +
+                    '   <input type="checkbox" name="checkbox" value="1">&nbsp;&nbsp;<span>1</span>' +
+                    '  &nbsp;&nbsp;&nbsp;&nbsp;' +
+                    '   <input type="checkbox" name="checkbox" value="2">&nbsp;&nbsp;<span>2</span>' +
+                    '    <a onclick="removeComponent(this);" href="#" class="pull-right fa fa-remove" style="margin: 5px 10px 2px 0px;"></a>' +
+                    '  </div>'
+                break;
+            case 5:
+                html = '<div onclick="setting(this);" class="form-group" data-type="' + _type + '">' +
+                    '    <label>下拉单选</label><br>' +
+                    '    <select class="form-control">\n' +
+                    '    <option value="1">选项1</option>' +
+                    '    <option value="2">选项2</option>' +
+                    '    <option value="3">选项3</option>' +
+                    '    </select>' +
+                    '    <a onclick="removeComponent(this);" href="#" class="pull-right fa fa-remove" style="margin: 5px 10px 2px 0px;"></a>' +
+                    '  </div>'
+                break;
+            case 6:
+                html = '<div onclick="setting(this);" class="form-group" data-type="' + _type + '">' +
+                    '    <label>日期组件</label><br>' +
+                    '    <input type="text" class="form-control layer-date" placeholder="yyyy-MM-dd" ' +
+                    '       onclick="laydate()">' +
+                    '    <a onclick="removeComponent(this);" href="#" class="pull-right fa fa-remove" style="margin: 5px 10px 2px 0px;"></a>' +
+                    '  </div>'
+                break;
+            case 7:
+                html = '<div onclick="setting(this);" class="form-group" data-type="' + _type + '">' +
+                    '    <label>编辑器</label><br>' +
+                    '    <div class="summernote"></div>' +
+                    '    <a onclick="removeComponent(this);" href="#" class="pull-right fa fa-remove" style="margin: 5px 10px 2px 0px;"></a>' +
+                    '  </div>'
+                break;
+            default:
+                break;
+        }
+        return html;
+    }
+
+    //配置
+    function setting(event) {
+        componentObj = $(event);
+        var type = componentObj.attr('data-type');
+        var title = componentObj.find('label').html();
+
+        var placeholder, val, id;
+        switch (parseInt(type)) {
+            case 1:
+                placeholder = componentObj.find('input').attr('placeholder');
+                val = componentObj.find('input').val();
+                id = componentObj.find('input').attr('id');
+                break;
+            case 2:
+                placeholder = componentObj.find('textarea').attr('placeholder');
+                val = componentObj.find('textarea').text();
+                id = componentObj.find('textarea').attr('id');
+                break;
+        }
+
+        $('#set-id').val((typeof id) != 'undefined' ? id : '');
+        $('#set-title').val(title);
+        $('#set-placeholder').val((typeof id) != 'undefined' ? placeholder : '');
+        $('#set-default').val((typeof val) != 'undefined' ? val : '')
+
+    }
+
+
+    function renderForm() {
+        var id = $.trim($('#set-id').val());
+        var title = $.trim($('#set-title').val());
+        var placeholder = $.trim($('#set-placeholder').val());
+        var defaultVal = $.trim($('#set-default').val());
+        var option = $.trim($('#set-option').val());
+        var url = $.trim($('#set-url').val());
+
+        var c;
+        var type = componentObj.attr('data-type');
+        if (title.length > 0) {
+            componentObj.find('label').html(title);
+        }
+        switch (parseInt(type)) {
+            case 1:
+                c = componentObj.find('input').attr('placeholder');
+                val = componentObj.find('input').val();
+                id = componentObj.find('input').attr('id');
+                break;
+            case 2:
+                placeholder = componentObj.find('textarea').attr('placeholder');
+                val = componentObj.find('textarea').text();
+                id = componentObj.find('textarea').attr('id');
+                break;
+        }
+
+        if (id.length > 0) {
+            c.attr('id', id);
+        }
+        if (placeholder.length > 0) {
+            c.attr('placeholder', placeholder);
+        }
+        if (defaultVal.length > 0) {
+            c.val(defaultVal);
+        }
+
+
+        if (type == 3) {
+            var radio = componentObj.find('br').parent();
+            componentObj.find('span').empty().remove();
+            input.empty().remove();
+        }
+    }
+
+</script>
+<!-- 私有脚本 end -->
+<% include inc/footer.ejs %>

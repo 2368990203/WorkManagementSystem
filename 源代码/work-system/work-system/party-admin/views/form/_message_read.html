@@ -1,0 +1,83 @@
+<div class="table-responsive">
+    <form id="opt-form">
+        <table class="table table-bordered">
+            <tr>
+                <td class="form-item-title">
+                    用户学号/工号
+                </td>
+                <td>
+                    <input required type="text" name="number" maxlength="20" class="form-control"
+                           readonly="readonly">
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    姓名
+                </td>
+                <td>
+                    <input required type="text" name="name" maxlength="20" class="form-control"
+                           readonly="readonly">
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    主题
+                </td>
+                <td>
+                    <input required type="text" name="topic" maxlength="20" class="form-control"
+                           readonly="readonly">
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    内容
+                </td>
+                <td>
+                    <input required type="text" name="content" maxlength="20" class="form-control"
+                           readonly="readonly">
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    目的服务器
+                </td>
+                <td>
+                    <p required type="text" name="server" id="server" maxlength="20" class="form-control"
+                    ></p>
+
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    类型
+
+                </td>
+                <td>
+                    <p required type="text" name="type" id="type" maxlength="20" class="form-control"
+                    ></p>
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    发送时间
+                </td>
+                <td>
+                    <input required type="text" name="sendTime" id="sendTimeStr" maxlength="20" class="form-control"
+                           readonly="readonly">
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script>
+    laydate.render({
+        elem: "#sendTimeStr",
+    });
+</script>

@@ -1,0 +1,56 @@
+<div class="table-responsive">
+    <form id="opt-form">
+        <table class="table table-bordered">
+            <input type="hidden" name="roleId" id="roleId">
+            <tr>
+                <td class="form-item-title">
+                    所属学院
+                </td>
+                <td>
+                    <select required name="academyId" id="academyId" class="form-control"
+                    placeholder="请选择学院">
+
+                    </select>
+                </td>
+                <td class="form-item-remark"><span id="academyId-tips"></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    性别
+                </td>
+                <td>
+                    <select required name="sex" id="sex" tips-id="sex-tips" data-length="3" onblur="checkRegular(this);"
+                            placeholder="请输入性别" class="form-control">
+                        <option value="1">女</option>
+                        <option value="2">男</option>
+                    </select>
+                </td>
+                <td class="form-item-remark"><span id="sex-tips"></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    姓名
+                </td>
+                <td>
+                    <input required type="text" name="name" id="name" tips-id="name-tips" data-length="20"
+                           maxlength="20" onblur="checkRegular(this);" class="form-control"
+                           placeholder="请输入姓名">
+                </td>
+                <td class="form-item-remark"><span id="name-tips"></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    工号
+                </td>
+                <td>
+                    <input required type="text" name="number" id="number" tips-id="number-tips" data-length="20"
+                           maxlength="20" onblur="checkRegular(this);" class="form-control"
+                           placeholder="请输入工号">
+                </td>
+                <td class="form-item-remark"><span id="number-tips"></span></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script>
+</script>

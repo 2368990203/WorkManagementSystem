@@ -1,0 +1,55 @@
+#服务端口
+server:
+  port: 9191
+  aop:
+    proxy-target-class: true  #aop
+
+#自定义配置
+swagger2:
+  enable: true
+
+taller:
+  run:
+    debug: true
+    session: 7200
+
+#数据库配置
+spring:
+  datasource:
+    url: jdbc:mysql://10.240.16.116:4583/party_dev?serverTimezone=UTC&useSSL=false&tinyInt1isBit=false
+    username: ULY/dMWA+V4=
+    password: sR6we7T/FFwdpN2lIp4aAXshM3Jkf7Ml
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 2
+    minIdle: 2
+    maxActive: 20
+    # 配置获取连接等待超时的时间
+    maxWait: 60000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    # 打开PSCache，并且指定每个连接上PSCache的大小
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,log4j
+    # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+  redis:
+    host: 127.0.0.1
+    port: 14583
+    password: cc79ca5169d140098e848e0421201dfb
+    database: 0
+    timeout: 0
+    pool:
+      max-active: -1
+      max-wait: 10000
+      max-idle: 1024
+      min-idle: 512
+

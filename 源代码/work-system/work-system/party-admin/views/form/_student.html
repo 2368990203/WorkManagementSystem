@@ -1,0 +1,86 @@
+<div class="table-responsive">
+    <form id="opt-form">
+        <table class="table table-bordered">
+
+            <tr>
+                <td class="form-item-title">
+                    所属学院
+                </td>
+                <td>
+                    <select required name="academyCode" id="academyCode" class="form-control"
+                            onchange="student.getMajor(this);"  placeholder="请选择学院">
+
+                    </select>
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span> <span></span></td>
+            </tr>
+
+            <tr>
+                <td class="form-item-title">
+                    所属专业
+                </td>
+                <td>
+
+                    <select required name="majorCode" id="majorCode" class="form-control"
+                    onchange="student.getClass(this)"  placeholder="请选择专业">
+                        <option value=" ">请先选择学院</option>
+
+                    </select>
+
+                </td>
+                <td class="form-item-remark" > <span id = "majorCode-tips"></span></td>
+            </tr>
+
+
+            <tr>
+                <td class="form-item-title">
+                    所属班级
+                </td>
+                <td>
+                    <select required name="classId" id="classId" class="form-control"
+                            placeholder="请选择班级">
+                        <option value=" ">请先选择专业</option>
+
+                    </select>
+
+                </td>
+                <td class="form-item-remark" > <span id = "classId-tips"></span></td>
+            </tr>
+
+            <tr>
+                <td class="form-item-title">
+                    性别
+                </td>
+                <td>
+                    <select required name="sex" id="sex" tips-id = "sex-tips" data-length="3"  onblur="checkRegular(this);" placeholder="请输入性别" class="form-control">
+                    <option value="1">女</option>
+                    <option value="2">男</option>
+                    </select>
+                </td>
+                <td class="form-item-remark" > <span id = "sex-tips"></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    姓名
+                </td>
+                <td>
+                    <input required type="text" name="name" id="name"  tips-id = "name-tips"  data-length="20" maxlength="20"  onblur="checkRegular(this);"  class="form-control"
+                           placeholder="请输入姓名">
+                </td>
+                <td class="form-item-remark" > <span id = "name-tips"></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    学号
+                </td>
+                <td>
+                    <input required type="text" name="number" id="number"  tips-id = "number-tips"  data-length="20" maxlength="20"  onblur="checkRegular(this);"  class="form-control"
+                           placeholder="请输入学号">
+                </td>
+                <td class="form-item-remark" > <span id = "number-tips"></span></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script>
+</script>

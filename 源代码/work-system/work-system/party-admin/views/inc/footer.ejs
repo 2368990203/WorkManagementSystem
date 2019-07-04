@@ -1,0 +1,116 @@
+</div>
+
+
+<!-- loading层 -->
+<div id="loading-lay" style="z-index: 860616; padding: 8px; top:1px; position: absolute; background: #ffffff;display: none;
+margin: auto;top: 0; left: 0; bottom: 0; right: 0; border-radius:5px 5px 0 0; text-align: center; opacity: 0.8;filter:alpha(opacity=80) ">
+    <img src="../../assets/images/loading.gif">
+</div>
+
+<!-- 弹出层 -->
+<div class="modal fade" tabindex="-1" data-dismiss="modal" role="dialog" id="opt-dialog"
+     style="top:15px">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" onclick="closeLay();"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="opt-dialog-title"></h4>
+                </div>
+                <div class="modal-body" id="opt-dialog-html" style="max-height:500px;overflow-y: auto;padding: 10px; ">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="opt-dialog-cancel" onclick="closeLay()">关 闭
+                    </button>
+                    <button type="button" hidden class="btn btn-info" id="opt-dialog-enter2" onclick="closeLay()">暂存
+                    </button>
+                    <button type="button" class="btn btn-primary" id="opt-dialog-enter" onclick="optLay();">操 作</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 弹出层2：htc -->
+<div class="modal fade" tabindex="-1" data-dismiss="modal" role="dialog" id="opt-dialog-pre"
+     style="top:15px">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" onclick="closePreLay();"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="opt-dialog-title-pre"></h4>
+                </div>
+                <div class="modal-body" id="opt-dialog-html-pre"
+                     style="max-height:500px;overflow-y: auto;padding: 10px; ">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="opt-dialog-cancel-pre" onclick="closePreLay()">关
+                        闭
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 弹出层3：lw -->
+<div class="modal fade" tabindex="-1" data-dismiss="modal" role="dialog" id="map-dialog"
+     style="top:15px">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" onclick="closeMapLay();"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="map-dialog-title"></h4>
+                </div>
+                <div class="modal-body" id="map-dialog-html" style="max-height:500px;overflow-y: auto;padding: 10px; ">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="map-dialog-cancel" onclick="closeMapLay()">关 闭
+                    </button>
+                    <button type="button" class="btn btn-primary" id="map-dialog-enter" onclick="optMapLay()">操 作
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" tabindex="-1" style="z-index: 80000;"
+     data-dismiss="modal" role="dialog" id="info-dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="info-dialog-title"></h4>
+                </div>
+                <div class="modal-body" id="info-dialog-html" style="max-height:500px;overflow-y: auto; ">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="info-dialog-cancel" data-dismiss="modal">关 闭
+                    </button>
+                    <button type="button" class="btn btn-primary" id="info-dialog-enter" onclick="infoLay();">操 作
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

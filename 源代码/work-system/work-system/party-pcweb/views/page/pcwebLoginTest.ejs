@@ -1,0 +1,485 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title>作业管理系统登录</title>
+    <link rel="stylesheet" href="css/index_style.css">
+    <script src="../assets/js/util/jsencrypt.min.js"></script>
+</head>
+<body onLoad="javascript:document.getElementById('optForm').reset()">
+<!-- begin -->
+<div class="wellcome">
+    <div class="wellcome-left">
+        <img src="images/logo.png"/>
+    </div>
+    <div class="wellcome-right">
+        <a href="/" id="login_index">
+            <div class="return-img">
+                <img src="images/return.png" width="100%"/>
+            </div>
+            <div class="return-txt">
+                返回首页
+            </div>
+        </a>
+    </div>
+</div>
+<form way-data="optForm" id="optForm" name="optForm" autocomplete="off" way-persistent="true"
+      class="container offset1 loginform">
+    <div class="main">
+        <input type="hidden" name="_csrf" value="9IAtUxV2CatyxHiK2LxzOsT6wtBE6h8BpzOmk=">
+        <div class="main-center">
+            <div class="main-txt">
+                账号登录
+            </div>
+            <div class="line">
+                <div class="line-img">
+                    <img src="images/user.png" width="100%">
+                </div>
+                <input autocomplete="off" id="loginName" name="loginName" class="required" value="99990001" placeholder="用户名" size="34"
+                       type="text"
+                       tabindex="1" style="padding-top: 0;position: relative;top: 1px;">
+            </div>
+            <div class="line" style="position: relative">
+                <div class="line-img">
+                    <img src="images/lock.png" width="100%">
+                </div>
+                <input autocomplete="off" id="password" name="password" class="required" value="gxun990001" placeholder="密码" size="34"
+                       type="text"
+                       tabindex="2">
+                <div class="password-hidden" id="passwordeye"></div>
+            </div>
+            <div style="width: 310px;height: 40px">
+                <div class="line-cold">
+                    <div class="line-img">
+                        <img src="images/validation.png" width="100%">
+                    </div>
+                    <input autocomplete="off" id="code" class="cold" name="code" placeholder="验证码" size="34" type="text"
+                           tabindex="3"
+                           maxlength="4" autocomplete="off">
+                </div>
+
+                <img src="images/min-loading.gif" style="margin-top: 16px;" width="100" id="verify-loading"/>
+                <span id="verify-code" style="height: 40px">
+            <canvas width="100" height="35" id="canvas" class="yanzm"></canvas>
+        </span>
+            </div>
+            <div style="float: right;margin-top:10px;cursor:pointer;color:gray" onclick="forgetpassword()">忘记密码？</div>
+            <div class="button">
+                <pre style="display: block;float: left;color:red;" id="login-message"></pre>
+                <button id="sys-login" type="button" autocomplete="off" data-loading-text="认证中..." tabindex="4"
+                        class="button-style">登录
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script src="../assets/js/jquery.min.js"></script>
+<script>
+    //判断JS是否支持
+    console.log(navigator);
+    if (!window.jQuery) {
+        alert("您当前正在使用" + navigator.appName + "浏览器，因安全考虑，本站暂不支持IE10以下内核浏览器访问；请使用IE10+内核浏览器、QQ浏览器、谷歌浏览器、火狐浏览器、Opera浏览器、360极速浏览器最新版进行访问！");
+    } else {
+        if (navigator.appName == "Microsoft Internet Explorer") {
+            if (navigator.appVersion.match(/7./i) == '6.' ||
+                navigator.appVersion.match(/7./i) == '7.' ||
+                navigator.appVersion.match(/7./i) == '8.' ||
+                navigator.appVersion.match(/7./i) == '9.') {
+                alert("您当前正在使用" + navigator.appName + "浏览器，因安全考虑，本站暂不支持IE10以下内核浏览器访问；请使用IE10+内核浏览器、QQ浏览器、谷歌浏览器、火狐浏览器、Opera浏览器、360极速浏览器最新版进行访问！");
+
+            }
+
+        }
+    }
+
+</script>
+<script src="../assets/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/way.js"></script>
+<script src="../assets/js/util/store.min.js"></script>
+<script src="../assets/js/routes.js"></script>
+<script>
+    //显示隐藏对应的switchPwd()方法:
+    function switchPwd() {
+        var passwordeye = $('#passwordeye');
+        var showPwd = $("#password");
+        passwordeye.off('click').on('click', function () {
+            if (passwordeye.hasClass('password-hidden')) {
+                passwordeye.removeClass('password-hidden').addClass('password-show');//密码可见
+                showPwd.prop('type', 'text');
+            } else {
+                passwordeye.removeClass('password-show').addClass('password-hidden');//密码不可见
+                showPwd.prop('type', 'password');
+            }
+            ;
+        });
+    }
+
+    switchPwd();
+
+
+    var verifyToken = "";
+    var $btnLogin;
+    var server_root = getRootPath();
+
+    function getRootPath() {
+        if (server_root != null && server_root != "") {
+            return server_root;
+        } else {
+            var host = window.location.host;
+            var origin = window.location.origin;
+            var root = '/';
+            if (!origin) {
+                origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
+            }
+            switch (host) {
+                case "gxmddj.gxun.edu.cn":
+                case "10.240.16.116":
+                    root = origin + '/';
+                    break;
+                case "mengwp.gxun.edu.cn":
+                    root = origin + '/party/';
+                    break;
+                default:
+                    root = origin + '/';
+                    break;
+            }
+
+            return root;
+        }
+    }
+
+    $(function () {
+        $("#login_index").attr("href", server_root);
+
+        /*document.getElementById('optForm').reset();
+
+        $('#loginName').val('');
+        $('#password').val('');
+        $('#code').val('');
+        if (getVal('password').length != 0) {
+            window.location.reload();
+        }*/
+        //验证码
+        verifyCode();
+        //todo:后台图片验证码
+        //  verifyCodePic();
+
+        //密码遮挡效果
+        /*
+        $('#login #password').focus(function () {
+            $('#owl-login').addClass('password');
+        }).blur(function () {
+            $('#owl-login').removeClass('password');
+        });*/
+        //回车事件
+        document.onkeydown = function (e) {
+            var ev = document.all ? window.event : e;
+            if (ev.keyCode == 13) {
+                login();
+            }
+        }
+        //自动登录
+        var object = store.get(cache_user_key);
+        if ((typeof object) == 'object') {
+            var url = getUrlParms("url");
+            if ((url != null) && (url != "")) {
+                window.location.href = url;
+            } else {
+                window.location.href = server_root;
+            }
+        }
+        $btnLogin = $('#sys-login');
+        $btnLogin.click(function () {
+            login();
+        })
+    });
+
+    function verifyCode() {
+        getVerifyCode();
+        $('#verify-code').click(function () {
+            getVerifyCode();
+        })
+    }
+
+    function verifyCodePic() {
+        getVerifyCodePic();
+        $('#verify-code').click(function () {
+            getVerifyCodePic();
+        })
+    }
+
+    function loading(flag) {
+        if (flag) {
+            $btnLogin.button('loading')
+        } else {
+            $btnLogin.button('reset')
+        }
+    }
+
+    //验证码效果处理
+    function verifyLoading(flag) {
+        if (flag) {
+            $('#verify-loading').show();
+            $('#verify-code').hide();
+        } else {
+            $('#verify-loading').hide();
+            $('#verify-code').show();
+        }
+    }
+
+    function getVerifyCode() {
+        verifyLoading(true);
+        $.ajax({
+            type: 'GET',
+            url: commonModule.verifyCodeApi + "?x=" + Date.parse(new Date()),
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "token": verifyToken
+            },
+            error: function (d) {
+                alert("验证码获取出错！"+d.message);
+            },
+            success: function (d) {
+                var data = d.result;
+                verifyToken = data.token;
+                drawPic(data.code);
+                $('#code').val(data.code);
+                verifyLoading(false);
+              //  setTimeout("verifyLoading(false);", 1000);
+            }
+        });
+    }
+
+    function getVerifyCodePic() {
+        verifyLoading(true);
+
+        $.ajax({
+            type: 'GET',
+            url: commonModule.verifyCodePicApi + "?x=" + Date.parse(new Date()),
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "token": verifyToken
+            },
+            dataType: "json",
+            error: function (d) {
+                alert("验证码获取出错！"+d.message);
+            },
+            success: function (d) {
+                var data = d.result;
+                var src = data.jpg;
+                verifyToken = data.token;
+                var img = document.createElement("img");
+                var canvas = document.getElementById("canvas");
+                var width = canvas.width;
+                var height = canvas.height;
+                img.width = width;
+                img.height = height;
+
+                document.body.appendChild(img);
+                img.onload = function () {
+                    var ctx = canvas.getContext("2d")
+                    ctx.drawImage(this, 0, 0, width, height);
+                    setTimeout("verifyLoading(false);", 1000);
+                    document.body.removeChild(img);
+                }
+                img.src = src;
+            }
+        });
+
+
+    }
+
+
+    function login() {
+        if (getVal('loginName').length == 0) {
+            setMessage('请输入登录名');
+            $('#loginName').focus();
+            return false;
+        }
+        if (getVal('password').length == 0) {
+            setMessage('请输入登录密码');
+            $('#password').focus();
+            return false;
+        }
+        if (getVal('code').length == 0) {
+            setMessage('请输入验证码');
+            $('#code').focus();
+            return false;
+        }
+        var data = {};
+        data['loginName']=getVal('loginName');
+        data['password']=getVal('password');
+        data['code']=getVal('code');
+
+
+        loading(true);
+        $.ajax({
+            type: 'GET',
+            url: commonModule.getPublicKeyApi + "?x=" + Date.parse(new Date()),
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "token": verifyToken
+            },
+            async: false,
+            error: function (d) {
+                setMessage(d.message);
+                return false;
+
+            },
+            success: function (d) {
+                var key = d.result;
+                var Encrypt = new JSEncrypt();
+                Encrypt.setPublicKey(key);
+                data['password'] = Encrypt.encrypt(data['password']);
+                var request = $.ajax({
+                    type: 'POST',
+                    url: commonModule.sysLoginApi,
+                    headers: {token: verifyToken},
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    error: function (e) {
+                        var res = e.responseJSON;
+                        setMessage(res.message);
+                        loading(false);
+                        getVerifyCode();
+                        $('#password').focus();
+                        $('#password').val('');
+                        $('#code').val('');
+
+                    }
+                });
+                request.done(function (res) {
+                    loading(false);
+                    way.clear();
+                    $('#loginName').val('');
+                    $('#password').val('');
+                    $('#code').val('');
+                    data['password'] = '';
+                    store.set(cache_user_key, res.result);
+                    var url = getUrlParms("url");
+                    if ((url != null) && (url != "")) {
+                        window.location.href = url;
+                    } else {
+                        window.location.href = server_root;
+                    }
+                })
+            }
+        });
+
+    }
+
+
+    function getVal(_id) {
+        var id = '#' + _id;
+        return $(id).val().trim();
+    }
+
+
+    function getUrlParms(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null)
+            return unescape(r[2]);
+        return null;
+    }
+
+
+    function setMessage(_message) {
+        $('#login-message').html(_message);
+    }
+
+    /********验证码*******/
+    /**生成一个随机数**/
+    function randomNum(min, max) {
+        return Math.floor(Math.random() * (max - min) + min);
+    }
+
+    /**生成一个随机色**/
+    function randomColor(min, max) {
+        var r = randomNum(min, max);
+        var g = randomNum(min, max);
+        var b = randomNum(min, max);
+        return "rgb(" + r + "," + g + "," + b + ")";
+    }
+
+    /**绘制验证码图片**/
+    function drawPic(_verifyCode) {
+        var canvas = document.getElementById("canvas");
+        var width = canvas.width;
+        var height = canvas.height;
+        var ctx = canvas.getContext('2d');
+        ctx.textBaseline = 'bottom';
+
+        /**绘制背景色**/
+        ctx.fillStyle = randomColor(180, 240); //颜色若太深可能导致看不清
+        ctx.fillRect(0, 0, 100, 35);
+        /**绘制文字**/
+        var str = _verifyCode;
+        for (var i = 0; i < _verifyCode.length; i++) {
+            var txt = _verifyCode.charAt(i);
+            ctx.fillStyle = randomColor(50, 160);  //随机生成字体颜色
+            ctx.font = randomNum(30, 30) + 'px SimHei'; //随机生成字体大小
+            var x = 10 + i * 20;
+            var y = randomNum(25, 30);
+            var deg = randomNum(-10, 45);
+            // 修改坐标原点和旋转角度
+            ctx.translate(x, y);
+            ctx.rotate(deg * Math.PI / 180);
+            ctx.fillText(txt, 0, 0);
+            //恢复坐标原点和旋转角度
+            ctx.rotate(-deg * Math.PI / 180);
+            ctx.translate(-x, -y);
+        }
+        /**绘制干扰线**/
+        for (var i = 0; i < 2; i++) {
+            ctx.strokeStyle = randomColor(40, 180);
+            ctx.beginPath();
+            ctx.moveTo(randomNum(0, width), randomNum(0, height));
+            ctx.lineTo(randomNum(0, width), randomNum(0, height));
+            ctx.stroke();
+        }
+        /**绘制干扰点**/
+        for (var i = 0; i < 30; i++) {
+            ctx.fillStyle = randomColor(0, 255);
+            ctx.beginPath();
+            ctx.arc(randomNum(0, width), randomNum(0, height), 1, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+    }
+
+    //读取权限
+    function auth(_token) {
+        loading(true);
+        var request = $.ajax({
+            type: 'GET',
+            url: commonModule.sysAuthApi + '/' + client,
+            headers: {token: _token},
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: function (e) {
+                loading(false);
+                var res = e.responseJSON;
+                setMessage(res.message);
+            }
+        });
+        request.done(function (res) {
+            loading(false);
+            store.set(cache_user_key, res.result);
+            window.location.href = server_root + 'sys';
+        })
+    }
+
+    function forgetpassword() {
+        window.location.href = server_root + 'forgetPassword';
+    }
+</script>
+
+</body>
+</html>

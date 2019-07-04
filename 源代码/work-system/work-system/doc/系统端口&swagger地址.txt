@@ -1,0 +1,7 @@
+api-admin   :9091
+admin         :9092
+swagger ��http://127.0.0.1:9091/swagger-ui.html
+
+api-pcweb  :9191
+pcweb        :9192
+swagger ��http://127.0.0.1:9191/swagger-ui.html

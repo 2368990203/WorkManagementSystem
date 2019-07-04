@@ -1,0 +1,75 @@
+<% include inc/header.ejs %>
+<% include inc/body.ejs %>
+<!-- html主体代码 start -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox-content" id="code-view-list" style="overflow-y: auto;">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>表名</th>
+                    <th>生成时间</th>
+                    <th>修改时间</th>
+                    <th>代码</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody id="code-list">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- html主体代码 end -->
+
+<!-- 子系统模板 -->
+<script id="code-tmpl" type="text/x-dot-template">
+    {{ if(it.length>0){ }}
+    {{ for(var i=0;i
+    <it.length;i++){ }}
+    <tr>
+        <td>{{= it[i].name}}</td>
+        <td>{{= time.timestamp2time(it[i].createTime)}}</td>
+        <td>{{= time.timestamp2time(it[i].reviseTime)}}</td>
+        <td>
+            {{ if(it[i].code.model != 'undefined'){ }}
+            <button onclick="code.info(this);" data-index="{{= i}}" data-type="model" type="button"
+                    class="btn btn-info">model
+            </button>
+            <button onclick="code.info(this);" data-index="{{= i}}" data-type="mapper" type="button"
+                    class="btn btn-info">mapper
+            </button>
+            <button onclick="code.info(this);" data-index="{{= i}}" data-type="iService" type="button"
+                    class="btn btn-info">iService
+            </button>
+            <button onclick="code.info(this);" data-index="{{= i}}" data-type="service" type="button"
+                    class="btn btn-info">service
+            </button>
+            <button onclick="code.info(this);" data-index="{{= i}}" data-type="create" type="button"
+                    class="btn btn-info">create
+            </button>
+            <button onclick="code.info(this);" data-index="{{= i}}" data-type="update" type="button"
+                    class="btn btn-info">update
+            </button>
+            <button onclick="code.info(this);" data-index="{{= i}}" data-type="Api" type="button" class="btn btn-info">
+                Api
+            </button>
+            {{ } }}
+        </td>
+        <td>
+            <button data-name="{{= it[i].name}}" onclick="code.create(this);" type="button"
+                    class="btn btn-w-m btn-success">生成
+            </button>
+        </td>
+    </tr>
+    {{ } }}
+    {{ } }}
+
+</script>
+
+<% include inc/js.ejs %>
+<!-- 私有脚本 start -->
+<script src="../../js/_code.js"></script>
+<!-- 私有脚本 end -->
+<% include inc/footer.ejs %>

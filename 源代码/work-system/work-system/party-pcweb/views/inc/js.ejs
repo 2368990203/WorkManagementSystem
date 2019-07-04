@@ -1,0 +1,137 @@
+<!-- 全局js -->
+
+<script src="assets/js/jquery.min.js?v=2.1.4"></script>
+
+<script src="assets/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="assets/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="assets/js/plugins/laydate/laydate.js"></script>
+<script src="assets/js/plugins/pagination/jquery.pagination.js"></script>
+<script src="assets/js/plugins/iCheck/icheck.min.js"></script>
+<script src="assets/js/jquery.ztree.all.js"></script>
+
+<script src="assets/js/util/doT.min.js"></script>
+<script src="assets/js/util/store.min.js"></script>
+<script src="assets/js/util/jsencrypt.min.js"></script>
+
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/routes.js"></script>
+
+<script src="assets/js/util/log.js"></script>
+<script src="assets/js/util/title.js"></script>
+<script src="assets/js/util/tools.js"></script>
+<script src="assets/js/util/ajax.js"></script>
+
+<script src="assets/js/cos-js-sdk-v4.js"></script>
+<script src="assets/js/util/cos.kit.js"></script>
+
+<!--富文本脚本-->
+<script src="assets/js/summernote/summernote.js"></script>
+<script src="assets/js/summernote/lang/summernote-zh-CN.js"></script>
+
+<script src="assets/js/plugins/fancybox/jquery.fancybox.js"></script>
+
+<script src="page/js/file_saver/myPagination.js"></script>    <!--分页js-->
+
+
+<script>
+
+    // 获取id
+    function getId(event) {
+        return $(event).attr('data-id');
+    }
+
+    // 获取val
+    function getValue(event) {
+        return $(event).attr('data-value');
+    }
+
+    function getData(event, attr) {
+        return $(event).attr(attr);
+    }
+
+    //加载页面
+    function getView(_url) {
+        var html = '';
+        $.ajax({
+            type: 'get',
+            url: _url + '?t=' + Math.random(),
+            async: false,
+            success: function (data) {
+                html = data;
+            },
+            error: function (e) {
+                tips.error('找不到对应的view');
+                return false;
+            }
+        })
+        return html;
+    }
+
+
+    var layConfig, infoConfig;
+
+
+
+    //关闭弹出层
+    function closeLay(optid) {
+        var id = "";
+        if (optid == null || optid == "") {
+            id = "opt";
+        } else {
+            id = optid;
+        }
+
+        $('#' + id + '-dialog-html').html('');
+        $('#' + id + '-dialog').modal('hide');
+    }
+
+
+    //打开弹出层
+    function openLay(_config, optid) {
+        layConfig = _config;
+        var id = "";
+        if (optid == null || optid == "") {
+            id = "opt";
+        } else {
+            id = optid;
+        }
+
+        $('#' + id + '-dialog-title').html(layConfig.title);
+        $('#' + id + '-dialog-html').html(getView(_config.url));
+        $('#' + id + '-dialog-html').css('max-height', dialogHeight);
+        $('#' + id + '-dialog-enter').show();
+        //按钮
+        if (layConfig.enterHidden == true) {
+            $('#' + id + '-dialog-enter').hide();
+        }
+        if ((typeof layConfig.enter) != 'undefined') {
+            $('#' + id + '-dialog-enter').html(layConfig.enter);
+        }
+        if ((typeof layConfig.cancel) != 'undefined') {
+            $('#' + id + '-dialog-cancel').html(layConfig.cancel);
+        }
+
+        $('#' + id + '-dialog').modal({
+            keyboard: false,
+            backdrop: 'static'
+        });
+    }
+
+    //操作按钮
+    function optLay() {
+        var fun = layConfig.fun;
+        setTimeout(fun, 20);
+    }
+
+
+
+    function setHtml(_id, _val) {
+        var id = '#' + _id;
+        $(id).html(_val);
+    }
+
+
+
+
+</script>

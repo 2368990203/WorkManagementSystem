@@ -1,0 +1,59 @@
+*{
+  -webkit-box-sizing: content-box;
+-moz-box-sizing: content-box;
+   box-sizing: content-box;
+}
+
+
+table.treetable span.indenter a {
+		
+  background-position: left center;
+  background-repeat: no-repeat;
+  display: inline-block;
+  text-decoration: none;
+  width: 19px;
+}
+
+
+	
+
+
+
+table.treetable tbody tr td.td_left {
+  text-align:left;
+
+
+}
+
+table.treetable span {
+
+  background-position: center left;
+  background-repeat: no-repeat;
+  padding: 3px 0 3px 20px;
+
+  
+}
+
+table.treetable span.children {
+
+  background-image: url(images/file.png);
+}
+
+table.treetable span.parent {
+
+  background-image: url(images/folder.png);
+}
+
+table.treetable tr.collapsed span.indenter a {	   
+
+  background-image: url(images/expand.png);
+
+}
+
+table.treetable tr.expanded span.indenter a {
+
+  background-image: url(images/collapse.png);
+
+  
+}
+

@@ -1,0 +1,56 @@
+td {
+    text-align: center !important;
+}
+
+th {
+    text-align: center !important;
+}
+
+
+.text-left {
+    text-align: left !important;
+}
+
+.notice-list-title {
+    position: relative;
+    height: 21px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+a {
+    vertical-align: middle;
+    color: #454a51;
+    text-decoration: none;
+}
+
+.ms-list-link b {
+    font-weight: 700;
+}
+
+
+i.envelop {
+    background-image: url(../images/msg-center-201807201132.svg);
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-left: 15px;
+    vertical-align: middle;
+    background-position: 53.56999999999999% 0.61%;
+    background-size: 1325% 1125%;
+}
+
+.ms-visit i.envelop {
+    background-image: url(../images/msg-center-201807201132.svg);
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-position: 53.56999999999999% 11.59%;
+    background-size: 1325% 1125%;
+    margin-left: 15px;
+
+}
+

@@ -1,0 +1,121 @@
+<% include ../inc/header.ejs%>
+<style>
+    .date-table {
+        overflow-y: auto;
+    }
+</style>
+
+<% include ../inc/body.ejs%>
+<!-- html主体代码 start -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title" style="padding-top: 3px !important;">
+                <div style="width: 140px; display: block;float: left;padding-top: 10px;">
+                    教师授课列表
+                </div>
+
+                <div class="ibox-tools">
+                    <button style="margin-top: 8px;" class="btn btn-primary btn-xs" type="button"
+                            onclick="teachSchedule.create(this);">
+                        <i class="fa fa-plus"></i>&nbsp;新增
+                    </button>
+                </div>
+
+            </div>
+            <div class="ibox-content data-view" style="overflow-y: auto;">
+                <div class="col-sm-12">
+                    <div class=" col-sm-12 date-table">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>教师工号</th>
+                                <th>教师名</th>
+                                <th>班级名</th>
+                                <th>课程号</th>
+                                <th>课程名</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody id="item-list">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-12 pages M-box3 list-page">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- html主体代码 end -->
+<!-- 管理的教师授课模板 -->
+<script id="teachSchedule-template" type="text/x-dot-template">
+    {{ if(it.length == 0) { }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i=0;i < it.length;i++){ }}
+    <tr>
+
+<!--        <th>教师工号</th>-->
+<!--        <th>教师名</th>-->
+<!--        <th>班级名</th>-->
+<!--        <th>课程号</th>-->
+<!--        <th>课程名</th>-->
+        <td>
+            {{=(i+1)}}
+        </td>
+        <td>
+            {{= it[i].teacherNumber}}
+        </td>
+        <td>
+            {{= it[i].teacherName}}
+        </td>
+        <td>
+            {{= it[i].academyName+it[i].grade+it[i].majorName+it[i].classNo+"班"  }}
+        </td>
+        <td>
+            {{= it[i].courseNumber}}
+        </td>
+        <td>
+            {{= it[i].courseName}}
+        </td>
+        <td>
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle">操作 <span
+                            class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="teachSchedule.update(this);">修改</a>
+                    </li>
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="teachSchedule.delete(this);">删除</a>
+                    </li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+    {{ } }}
+    {{ } }}
+</script>
+<script id="course-select-template" type="text/x-dot-template">
+    {{ if(it.length == 0 ){ }}
+    <option value=" ">暂无课程数据</option>
+    {{ }else{ }}
+    <option value=" ">请选择课程</option>
+    {{ for(var i = 0 ; i < it.length ; i++){ }}
+    <option value="{{=it[i].number }}">{{=it[i].name }}</option>
+    {{ } }}
+    {{ } }}
+</script>
+
+<% include ../inc/js.ejs %>
+
+<!-- 私有脚本 start -->
+<script src="/js/baseModule/_teachSchedule.js"></script>
+<!-- 私有脚本 end -->
+<% include ../inc/footer.ejs %>

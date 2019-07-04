@@ -1,0 +1,83 @@
+<% include inc/header.ejs %>
+<% include inc/body.ejs %>
+<!-- html主体代码 start -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox-content">
+            <h5 style="text-align: right;">
+                <button class="btn btn-primary btn-xs" type="button" onclick="role.create(this);">
+                    <i class="fa fa-plus"></i>&nbsp;创建
+                </button>
+            </h5>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>角色名称</th>
+                    <th>默认</th>
+                    <th>备注</th>
+                    <th>创建时间</th>
+                    <th class="w120"></th>
+                </tr>
+                </thead>
+                <tbody id="role-list">
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+<!-- html主体代码 end -->
+<!-- 角色模板 -->
+<script id="role-tmpl" type="text/x-dot-template">
+    {{ if(it.length>0){ }}
+    {{ for(var i=0;i
+    <it.length;i++){ }}
+    <tr>
+        <td>{{= it[i].name}}</td>
+        <td>
+            {{ if(it[i].isDefault == 1 ){}}
+            <i class="fa fa-check text-navy"></i>
+            {{ }else {}} {{ }}}
+        </td>
+        <td>{{= it[i].remark}}</td>
+        <td>{{= time.timestamp2time(it[i].createTime)}}</td>
+        <td>
+            <a data-id="{{= it[i].id}}" class="fa fa-cogs text-navy" data-toggle="tooltip" data-placement="bottom"
+               title="配置权限"
+               onclick="role.auth(this);"></a>
+            &nbsp;&nbsp;
+            <a data-id="{{= it[i].id}}" class="fa fa-cog" data-toggle="tooltip" data-placement="bottom" title="修改角色"
+               onclick="role.update(this);"></a>
+            &nbsp;&nbsp;
+            <a data-id="{{= it[i].id}}" class="fa fa-remove" data-toggle="tooltip" data-placement="bottom" title="删除角色"
+               onclick="role.delete(this);"></a>
+        </td>
+    </tr>
+    {{ } }}
+    {{ } else { }}
+    <tr>
+        <td colspan="3">未读取到任何数据</td>
+    </tr>
+    {{ } }}
+</script>
+
+
+<!-- 角色权限：数据可见范围模板 -->
+<script id="visible-tmpl" type="text/x-dot-template">
+    {{ if(it.length>0){ }}
+    <option value="">请选择</option>
+    {{ for(var i=0;i
+    <it.length;i++){ }}
+    <option value="{{=it[i].id}}">{{=it[i].name}}</option>
+    {{ } }}
+    {{ } else { }}
+    <option value="">暂无数据</option>
+    {{ } }}
+</script>
+
+<% include inc/js.ejs %>
+<!-- 私有脚本 start -->
+<script src="../../js/_role.js"></script>
+<!-- 私有脚本 end -->
+<% include inc/footer.ejs %>

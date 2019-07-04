@@ -1,0 +1,69 @@
+<div class="table-responsive">
+    <form id="opt-form">
+        <table class="table table-bordered">
+
+
+            <tr>
+                <td class="form-item-title">
+                    所属学院
+                </td>
+                <td>
+                    <select required type="text" name="academyCode" id="academyCode" maxlength="20" class="form-control">
+
+                    </select>
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span>  <span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    所在校区
+                </td>
+                <td>
+                    <select required type="text" name="campus" maxlength="20" class="form-control">
+
+
+                        <option value = 1>东校区</option>
+                        <option value = 2>西校区</option>
+                        <option value = 3>武鸣校区</option>
+                    </select>
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    专业代码
+                </td>
+                <td>
+                    <input required type="text" name="code" maxlength="20" class="form-control"
+                           placeholder="请输入专业代码">
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span>  <span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    专业名称
+                </td>
+                <td>
+                    <input required type="text" name="name" maxlength="20" class="form-control"
+                           placeholder="请输入专业名称">
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span>  <span ></span></td>
+            </tr>
+
+            <tr>
+                <td class="form-item-title">
+                    专业状态
+                </td>
+                <td>
+                    <select required type="text" name="status" maxlength="20" class="form-control">
+
+                        <option value = 0>有效</option>
+                        <option value = 1>无效</option>
+                    </select>
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+
+        </table>
+    </form>
+</div>

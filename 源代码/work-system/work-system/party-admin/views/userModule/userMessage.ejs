@@ -1,0 +1,212 @@
+<% include ../inc/header.ejs %>
+<style>
+    .date-table {
+        overflow-y: auto;
+    }
+</style>
+
+<% include ../inc/body.ejs %>
+<link href="../../css/messageList.css?v=3.3.6" rel="stylesheet">
+
+<!-- html主体代码 start -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title" style="padding-top: 3px !important;">
+                <div style="width: 140px; display: block;float: left;padding-top: 10px;">
+                    消息提醒列表
+                </div>
+            </div>
+
+            <div class="ibox-content data-view" style="overflow-y: auto;">
+                <div class="col-sm-12">
+                    <div class=" col-sm-12 date-table">
+
+
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>消息内容</th>
+                                <th>接收时间</th>
+                                <th>消息类型</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody id="item-list">
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="col-sm-12 pages M-box3 list-page">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div><!-- html主体代码 end -->
+
+<!--渲染消息列表-->
+<script id="message-list-template" type="text/x-dot-template">
+
+    {{ if(typeof it == "undefined" || it.length == 0) { }}
+    暂无消息
+    {{ }else{ }}
+
+    {{for(var i = 0; i < it.length; i++ ) { }}
+
+    {{ if(it[i].readStatus==null||it[i].readStatus==""||it[i].readStatus!=1) { }}
+    <tr class="item-row">
+        <td>{{=i+1}}</td>
+        <td class="text-left">
+            <div class="notice-list-title">
+                <i class="envelop"></i>
+                <a href="#" data-id="{{=it[i].id }}" onclick="message.read(this)" class="ms-list-link">
+                    <b>【{{=helper.type(it[i].type)||""}}】</b> {{=it[i].topic||""}}
+                </a>
+            </div>
+        </td>
+
+        <td>{{=it[i].sendTimeStr||""}}</td>
+
+        <td>{{=helper.type(it[i].type||"")}}</td>
+
+        <td>
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle" data-id="{{=it[i].id }}"
+                        onclick="message.read(this)">详情
+                </button>
+            </div>
+        </td>
+
+    </tr>
+
+    {{ }if(it[i].readStatus==1){ }}
+    <tr class="item-row ms-visit">
+        <td>{{=i+1}}</td>
+
+        <td class="text-left">
+            <div class="notice-list-title">
+                <i class="envelop"></i>
+                <a href="#" data-id="{{=it[i].id }}" onclick="message.read(this)" class="ms-list-link">
+                    <b>【{{=helper.type(it[i].type)||""}}】</b> {{=it[i].topic||""}}
+                </a>
+            </div>
+        </td>
+
+        <td>{{=it[i].sendTimeStr||""}}</td>
+
+        <td>{{=helper.type(it[i].type)}}</td>
+
+        <td>
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle" data-id="{{=it[i].id }}"
+                        onclick="message.read(this)">详情
+
+                </button>
+
+            </div>
+        </td>
+
+    </tr>
+
+    {{
+
+    } }}
+
+
+    {{ } }}
+
+
+    {{ } }}
+</script>
+
+
+<script id="message-template" type="text/x-dot-template">
+
+    {{ if(typeof it == "undefined" || it == null) { }}
+    暂无消息提醒
+
+    {{ }else{ }}
+    <div class="location">
+        <div class="title-ms-info">【{{=helper.type(it.type)||""}}】 {{=it.topic||""}}<br>
+            <span class="title-ms-time">{{=(it.sendTimeStr.replace('.0',''))||""}}</span>
+        </div>
+    </div>
+
+    <div class="details">
+        <div class="msg-list-panel ms-info-text">
+
+            <div id="Wrap">
+                <div id="inner">
+
+                    <p id="content">
+                                <span>
+                                   {{=it.content}}
+                                </span>
+                    </p>
+                    {{ if(it.type!=0&&it.type!=6) { }}
+                    {{ if(it.linkId==null||it.linkId=="") { }}
+                    详细信息点击下方按钮查看。
+                    <a href="{{=helper.url(it.type)}}" id="btn">{{=helper.type(it.type)}}管理</a>
+                    {{ }else{}}
+                    详细信息点击下方按钮查看。
+                    <a href="{{=helper.detailUrl(it.type)}}{{=it.linkId }}" id="btn">{{=helper.type(it.type)}}详情</a>
+                    {{ }}}
+                    {{ }}}
+
+                </div>
+
+
+            </div>
+        </div>
+
+
+    </div>
+    {{ } }}
+</script>
+
+
+<script id="message-index-template" type="text/x-dot-template">
+    {{ if(typeof it == "undefined" || it.length == 0) { }}
+    <a style="color: black;">
+        <li class="avatar" style="padding-top: 15px;min-height: 0;text-align: center;">
+            <div> 暂无消息</div>
+
+        </li>
+    </a>
+    {{ }else{ }}
+    {{ for(var i = 0; i < it.length; i++ ) { }}
+
+    {{ if(i==0) { }}
+    <li class="avatar" style="padding-top: 15px;min-height: 0;text-align: center;">
+        {{ }else{ }}
+    <li class="avatar">
+        {{ }}}
+
+        <a href="#" data-id="{{=it[i].id}}" onclick="readMessage(this)">
+
+            {{ if(it[i].readStatus==null||it[i].readStatus==""||it[i].readStatus!=1) { }}
+            <div>{{=it[i].topic.length<=12?it[i].topic:it[i].topic.substr(0,12) }}</div>
+            <small> {{=it[i].sendTimeStr }}</small>
+            <span class="label label-info">NEW</span>
+            {{ }else{ }}
+            <div style="color:#a2a2a2;">{{=it[i].topic.length<=12?it[i].topic:it[i].topic.substr(0,12) }}</div>
+            <small style="color:#a2a2a2;"> {{=it[i].sendTimeStr }}</small>
+
+            {{ } }}
+        </a>
+    </li>
+    {{ } }}
+    {{ } }}
+</script>
+
+
+<% include ../inc/js.ejs %>
+
+<!-- 私有脚本 start -->
+<script src="../../js/userModule/_userMessage.js"></script>
+<!-- 私有脚本 end -->
+<% include ../inc/footer.ejs %>

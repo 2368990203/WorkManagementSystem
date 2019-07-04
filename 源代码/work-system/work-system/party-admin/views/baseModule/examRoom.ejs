@@ -1,0 +1,184 @@
+<% include ../inc/header.ejs%>
+<style>
+    .date-table {
+        overflow-y: auto;
+    }
+</style>
+
+<% include ../inc/body.ejs%>
+<!-- html主体代码 start -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title" style="padding-top: 3px !important;">
+                <div style="width: 140px; display: block;float: left;padding-top: 10px;">
+                    考场列表
+                </div>
+
+                <div class="ibox-tools">
+                    <button style="margin-top: 8px;" class="btn btn-primary btn-xs" type="button"
+                            onclick="examRoom.create(this);">
+                        <i class="fa fa-plus"></i>&nbsp;新增
+                    </button>
+                </div>
+
+            </div>
+            <div class="ibox-content data-view" style="overflow-y: auto;">
+                <div class="input-group" style="width: 200px;display: flex">
+
+                    <select required type="text" name="select-examId" id="select-examId" maxlength="20" class="form-control"
+                            style="min-width: 200px;width: 200px;height: 34px;margin-left: 10px" >
+                        <option value="">请选择作业</option>
+
+                    </select>
+                    <input style="min-width: 200px;width: 200px;" type="text" id="input-examRoom"
+                           placeholder="请输入考场名称" class="input-sm form-control"/>
+                    <input style="min-width: 200px;width: 200px;" type="text" id="input-Name"
+                           placeholder="请输入监考员姓名" class="input-sm form-control"/>
+                    </select>
+
+
+                    <select style="min-width: 200px;width: 200px;height: 34px" type="text" id="select-roomStatus"
+                            class="input-sm form-control">
+                        <option value="">请选择考场状态</option>
+                        <option value="0">开启</option>
+                        <option value="1">关闭</option>
+                    </select>
+
+
+                    <span class="input-group-btn">
+                            <button onclick="examRoom.select(this);" id="search_button"
+                                    style="width: 50px;height: 34px;margin-left: 10px" type="button"
+                                    class="btn btn-sm btn-primary"> 搜索</button>
+
+                        </span>
+                </div>
+                <div class="col-sm-12">
+                    <div class=" col-sm-12 date-table">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>作业名称</th>
+                                <th>考场名称</th>
+                                <th>开始时间</th>
+                                <th>结束时间</th>
+                                <th>作业状态</th>
+                                <th>考场状态</th>
+                                <th>监考员</th>
+                                <th>开启启封码</th>
+                                <th>启封码</th>
+                                <th>备注</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody id="item-list">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-12 pages M-box3 list-page">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- html主体代码 end -->
+<script id="exam-select-template" type="text/x-dot-template">
+    {{ if(it.length == 0 ){ }}
+    <option value=" ">暂无作业</option>
+    {{ }else{ }}
+    <option value=" ">请选择作业</option>
+    {{ for(var i = 0 ; i < it.length ; i++){ }}
+    <option value="{{=it[i].id }}">{{=it[i].name }}</option>
+    {{ } }}
+    {{ } }}
+</script>
+
+
+<!-- 管理的考场模板 -->
+<script id="examRoom-template" type="text/x-dot-template">
+    {{ if(it.length == 0) { }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i=0;i < it.length;i++){ }}
+    <tr>
+        <td>
+            {{=(i+1)}}
+        </td>
+        <td>
+            {{= it[i].examName||""}}
+        </td>
+        <td>
+            {{= it[i].name||""}}
+        </td>
+        <td>
+            {{= it[i].startTimeStr||""}}
+        </td>
+        <td>
+            {{= it[i].endTimeStr||""}}
+        </td>
+        <td>
+            {{= helper.examStatus(it[i].examStatus)||""}}
+        </td>
+        <td>
+            {{= helper.status(it[i].status)||""}}
+        </td>
+        <td>
+            {{= it[i].monitor||""}}
+        </td>
+        <td>
+            {{= helper.isUnseal(it[i].isUnseal)||"" }}
+        </td>
+        <td>
+            {{= it[i].unsealCode||""}}
+        </td>
+        <td>
+            {{= it[i].remark||""}}
+        </td>
+        <td>
+            {{if(it[i].examStatus!=2){}}
+
+            {{if(it[i].status==0){}}
+
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle">操作 <span
+                            class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    {{ if(it[i].examStatus==0){}}
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="examRoom.update(this);">修改考场</a>
+                    </li>
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="examRoom.delete(this);">删除考场</a>
+                    </li>
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="examRoom.sendNote(this);">短信推送</a>
+                    </li>
+                    {{ }}}
+
+                    {{ if(it[i].examStatus==1){ }}
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="examRoom.finish(this);">结束考试</a>
+                    </li>
+                    {{ }}}
+                </ul>
+            </div>
+            {{ }}}
+
+            {{ }}}
+
+        </td>
+    </tr>
+    {{ } }}
+    {{ } }}
+</script>
+<% include ../inc/js.ejs %>
+
+<!-- 私有脚本 start -->
+<script src="../../js/baseModule/_examRoom.js"></script>
+<!-- 私有脚本 end -->
+<% include ../inc/footer.ejs %>

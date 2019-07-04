@@ -1,0 +1,428 @@
+<% include ../inc/header.ejs %>
+<style>
+    .date-table {
+        overflow-y: auto;
+    }
+</style>
+
+<link href="../../assets/js/summernote/summernote.css" rel="stylesheet">
+
+<% include ../inc/body.ejs %>
+<!-- html主体代码 start -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title" style="padding-top: 3px !important;">
+                <div style="width: 140px; display: block;float: left;padding-top: 10px;">
+                    题库列表
+                </div>
+
+                <div class="ibox-tools">
+                    <!--<button style="margin-top: 8px;" class="btn btn-primary btn-xs" type="button"-->
+                    <!--onclick="question.create(this);">-->
+                    <!--<i class="fa fa-plus"></i>&nbsp;新增題目-->
+                    <!--</button>-->
+                    <button style="margin-top: 8px;" class="btn btn-primary btn-xs" type="button"
+                            onclick="question.make(this);">
+                        <i class="fa fa-plus"></i>&nbsp;创建
+                    </button>
+
+<!--                    <button style="margin-top: 8px;" class="btn btn-primary btn-xs" type="button"-->
+<!--                            onclick="question.importModel(this);">-->
+<!--                        <i class="fa fa-download"></i>&nbsp;下载题库信息模板-->
+<!--                    </button>-->
+
+<!--                    <button style="margin-top: 8px;" class="btn btn-primary btn-xs" type="button"-->
+<!--                            onclick="question.import(this);">-->
+<!--                        <i class="fa fa-plus"></i>&nbsp;导入题库信息-->
+<!--                    </button>-->
+                </div>
+
+            </div>
+            <div class="ibox-content data-view" style="overflow-y: auto;">
+
+                <div class="input-group" style="width: 200px;display: flex">
+                    <select style="min-width: 200px;width: 200px;height: 34px" type="text" id="select-type"
+                            class="input-sm form-control">
+                        <option value=" ">全部类型</option>
+                        <option value="1">判断</option>
+                        <option value="2">单选</option>
+                        <option value="3">多选</option>
+                        <option value="4">填空</option>
+                        <option value="5">客观题</option>
+                    </select>
+                    <input style="min-width: 200px;width: 200px;" type="text" id="select-name" placeholder="请输入题目名称"
+                           class="input-sm form-control"/>
+                    <span class="input-group-btn">
+                            <button onclick="question.select(this);" id="search_button" style="width: 50px;height: 34px"
+                                    type="button"
+                                    class="btn btn-sm btn-primary"> 搜索</button>
+                        </span>
+                </div>
+
+
+                <div class="col-sm-12">
+                    <div class=" col-sm-12 date-table">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>题目名称</th>
+                                <th>类型</th>
+                                <!--<th>答案解析</th>-->
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody id="item-list">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-12 pages M-box3 list-page">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- html主体代码 end -->
+<!-- 管理的题库模板 -->
+<script id="question-template" type="text/x-dot-template">
+    {{ if(it.length == 0) { }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i=0;i < it.length;i++){ }}
+    <tr>
+        <td>
+            {{= ((index-1) * size +i+1)}}
+        </td>
+        <td>
+            {{= it[i].questionName}}
+        </td>
+        <td>
+            {{= helper.type(it[i].type) }}
+        </td>
+        <!--<td>-->
+        <!--{{= it[i].answerKeys}}-->
+        <!--</td>-->
+        <td>
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle">操作 <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="question.update(this);">修改</a>
+                    </li>
+                    <!--<li>-->
+                    <!--<a href="#" data-id="{{= it[i].id}}" onclick="question.delete(this);">删除</a>-->
+                    <!--</li>-->
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="question.deleteQuestionAndOptions(this);">删除</a>
+                    </li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+    {{ } }}
+    {{ } }}
+</script>
+
+<% include ../inc/js.ejs %>
+
+<script>
+    // 选项序号
+    var optionAlph = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+</script>
+
+
+<!--判断题选项模板-->
+<script id="true-or-false" type="text/x-dot-template">
+
+    <tr>
+        <td style="width: 120px; text-align: center">选项</td>
+        <td>选项内容</td>
+        <td style="width: 120px;">请选择正确答案</td>
+    </tr>
+
+    {{ if(typeof it == "undefined" || it.length == 0){ }}
+    <tr>
+        <td style="text-align: center">1</td>
+        <td>正确</td>
+        <td><input type="radio" name="answerNumber" value="1"></td>
+    </tr>
+    <tr>
+        <td style="text-align: center">2</td>
+        <td>错误</td>
+        <td><input type="radio" name="answerNumber" value="2"></td>
+    </tr>
+
+    {{ }else{ }}
+    {{ for(var i = 0; i < it.length; i++) { }}
+    <tr>
+        <td style="text-align: center">{{=(i+1) }}</td>
+        <td>{{=it[i].optionInfo }}</td>
+        {{ if(it[i].isAnswer == 1 ) }}
+        <td><input checked type="radio" name="answerNumber" value="{{=(i+1) }}"></td>
+        {{ else }}
+        <td><input type="radio" name="answerNumber" value="{{=(i+1) }}"></td>
+        {{ } }}
+
+    </tr>
+
+    {{ } }}
+</script>
+
+
+<!--单选题-->
+<script id="single-choice" type="text/x-dot-template">
+    <tr>
+        <td class="addSingleOption" style="text-align: center"><span class="glyphicon glyphicon-plus-sign "
+                                                                     aria-hidden="true"></span></td>
+        <td style="width: 120px; text-align: center">选项</td>
+        <td>选项内容</td>
+        <td style="width: 120px;">请选择正确答案</td>
+    </tr>
+    {{ if(typeof it == "undefined" || it.length == 0){ }}
+
+    {{ for(var i = 0; i < 3; i++) { }}
+
+    <tr class="singleOption">
+        <td style="text-align: center"><span class="glyphicon minusSingleOption glyphicon-minus"
+                                             aria-hidden="true"></span></td>
+        <input type="hidden" name="optionNumber" value="{{=(i+1) }}">
+        <td class="singleNumber" style="text-align: center">{{= optionAlph[i] }}</td>
+        <td><input required type="text" name="optionInfo" class="form-control" placeholder="请输入选项"></td>
+        <td><input type="radio" name="answerNumber" value="{{=(i+1) }}"></td>
+    </tr>
+    {{ } }}
+    {{ }else{ }}
+    {{ for(var i = 0; i < it.length; i++) { }}
+
+    <tr class="singleOption">
+        <td style="text-align: center"><span class="glyphicon minusSingleOption glyphicon-minus"
+                                             aria-hidden="true"></span></td>
+        <input type="hidden" name="optionNumber" value="{{=(i+1) }}">
+        <td class="singleNumber" style="text-align: center">{{= optionAlph[i] }}</td>
+        <td><input required type="text" name="optionInfo" class="form-control" placeholder="请输入选项"
+                   value="{{=it[i].optionInfo }}"></td>
+        {{ if(it[i].isAnswer == 1) }}
+        <td><input checked type="radio" name="answerNumber" value="{{=(i+1) }}"></td>
+        {{ else }}
+        <td><input type="radio" name="answerNumber" value="{{=(i+1) }}"></td>
+        {{ } }}
+
+    </tr>
+
+    {{ } }}
+</script>
+
+
+<!--多选题-->
+<script id="multiple-choice" type="text/x-dot-template">
+    <tr>
+        <td class="addMultipleOption" style="text-align: center"><span class="glyphicon glyphicon-plus-sign "
+                                                                       aria-hidden="true"></span></td>
+        <td style="width: 120px; text-align: center">选项</td>
+        <td>选项内容</td>
+        <td style="width: 120px;">请选择正确答案</td>
+    </tr>
+    {{ if(typeof it == "undefined" || it.length == 0){ }}
+
+    {{ for(var i = 0; i < 4; i++) {}}
+
+    <tr class="multipleOption">
+        <td style="text-align: center"><span class="glyphicon minusMultipleOption glyphicon-minus"
+                                             aria-hidden="true"></span></td>
+        <input type="hidden" name="optionNumber" value="{{=(i+1) }}">
+        <td class="multipleNumber" style="text-align: center">{{= optionAlph[i] }}</td>
+        <td><input required type="text" name="optionInfo" class="form-control" placeholder="请输入选项"></td>
+        <td><input type="checkbox" name="answerNumber" value="{{=(i+1) }}"></td>
+    </tr>
+
+    {{ } }}
+    {{ }else{ }}
+    {{ for(var i = 0; i < 4; i++) {}}
+
+    <tr class="multipleOption">
+        <td style="text-align: center"><span class="glyphicon minusMultipleOption glyphicon-minus"
+                                             aria-hidden="true"></span></td>
+        <input type="hidden" name="optionNumber" value="{{=(i+1) }}">
+        <td class="multipleNumber" style="text-align: center">{{= optionAlph[i] }}</td>
+        <td><input required type="text" name="optionInfo" class="form-control" placeholder="请输入选项"
+                   value="{{=it[i].optionInfo }}"></td>
+        {{ if(it[i].isAnswer == 1) }}
+        <td><input checked type="checkbox" name="answerNumber" value="{{=(i+1) }}"></td>
+        {{ else }}
+        <td><input type="checkbox" name="answerNumber" value="{{=(i+1) }}"></td>
+        {{ } }}
+
+    </tr>
+
+    {{ } }}
+
+</script>
+
+
+<!--填空题-->
+<script id="gap-filling" type="text/x-dot-template">
+
+    <tr>
+        <td class="addGapOption" style="text-align: center"><span class="glyphicon glyphicon-plus-sign "
+                                                                  aria-hidden="true"></span></td>
+        <td style="text-align: center;width: 120px" class="addGapOption">对应空格</td>
+        <td>答案</td>
+    </tr>
+    {{ if(typeof it == "undefined" || it.length == 0){ }}
+
+    {{ for(var i = 0; i < 1; i++) {}}
+
+    <tr class="gapOption">
+        <td style="text-align: center"><span class="glyphicon minusGapOption glyphicon-minus" aria-hidden="true"></span>
+        </td>
+        <td class="gapNumber" style="text-align: center">{{=(i+1) }}</td>
+        <td><input required type="text" name="optionInfo" class="form-control" placeholder="请输入答案"></td>
+    </tr>
+
+    {{ } }}
+    {{ }else{ }}
+
+    {{ for(var i = 0; i < it.length; i++) {}}
+
+    <tr class="gapOption">
+        <td style="text-align: center"><span class="glyphicon minusGapOption glyphicon-minus" aria-hidden="true"></span>
+        </td>
+        <td class="gapNumber" style="text-align: center">{{=(i+1) }}</td>
+        <td><input required type="text" name="optionInfo" class="form-control" placeholder="请输入答案"
+                   value="{{=it[i].optionInfo }}"></td>
+    </tr>
+
+    {{ } }}
+
+    {{ } }}
+</script>
+
+<script>
+    var optionAlph = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
+
+    var singleOption = 3;//单选题初始选项数
+
+    //增删单选项
+    $(document).on('click', '.addSingleOption', function () {
+        var index = 0;
+        var len = $('.singleOption').length;
+        $('.singleOption').eq($('.singleOption').length - 1).after(
+            '<tr class="singleOption">'
+            + '<td style="text-align: center"><span class="glyphicon minusSingleOption glyphicon-minus" aria-hidden="true" ></span></td>'
+            + '<input type="hidden" name="optionNumber" value="' + (++singleOption) + '">'
+            + '<td class="singleNumber" style="text-align: center">' + optionAlph[len] + '</td>'
+            + '<td><input required type="text" name="optionInfo" class="form-control" placeholder="请输入选项"></td>\n'
+            + '<td><input type="radio" name="answerNumber" value="' + (singleOption) + '"></td>'
+            + '</tr>')
+    });
+    $(document).on('click', '.minusSingleOption', function () {
+        if ($('.singleOption').length - 1 == 0) {
+            return false;
+        }
+        $(this).parent().parent('.singleOption').remove();
+
+        //重新编号
+        $('.singleNumber').each(function (i) {
+            $(this).html(optionAlph[i]);
+        });
+
+        // singleOption--;
+    });
+
+
+    var multipleOption = 4;//多选题初始选项数
+
+    //增删多选项
+    $(document).on('click', '.addMultipleOption', function () {
+        var index = 0;
+        var len = $('.multipleOption').length;
+        $('.multipleOption').eq($('.multipleOption').length - 1).after(
+            '<tr class="multipleOption">'
+            + '<td style="text-align: center" ><span class="glyphicon minusMultipleOption glyphicon-minus" aria-hidden="true" ></span></td>'
+            + '<input type="hidden" name="optionNumber" value="' + (++multipleOption) + '">'
+            + '<td class="multipleNumber" style="text-align: center">' + optionAlph[len] + '</td>'
+            + '<td><input required type="text" name="optionInfo" class="form-control" placeholder="请输入选项"></td>\n'
+            + '<td><input type="checkbox" name="answerNumber" value="' + (multipleOption) + '"></td>'
+            + '</tr>')
+    });
+    $(document).on('click', '.minusMultipleOption', function () {
+        var len = $('.multipleOption').length;
+        if (len - 1 == 0) {
+            return false;
+        }
+
+        $(this).parent().parent('.multipleOption').remove();
+
+        //重新编号
+        $('.multipleNumber').each(function (i) {
+            $(this).html(optionAlph[i]);
+        });
+
+        // multipleOption--;
+    });
+
+    var gapOption = 1;//填空题初始选项数
+
+    //增删填空项
+    $(document).on('click', '.addGapOption', function () {
+        var index = 0;
+        var len = $('.gapOption').length;
+        $('.gapOption').eq($('.gapOption').length - 1).after(
+            '<tr class="gapOption">'
+            + '<td style="text-align: center" ><span class="glyphicon minusGapOption glyphicon-minus" aria-hidden="true" ></span></td>'
+            + '<td class="gapNumber" style="width: 120px; text-align: center">' + (len + 1) + '</td>'
+            + '<td><input required type="text" name="optionInfo"  class="form-control" placeholder="请输入答案"></td>'
+            + '</tr>')
+    });
+    $(document).on('click', '.minusGapOption', function () {
+
+        var len = $('.gapOption').length;
+        if (len - 1 == 0) {
+            return false;
+        }
+
+        //获取当前点击的是第几个class
+        // console.log($(this).parent().parent('.gapOption').index())
+
+        $(this).parent().parent('.gapOption').remove();
+
+        //重新编号
+        $('.gapNumber').each(function (i) {
+            $(this).html(i + 1);
+        });
+
+        // gapOption--;
+    });
+</script>
+<script id="error-template" type="text/x-dot-template">
+    {{ if(it.length == 0) { }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i=0;i < it.length;i++){ }}
+    <tr>
+        <td>
+            {{=(i+1)}}
+        </td>
+        <td>
+            {{= it[i].name|| ""}}
+        </td>
+        <td>
+            {{= it[i].type || ""}}
+        </td>
+        <td>
+            {{= it[i].info || ""}}
+        </td>
+    </tr>
+    {{ } }}
+    {{ } }}
+</script>
+
+<!-- 私有脚本 start -->
+<script src="../../js/baseModule/_question.js"></script>
+<!-- 私有脚本 end -->
+<% include ../inc/footer.ejs %>

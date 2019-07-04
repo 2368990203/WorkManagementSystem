@@ -1,0 +1,109 @@
+<% include inc/header.ejs %>
+<link href="../../assets/css/plugins/myTree/tree.css" rel="stylesheet">
+<% include inc/body.ejs %>
+<!-- html主体代码 start -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>数据列表</h5>
+                <div class="ibox-tools">
+                    <button class="btn btn-primary btn-xs" type="button" onclick="category.create(this);">
+                        <i class="fa fa-plus"></i>&nbsp;创建
+                    </button>
+                </div>
+            </div>
+            <div class="ibox-content" style="overflow-y: auto;" id="data-view">
+                <div class="col-sm-8 col-lg-6">
+                    <div class="tree tree-selectable" id="data-view-list">
+
+                    </div>
+                </div>
+                <div class="col-sm-4 col-lg-6">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- html主体代码 end -->
+<script id="category-select-tmpl" type="text/x-dot-template">
+    {{ for(var i=0;i
+    <it.length;i++){ }}
+    <option value="{{= it[i].id}}">{{= it[i].name}}</option>
+    {{ } }}
+</script>
+<script id="category-tmpl" type="text/x-dot-template">
+    {{ for(var i=0;i
+    <it.length;i++){ }}
+    <div class="tree-folder">
+        <div class="tree-folder-header">
+            <div class="tree-folder-name" data-status="0">
+                <i class="fa fa-angle-double-down"></i> {{= it[i].name}} / {{= it[i].code}}
+            </div>
+            <a style="float: right;">
+                <i class="fa fa-cog" data-toggle="tooltip" data-placement="bottom"
+                   title="修改" data-id="{{= it[i].id}}" data-parentId="{{= it[i].parentId}}"
+                   onclick="category.update(this);"></i>&nbsp;
+                <i class="fa fa-remove" data-toggle="tooltip" data-placement="bottom"
+                   title="删除" data-id="{{= it[i].id}}" data-parentId="{{= it[i].parentId}}"
+                   onclick="category.delete(this);"></i>&nbsp;&nbsp;&nbsp;
+            </a>
+        </div>
+        <div class="tree-folder-sub">
+            {{ for(var j=0;j
+            <it
+            [i].sub.length;j++){ }}
+            <div class="tree-folder-content">
+                <div class="tree-folder">
+                    <div class="tree-folder-header">
+                        <div class="tree-folder-name">
+                            {{= it[i].sub[j].name}} / {{= it[i].sub[j].code}}
+                        </div>
+                        <a style="float: right;">
+                            {{ if(categoryCode == 'pca') { }}
+                            <i class="fa fa-plus" data-toggle="tooltip" data-placement="bottom" data-type="2"
+                               title="创建子级" data-id="{{= it[i].sub[j].id}}" data-parentId="{{= it[i].sub[j].parentId}}"
+                               onclick="category.create(this);"></i>&nbsp;
+                            {{ } }}
+                            <i class="fa fa-cog" data-toggle="tooltip" data-placement="bottom"
+                               title="修改" data-id="{{= it[i].sub[j].id}}" data-parentId="{{= it[i].sub[j].parentId}}"
+                               onclick="category.update(this);"></i>&nbsp;
+                            <i class="fa fa-remove" data-toggle="tooltip" data-placement="bottom"
+                               title="删除" data-id="{{= it[i].sub[j].id}}" data-parentId="{{= it[i].sub[j].parentId}}"
+                               onclick="category.delete(this);"></i>&nbsp;&nbsp;&nbsp;
+                        </a>
+                    </div>
+                    {{ for(var k=0;k
+                    <it
+                    [i].sub[j].sub.length;k++){ }}
+                    <div class="tree-folder-content">
+                        <div class="tree-item">
+                            <div class="tree-item-name">
+                                {{= it[i].sub[j].sub[k].name}} / {{= it[i].sub[j].sub[k].code}}
+                            </div>
+                            <a style="float: right;">
+                                <i class="fa fa-cog" data-toggle="tooltip" data-placement="bottom"
+                                   title="修改" data-id="{{= it[i].sub[j].sub[k].id}}"
+                                   data-parentId="{{= it[i].sub[j].sub[k].parentId}}"
+                                   onclick="category.update(this);"></i>&nbsp;
+                                <i class="fa fa-remove" data-toggle="tooltip" data-placement="bottom"
+                                   title="删除" data-id="{{= it[i].sub[j].sub[k].id}}"
+                                   data-parentId="{{= it[i].sub[j].sub[k].parentId}}"
+                                   onclick="category.delete(this);"></i>&nbsp;&nbsp;&nbsp;
+                            </a>
+                        </div>
+                    </div>
+                    {{ } }}
+                </div>
+            </div>
+            {{ } }}
+        </div>
+    </div>
+    {{ } }}
+</script>
+
+<% include inc/js.ejs %>
+<!-- 私有脚本 start -->
+<script src="../../js/_category.js"></script>
+<!-- 私有脚本 end -->
+<% include inc/footer.ejs %>

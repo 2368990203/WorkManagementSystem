@@ -1,0 +1,49 @@
+<div class="table-responsive">
+    <form id="opt-form">
+        <table class="table table-bordered">
+            <tr>
+                <td class="form-item-title">
+                    课程
+                </td>
+                <td>
+                    <select required name="courseNumber" id="courseNumber" class="form-control"
+                    placeholder="请选择课程">
+
+                    </select>
+                </td>
+                <td class="form-item-remark" > <span id = "courseNumber-tips"></span></td>
+            </tr>
+
+            <tr>
+                <td class="form-item-title">
+                    授课教师
+                </td>
+                <td>
+<!--                    <input required type="text" name="teacherNumber" id="teacherNumber"  tips-id = "teacherNumber-tips"  data-length="20" maxlength="20"  onblur="checkRegular(this);"  class="form-control"-->
+<!--                           placeholder="请输入教师工号">-->
+
+                    <ul required id="teacherNumber" class="ztree" placeholder="请选择授课班级">
+                    </ul>
+                </td>
+                <td class="form-item-remark" > <span id = "teacherNumber-tips"></span></td>
+            </tr>
+
+            <tr>
+                <td class="form-item-title">
+                    授课班级
+                </td>
+                <td>
+                    <!--                    <select required  name="classId" id="classId"  tips-id = "classId-tips" class="form-control">-->
+
+                    <!--                    </select>-->
+
+                    <ul required id="classId" class="ztree" placeholder="请选择授课班级">
+                    </ul>
+                </td>
+                <td class="form-item-remark" > <span id = "classId-tips"></span></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script>
+</script>

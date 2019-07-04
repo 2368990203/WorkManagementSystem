@@ -1,0 +1,87 @@
+<% include inc/header.ejs %>
+<% include inc/body.ejs %>
+<!-- html主体代码 start -->
+<div class="table-responsive">
+    <form id="opt-form">
+        <table class="table table-striped">
+            <tr>
+                <td class="form-item-title">
+                    host
+                </td>
+                <td>
+                    <input required type="text" name="host" class="form-control" placeholder="请输入上传host">
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    bucket
+                </td>
+                <td>
+                    <input required type="text" name="bucket" class="form-control" placeholder="请输入bucket">
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    appId
+                </td>
+                <td>
+                    <input required type="text" name="appId" class="form-control" placeholder="请输入appId">
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    secretId
+                </td>
+                <td>
+                    <input required type="text" name="secretId" class="form-control" placeholder="请输入secretId">
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    secretKey
+                </td>
+                <td>
+                    <input required type="text" name="secretKey" class="form-control" placeholder="请输入secretKey">
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+            <tr>
+                <td width="100px" style="text-align: right;">
+                    region
+                </td>
+                <td>
+                    <input required type="text" name="region" class="form-control" placeholder="请输入region">
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+            <tr>
+                <td width="100px" style="text-align: right;">
+                    签名认证时间
+                </td>
+                <td>
+                    <input required type="number" name="expired" class="form-control" placeholder="请输入认证签名有效时间">
+                </td>
+                <td class="form-item-remark">
+                    单位:秒
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="right">
+                    <button onclick="cos.config(this);" type="button" class="btn btn-w-m btn-primary">配置</button>
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<!-- html主体代码 end -->
+
+<% include inc/js.ejs %>
+<!-- 私有脚本 start -->
+<script src="../../js/_tps_config_cos.js"></script>
+<!-- 私有脚本 end -->
+<% include inc/footer.ejs %>

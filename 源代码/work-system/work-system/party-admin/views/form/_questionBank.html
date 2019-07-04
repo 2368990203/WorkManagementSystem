@@ -1,0 +1,50 @@
+<div class="table-responsive">
+    <form id="select-form">
+        <table class="table table-bordered">
+
+            <div class="ibox-content">
+                <div class="input-group" style="width: 200px; display: flex">
+                    <input style="width: 200px;height:30px;" type="text" id="questionName" placeholder="请输入题目名称"
+                           class="input-sm form-control">
+                    <span class="input-group-btn" style="float:left;flex: 4">
+                            <button onclick="examPaperGenerate.queryQuestion();" id="search_button" style="width: 50px;"
+                                    type="button"
+                                    class="btn btn-sm btn-primary">搜索</button>
+                        </span>
+
+                </div>
+            </div>
+        </table>
+
+
+        <table class="table table-bordered">
+
+            <div class="ibox-content data-view" style="overflow-y: auto;">
+                <div class="col-sm-12">
+                    <div class=" col-sm-12 date-table">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th width="60px">状态</th>
+                                <th>题目名称</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody id="question-list">
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-12 pages M-box3 list-page">
+                    </div>
+                </div>
+
+            </div>
+
+
+        </table>
+
+    </form>
+</div>

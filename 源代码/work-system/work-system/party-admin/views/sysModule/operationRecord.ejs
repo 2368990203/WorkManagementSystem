@@ -1,0 +1,96 @@
+<% include ../inc/header.ejs %>
+<style>
+    .date-table {
+        overflow-y: auto;
+    }
+</style>
+
+<% include ../inc/body.ejs %>
+<!-- html主体代码 start -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title" style="padding-top: 3px !important;">
+                <div style="width: 140px; display: block;float: left;padding-top: 10px;">
+                    系统操作记录列表
+                </div>
+
+            </div>
+            <div class="ibox-content data-view" style="overflow-y: auto;">
+                <div class="col-sm-12">
+                    <div class=" col-sm-12 date-table">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>操作用户</th>
+                                <th>姓名</th>
+                                <th>服务器</th>
+                                <th>模块</th>
+                                <th>功能</th>
+                                <th>IP地址</th>
+                                <th>操作状态</th>
+                                <th>操作时间</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody id="item-list">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-12 pages M-box3 list-page">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- html主体代码 end -->
+<!-- 管理的系统操作记录模板 -->
+<script id="sysOperationRecord-template" type="text/x-dot-template">
+    {{ if(it.length == 0) { }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i=0;i < it.length;i++){ }}
+    <tr>
+        <td>
+            {{= ((index-1) * size +i+1)}}
+        </td>
+        <td>
+            {{= it[i].number }}
+        </td>
+        <td>
+            {{= it[i].name}}
+        </td>
+        <td>
+            {{= helper.server(it[i].server) }}
+        </td>
+        <td>
+            {{= it[i].control}}
+        </td>
+        <td>
+            {{= it[i].function}}
+        </td>
+        <td>
+            {{= it[i].ipAddr}}
+        </td>
+        <td>
+            {{= helper.status(it[i].status)}}
+        </td>
+        <td>
+            {{= it[i].createTimeStr }}
+        </td>
+
+
+    </tr>
+    {{ } }}
+    {{ } }}
+</script>
+<% include ../inc/js.ejs %>
+
+<!-- 私有脚本 start -->
+<script src="../../js/sysModule/_operationRecord.js"></script>
+<!-- 私有脚本 end -->
+<% include ../inc/footer.ejs %>

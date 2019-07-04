@@ -1,0 +1,43 @@
+<div class="table-responsive">
+    <form id="opt-form">
+        <table class="table table-bordered">
+            <tr>
+                <td class="form-item-title">
+                    学院部门代码
+                </td>
+                <td>
+                    <input required type="text" name="code" maxlength="20" class="form-control"
+                           tips-id="academy-tips" data-type="stringcode" data-length="20"
+                           placeholder="请输入学院部门代码" onblur="checkRegular(this);">
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span> <span id="academy--tips"></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    学院部门名称
+                </td>
+                <td>
+                    <input required type="text" name="name" maxlength="20" class="form-control"
+                           tips-id="name-tips" data-type="chinese" data-length="20"
+                           placeholder="请输入学院名称" onblur="checkRegular(this);">
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span> <span id="name-tips"></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    所在校区
+                </td>
+                <td>
+                    <select name="campus" id="campus" maxlength="20" class="form-control"
+                            placeholder="请选择所在校区">
+                        <option value="1"> 东校区</option>
+                        <option value="2">西校区</option>
+                        <option value="3">武鸣校区</option>
+
+                    </select>
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+        </table>
+    </form>
+</div>

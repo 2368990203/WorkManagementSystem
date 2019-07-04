@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>作业管理系统</title>
+    <meta name="keywords" content="desktop">
+    <meta name="description" content="desktop">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link href="assets/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="assets/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="assets/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="assets/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+    <!---- 2018-08-09----修改 ---->
+    <link href="assets/css/add-style.css" rel='stylesheet' type='text/css'/>
+    <link href="assets/css/custom.css" rel='stylesheet' type='text/css'/>
+    <!---- 2018-08-09----结束 ---->
+</head>
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
+<!-- html主体代码 start -->
+<div id="wrapper">
+    <!--20180809新增顶部-->
+    <nav class="top1 navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header" onclick="welcome();" style="cursor: pointer;">
+                        <img src="assets/images/work_logo.png" style="margin: 10px;">
+
+<!--            <span style="color:gray; font-size:26pt;padding: 26px; font-family:华文行楷"-->
+<!--            > 作业管理系统-->
+<!--             </span>-->
+        </div>
+        <div class="navbar-header">
+            <a class="minimalize-styl-2 btn btn-info"
+               onclick="document.getElementById('J_iframe').contentWindow.location.reload(true);">
+                <i class="fa fa-refresh"></i>
+            </a>
+            <span id="page-title"
+                  style="height: 55px; line-height: 64px; margin-left: 10px; font-size: 18px;">系统基本信息</span>
+        </div>
+        <!-- /.navbar-header -->
+        <ul class="nav navbar-top-links navbar-right">
+            <li>
+                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                    <img id="user-info-header" width="40" height="40" class="img-circle"
+                         src="assets/images/header.gif"/>
+                </a>
+                <ul class="dropdown-menu dropdown-messages" style="width: 150px;">
+                    <li>
+                        <div class="text-center link-block">
+                            <i class="fa fa-user"></i>
+                            <strong id="user-info-name"></strong>
+                            <span style="font-size: 6px;" id="user-info-role-name"></span>
+                        </div>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <div class="text-center link-block" style="text-align: right;">
+                            <div onclick="lock();">
+                                <i class="fa fa-lock fa-fw"></i> 锁屏
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="text-center link-block" style="text-align: right;">
+                            <div onclick="cacheUpdate();">
+                                <i class="fa fa-gg fa-fw"></i> 更新缓存
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="text-center link-block" style="text-align: right;">
+                            <div onclick="loginOut();">
+                                <i class="fa fa-sign-out fa-fw"></i> 退出系统
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <img width="32" height="32" class="img-circle" src="assets/images/message_02.png"/><span
+                            class="badge" id="messageCount"></span></a>
+                <ul class="dropdown-menu" id="message-list">
+
+                </ul>
+
+            </li>
+        </ul>
+        <!-- /.navbar-static-side -->
+    </nav>
+    <!--20180809顶部结束-->
+    <!--左侧导航开始-->
+    <!--20180809新增导航-->
+    <div class="navbar-default sidebar" role="navigation">
+        <div class="sidebar-nav navbar-collapse">
+            <div id="sys-menu" style="overflow-y: auto;"></div>
+        </div>
+        <!-- /.sidebar-collapse -->
+    </div>
+    <!--20180809导航结束-->
+    <!--左侧导航结束-->
+    <!--右侧部分开始-->
+
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row J_mainContent" id="content-main">
+            <iframe id="J_iframe" width="100%" height="100%" name="J_iframe"
+                    src="" frameborder="0"
+                    data-id="" seamless>
+
+            </iframe>
+        </div>
+    </div>
+    <!--右侧部分结束-->
+</div>
+<div>
+</div>
+
+<div class="modal fade" tabindex="-1" data-dismiss="modal" role="dialog" id="opt-lock">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">操作界面锁定中</h4>
+                </div>
+                <div class="modal-body" style="max-height:500px;overflow-y: auto; ">
+                    <input type="password" id="lock-password" class="form-control" placeholder="请输入解锁密码">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="opt-dialog-enter" onclick="unlock();">解 锁</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 全局js -->
+<script src="assets/js/jquery.min.js?v=2.1.4"></script>
+<script src="assets/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="assets/js/util/store.min.js"></script>
+<script src="assets/js/util/doT.min.js"></script>
+<script src="assets/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="assets/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="assets/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="assets/js/routes.js"></script>
+<script src="assets/js/util/title.js"></script>
+<script src="assets/js/util/tools.js"></script>
+<!---- 2018-08-09----修改 ---->
+<!-- Metis Menu Plugin JavaScript -->
+<script src="assets/js/metisMenu.min.js"></script>
+<!---- 2018-08-09----结束 ---->
+<!-- 菜单模板 -->
+<script id="menu-tmpl" type="text/x-dot-template">
+    <ul class="nav" id="side-menu">
+        {{ for(var i=0;i< it.length ;i++){ }}
+        <li class="hidden-folded padder m-t m-b-sm text-muted text-xs" id="J_menuItem_{{=i}}">
+            <span class="ng-scope">{{= it[i].name }}</span>
+        </li>
+        {{ for(var j=0;j< it[i].module.length;j++){ }}
+
+        <li class="left_but">
+            <a class="J_menuItem" id="J_menuItem_{{=i}}_{{=j}}">
+                <i class="fa {{= it[i].module[j].icon}}"></i>
+                {{= it[i].module[j].name }}
+                <span class="fa arrow"> </span>
+            </a>
+            <ul class="nav nav-second-level">
+                {{ for(var k=0;k< it[i].module[j].sub.length;k++){ }}
+                {{ if((it[i].module[j].sub[k].hide == 0)){ }}
+                <li>
+                    <a class="J_menuItem fa {{= it[i].module[j].sub[k].icon}}" id="J_menuItem_{{=i}}_{{=j}}_{{=k}}"
+                       href="{{=server_root.substr(0,server_root.length-1)}}{{= it[i].module[j].sub[k].url}}"
+                       data-title="{{= it[i].module[j].name }} / {{= it[i].module[j].sub[k].name}}">
+                        {{= it[i].module[j].sub[k].name}}
+                    </a>
+                </li>
+                {{ } }}
+                {{ } }}
+            </ul>
+        </li>
+        {{ } }}
+        {{ } }}
+
+    </ul>
+</script>
+
+
+<script id="message-list-template" type="text/x-dot-template">
+    {{ if(typeof it == "undefined" || it.length == 0) { }}
+    <a style="color: black;">
+        <li class="avatar" style="padding-top: 15px;min-height: 0;text-align: center;">
+            <div> 暂无消息</div>
+
+        </li>
+    </a>
+    {{ }else{ }}
+    {{ for(var i = 0; i < it.length; i++ ) { }}
+
+    {{ if(i==0) { }}
+    <li class="avatar" style="padding-top: 15px;min-height: 0;text-align: center;">
+        {{ }else{ }}
+    <li class="avatar">
+        {{ }}}
+
+        <a href="#" data-id="{{=it[i].id}}" onclick="readMessage(this)">
+
+            {{ if(it[i].readStatus==null||it[i].readStatus==""||it[i].readStatus!=1) { }}
+            <div>{{=it[i].topic.length<=12?it[i].topic:it[i].topic.substr(0,12) }}</div>
+            <small> {{=it[i].sendTimeStr }}</small>
+            <span class="label label-info">NEW</span>
+            {{ }else{ }}
+            <div style="color:#a2a2a2;">{{=it[i].topic.length<=12?it[i].topic:it[i].topic.substr(0,12) }}</div>
+            <small style="color:#a2a2a2;"> {{=it[i].sendTimeStr }}</small>
+
+            {{ } }}
+        </a>
+    </li>
+    {{ } }}
+    {{ } }}
+</script>
+
+
+<!-- 自定义js -->
+<script src="assets/js/core.js?v=4.1.0"></script>
+
+<!-- 第三方插件 -->
+<script src="assets/js/plugins/pace/pace.min.js"></script>
+
+<script src="assets/js/config.js"></script>
+
+<script src="js/_index.js"></script>
+
+</body>
+</html>

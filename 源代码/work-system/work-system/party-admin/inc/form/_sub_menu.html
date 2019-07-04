@@ -1,0 +1,91 @@
+<div class="table-responsive">
+    <form id="opt-form">
+        <table class="table table-striped">
+            <tr>
+                <td class="form-item-title">
+                   菜单名称
+                </td>
+                <td>
+                    <input required type="text" name="name" class="form-control" placeholder="请输入菜单名称">
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+            <tr>
+                <td width="100px" style="text-align: right;">
+                    路由地址
+                </td>
+                <td>
+                    <input required type="text" name="url" class="form-control" placeholder="请输入路由地址"/>
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+            <tr>
+                <td width="100px" style="text-align: right;">
+                    对应函数
+                </td>
+                <td>
+                    <input required type="text" name="code" class="form-control" placeholder="请输入对应函数"/>
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+            <tr>
+                <td width="100px" style="text-align: right;">
+                    父级模块
+                </td>
+                <td>
+                    <select class="form-control" name="parentId" id="menu-select">
+
+                    </select>
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+            <tr>
+                <td width="100px" style="text-align: right;">
+                    图标
+                </td>
+                <td>
+                    <input type="text" name="icon" class="form-control hide" value=""/>
+                    <button class="btn btn-info btn-circle" type="button" onclick="getIcon()">
+                        <i class="fa fa-search" id="form-icon"></i>
+                    </button>
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    排序
+                </td>
+                <td>
+                    <input type="number" name="sort" value="0" class="form-control" placeholder="数字越小越靠前">
+                </td>
+                <td class="form-item-remark">
+                    数字越小越靠前
+                </td>
+            </tr>
+
+            <tr>
+            <td class="form-item-title">
+                显示状态
+            </td>
+            <td>
+                <select required type="text" name="hide" maxlength="20" class="form-control">
+                    <option value="0" selected="selected">显示</option>
+                    <option value="1">隐藏</option>
+                </select>
+            </td>
+            <td class="form-item-remark"><span ></span></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    function getIcon() {
+        openInfoLay({url:'/common/_icons.html',fun:'closeInfoLay();',title:'请选择图标',enter:'选择'});
+    }
+    function setIcon(_val) {
+        $("form input[name='icon']").val(_val);
+        $('#form-icon').removeClass();
+        $('#form-icon').addClass('fa '+_val);
+    }
+</script>

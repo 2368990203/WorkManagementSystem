@@ -1,0 +1,158 @@
+<div class="table-responsive">
+
+    <table class="table table-bordered">
+        <tr>
+            <td class="form-item-title" colspan="3" style="text-align: center;color: red;font-weight: bolder;">
+                导入步骤
+            </td>
+
+        </tr>
+
+        <tr>
+            <td class="form-item-title" colspan="3" style="text-align: left;">
+                1、下载用户信息模板。
+                <button class="btn btn-primary btn-xs" type="button" onclick="user.importModel(this);">
+                    <i class="fa fa-download"></i>&nbsp;用户信息模板
+                </button>
+                <br>
+                2、在用户信息模板填写相应信息。<br>
+                3、在下方导入文件信息模块选择填写后的用户信息模板文件。<br>
+                4、然后点击导入按钮。<br>
+                5、耐心等待导入结果，请不要离开界面。<br>
+
+            </td>
+
+        </tr>
+
+
+    </table>
+
+    <form id="opt-form">
+        <table class="table table-bordered">
+            <tr>
+                <td class="form-item-title" colspan="3" style="text-align: center;font-weight: bolder;">
+                    导入配置信息
+                </td>
+
+            </tr>
+
+            <tr>
+                <td class="form-item-title">
+                    用户角色
+                </td>
+                <td>
+                    <select required type="text" name="roleId" id="roleId" maxlength="20" class="form-control">
+
+                    </select>
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span> <span></span></td>
+            </tr>
+
+            <tr>
+                <td class="form-item-title">
+                    用户类型
+                </td>
+                <td>
+                    <select required type="text" name="type" id="type" maxlength="20" class="form-control">
+                        <option value=1>教职工</option>
+                        <option value=2 selected="selected">学生</option>
+
+                    </select>
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span> <span></span></td>
+            </tr>
+
+            <tr>
+                <td class="form-item-title">
+                    所在学院
+                </td>
+                <td>
+                    <select required type="text" name="academyCode" id="academyCode" maxlength="20"
+                            class="form-control">
+
+                    </select>
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span> <span></span></td>
+            </tr>
+
+
+        </table>
+    </form>
+
+    <form id="data-form" enctype="multipart/form-data">
+        <table class="table table-bordered">
+            <tr>
+                <td class="form-item-title" colspan="3" style="text-align: center;font-weight: bolder;">
+                    导入文件信息
+
+                </td>
+
+            </tr>
+
+            <tr>
+                <td class="form-item-title">
+                    导入文件
+                </td>
+                <td colspan="2">
+                    <input type="file" id="file" name="file"
+                           accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+
+                </td>
+            </tr>
+
+            <tr>
+                <td class="form-item-title">
+                    上传进度
+                </td>
+                <td colspan="2">
+                    <progress id="progressBar" value="0" max="100" style="width: 300px;"></progress>
+                    <span id="percentage"></span><span id="time"></span>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="form-item-title">
+                    处理进度
+                </td>
+                <td colspan="2">
+                    <progress id="todoBar" value="0" max="100" style="width: 300px;"></progress>
+                    <span id="todoPer"></span><span id="mark"></span>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="form-item-title">
+                    完成情况
+                </td>
+                <td colspan="2">
+                    <div id="res"></div>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <div id="error-body" style="text-align: center;display: none">
+        <div>未导入数据
+            <button class="btn btn-primary btn-xs" type="button"
+                    onclick="exam.exportUserError(this);">
+                <i class="fa fa-download"></i>&nbsp;&nbsp;导出
+            </button>
+        </div>
+
+        <table class="table table-bordered" id="error-table" style="text-align: center">
+            <thead>
+            <tr>
+                <td>序号</td>
+                <td>学号</td>
+                <td>姓名</td>
+                <td>手机号</td>
+                <td>报错原因</td>
+            </tr>
+            </thead>
+            <tbody id="error-list">
+
+            </tbody>
+        </table>
+    </div>
+
+</div>

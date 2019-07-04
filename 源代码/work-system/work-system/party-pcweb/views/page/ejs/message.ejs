@@ -1,0 +1,144 @@
+<!DOCTYPE html public "-//w3c//dtd xhtml 1.0 transitional//en"
+        "http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>消息中心>消息列表</title>
+    <meta name="keywords" content="desktop">
+    <meta name="description" content="desktop">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv=“X-UA-Compatible” content=“IE=8″>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link href="page/css/topstyle.css" rel='stylesheet' type='text/css'/><!--头尾部css-->
+    <link href="assets/css/plugins/sweetalert/sweetalert.css" rel="stylesheet"> <!--退出登录弹窗css-->
+    <!-- Bootstrap Core CSS -->
+    <link href="page/css/bootstrap.min.css" rel='stylesheet' type='text/css'/>
+    <!-- Graph CSS -->
+    <link href="page/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="page/css/step/element.min.css"/>
+
+    <link href="page/css/meetingList.css" rel="stylesheet">
+    <link rel="stylesheet" href="page/css/step/myPagination.css"> <!--分页css-->
+    <link href="page/css/messageList.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<% include pcwebHeader.ejs %>
+
+<div class="content">
+    <div class="left">
+        <li class="active"><a href="meetingList" style="color: black;text-decoration-line: none">消息中心</a></li>
+    </div>
+
+    <div class="right">
+
+        <div class="details">
+            <table class="main">
+                <tr bgcolor="#dedede">
+                    <td>消息内容</td>
+                    <td>接收时间</td>
+                    <td>消息类型</td>
+                    <td>操作</td>
+                </tr>
+
+
+                <tbody id="message-List">
+
+
+                </tbody>
+
+            </table>
+
+            <div id="pagination" class="pagination" style="margin:70px 28% 30px "></div>
+
+            <div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <script src="page/js/work/_messageList.js"></script>
+
+    <!--渲染试卷列表-->
+    <script id="message-List-template" type="text/x-dot-template">
+
+        {{ if(typeof it == "undefined" || it.length == 0) { }}
+        暂无消息
+        {{ }else{ }}
+
+        {{for(var i = 0; i < it.length; i++ ) { }}
+
+        {{ if(it[i].readStatus==null||it[i].readStatus==""||it[i].readStatus!=1) { }}
+        <tr class="item-row">
+
+            <td class="text-left">
+                <div class="notice-list-title">
+                    <i class="envelop"></i>
+                    <a href="messageDetail?id={{=it[i].id}}" class="ms-list-link">
+                        <b>【{{=helper.type(it[i].type)||""}}】</b> {{=it[i].topic||""}}
+                    </a>
+                </div>
+            </td>
+
+            <td>{{=it[i].sendTimeStr||""}}</td>
+
+            <td>{{=helper.type(it[i].type||"")}}</td>
+
+            <td>
+                <!--<a href="messageDetail?id={{=it[i].id}}" data-id="{{=it[i].id }}"-->
+                   <!--style="color: #ffffff; text-decoration-line: none">-->
+                    <input type="button" class="button" value="详情" onclick="window.location.href='messageDetail?id={{=it[i].id}}'"/>
+                <!--</a>-->
+
+            </td>
+
+
+        </tr>
+
+        {{ }if(it[i].readStatus==1){ }}
+        <tr class="item-row ms-visit">
+
+            <td class="text-left">
+                <div class="notice-list-title">
+                    <i class="envelop"></i>
+                    <a href="messageDetail?id={{=it[i].id}}" class="ms-list-link">
+                        <b>【{{=helper.type(it[i].type)||""}}】</b> {{=it[i].topic||""}}
+                    </a>
+                </div>
+            </td>
+
+            <td>{{=it[i].sendTimeStr||""}}</td>
+
+            <td>{{=helper.type(it[i].type)||""}}</td>
+
+            <td>
+                <!--<a href="messageDetail?id={{=it[i].id}}" data-id="{{=it[i].id }}"-->
+                   <!--style="color: #ffffff; text-decoration-line: none">-->
+                    <input type="button" class="button" value="详情" onclick="window.location.href='messageDetail?id={{=it[i].id}}'"/>
+                <!--</a>-->
+
+            </td>
+
+        </tr>
+
+        {{
+
+        } }}
+
+
+        {{ } }}
+
+
+        {{ } }}
+    </script>
+
+    <% include pcwebFooter.ejs %>
+</body>
+</html>

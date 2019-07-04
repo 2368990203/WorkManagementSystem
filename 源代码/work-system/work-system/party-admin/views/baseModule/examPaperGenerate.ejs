@@ -1,0 +1,590 @@
+<% include ../inc/header.ejs %>
+<style>
+    .date-table {
+        overflow-y: auto;
+    }
+</style>
+<link href="../../assets/js/summernote/summernote.css" rel="stylesheet">
+
+<% include ../inc/body.ejs %>
+<!-- html主体代码 start -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title" style="padding-top: 3px !important;">
+                <div style="width: 140px; display: block;float: left;padding-top: 10px;">
+                    自定义组卷管理
+                </div>
+
+            </div>
+
+
+            <div class="ibox-content data-view" style="overflow-y: auto;">
+
+                <div class="table-responsive">
+                    <form id="opt-form">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td class="form-item-title">
+                                    作业名称
+                                </td>
+                                <td>
+
+                                    <select type="text" name="examId" id="examId" placeholder="请选择作业"
+                                            style="height:35px;"
+                                            class="input-sm form-control" onchange="examPaperGenerate.examInfo()">
+
+                                    </select>
+                                    <!--<input readonly required type="text" name="name" class="form-control">-->
+                                </td>
+                                <td class="form-item-remark">
+<!--                                    <button class="btn btn-primary btn-xs"-->
+<!--                                            onclick=" window.location.href = 'my/core/exam'">新增作业>></button>-->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="form-item-title">
+                                    考试类型
+                                </td>
+                                <td>
+                                    <input readonly required type="text" name="type" id="type" maxlength="20"
+                                           class="form-control">
+                                </td>
+                                <td class="form-item-remark"><span></span></td>
+                            </tr>
+                            <tr>
+                                <td class="form-item-title">
+                                    时长(分钟)
+                                </td>
+                                <td>
+                                    <input readonly required type="text" name="duration" id="duration" maxlength="20"
+                                           class="form-control"
+                                    >
+                                </td>
+                                <td class="form-item-remark"><span></span></td>
+                            </tr>
+
+                            <tr>
+                                <td class="form-item-title">
+                                    作业总分值
+                                </td>
+                                <td>
+                                    <input readonly required type="text" id="all-score" name="score" maxlength="20"
+                                           class="form-control">
+                                </td>
+                                <td class="form-item-remark"><span></span></td>
+                            </tr>
+                        </table>
+
+
+                        <!--<table  class="table table-bordered">-->
+                        <table id="sing-view">
+                            <tr>
+                                <br>
+                                <h3>一、单项选择题 (<span id="single-score">0</span>分)
+                                    <!--<span style="color: red;">单选题总分值未达到</span>-->
+                                    <!--<button style="margin-top: 8px;" class="btn btn-primary btn-xs" question-type="2"-->
+                                    <!--type="button" onclick="examPaperGenerate.average(this);">-->
+                                    <!--<span class="glyphicon SingleScore " aria-hidden="true"></span>-->
+                                    <!--设置每题平均分-->
+                                    <!--</button>-->
+                                    <!--</h3>-->
+                            </tr>
+
+                            <tbody id="single-list">
+                            <div class="single-question"></div>
+
+
+                            <td style="text-align: center">
+                                <button style="margin-top: 8px;" class="btn btn-primary btn-xs" question-type="2"
+                                        type="button" onclick="examPaperGenerate.add(this);">
+                                    <span class="glyphicon minusSingleOption glyphicon-plus" aria-hidden="true"></span>
+                                    新增题目
+                                </button>
+                                <button style="margin-top: 8px;" class="btn btn-primary btn-xs" question-type="2"
+                                        type="button" onclick="examPaperGenerate.selectQuestion(this);">
+                                    <span class="glyphicon minusSingleOption glyphicon-import"
+                                          aria-hidden="true"></span>
+                                    从题库选择
+                                </button>
+                            </td>
+                            </tbody>
+
+
+                        </table>
+
+                        <table id="multiple-view">
+                            <tr>
+                                <br>
+                                <h3>二、不定项选择题 (<span id="multiple-score">0</span>分)</h3>
+                            </tr>
+
+                            <tbody id="multiple-list">
+                            <div class="multiple-question"></div>
+
+                            <td style="text-align: center">
+                                <button style="margin-top: 8px;" class="btn btn-primary btn-xs" question-type="3"
+                                        type="button" onclick="examPaperGenerate.add(this);">
+                                    <span class="glyphicon minusSingleOption glyphicon-plus" aria-hidden="true"></span>
+                                    新增题目
+                                </button>
+                                <button style="margin-top: 8px;" class="btn btn-primary btn-xs" question-type="3"
+                                        type="button" onclick="examPaperGenerate.selectQuestion(this);">
+                                    <span class="glyphicon minusSingleOption glyphicon-import"
+                                          aria-hidden="true"></span>
+                                    从题库选择
+                                </button>
+                            </td>
+
+
+                            </tbody>
+                        </table>
+
+                        <table id="true-false-view">
+
+                            <tr>
+                                <br>
+                                <h3>三、判断题 (<span id="true-false-score">0</span>分)</h3>
+                            </tr>
+                            <tbody id="true-or-false-list">
+                            <div class="true-false-question"></div>
+
+                            <td style="text-align: center">
+                                <button style="margin-top: 8px;" class="btn btn-primary btn-xs" question-type="1"
+                                        type="button" onclick="examPaperGenerate.add(this);">
+                                    <span class="glyphicon minusSingleOption glyphicon-plus" aria-hidden="true"></span>
+                                    新增题目
+                                </button>
+                                <button style="margin-top: 8px;" class="btn btn-primary btn-xs" question-type="1"
+                                        type="button" onclick="examPaperGenerate.selectQuestion(this);">
+                                    <span class="glyphicon minusSingleOption glyphicon-import"
+                                          aria-hidden="true"></span>
+                                    从题库选择
+                                </button>
+                            </td>
+
+                            </tbody>
+
+                        </table>
+
+                        <table id="gap-view">
+
+                            <tr>
+                                <br>
+                                <h3>四、填空题 (<span id="gap-score">0</span>分)</h3>
+                            </tr>
+                            <tbody id="gap-list">
+                            <div class="gap-question"></div>
+
+                            <td style="text-align: center">
+                                <button style="margin-top: 8px;" class="btn btn-primary btn-xs" question-type="4"
+                                        type="button" onclick="examPaperGenerate.add(this);">
+                                    <span class="glyphicon minusSingleOption glyphicon-plus" aria-hidden="true"></span>
+                                    新增题目
+                                </button>
+                                <button style="margin-top: 8px;" class="btn btn-primary btn-xs" question-type="4"
+                                        type="button" onclick="examPaperGenerate.selectQuestion(this);">
+                                    <span class="glyphicon minusSingleOption glyphicon-import"
+                                          aria-hidden="true"></span>
+                                    从题库选择
+                                </button>
+                            </td>
+
+                            </tbody>
+                        </table>
+
+
+                        <table id="gap-view">
+
+                            <tr>
+                                <br>
+                                <h3>五、客观题 (<span id="subjective-score">0</span>分)</h3>
+                            </tr>
+                            <tbody id="subjective-list">
+
+                            <div class="subjective-question"></div>
+
+                            <td style="text-align: center">
+                                <button style="margin-top: 8px;" class="btn btn-primary btn-xs" question-type="5"
+                                        type="button" onclick="examPaperGenerate.add(this);">
+                                    <span class="glyphicon minusSingleOption glyphicon-plus" aria-hidden="true"></span>
+                                    新增题目
+                                </button>
+                                <button style="margin-top: 8px;" class="btn btn-primary btn-xs" question-type="5"
+                                        type="button" onclick="examPaperGenerate.selectQuestion(this);">
+                                    <span class="glyphicon minusSingleOption glyphicon-import"
+                                          aria-hidden="true"></span>
+                                    从题库选择
+                                </button>
+                            </td>
+
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+
+
+                <button style="margin-top: 40px;" class="btn btn-primary btn-w-m; fa fa-save" question-type="1"
+                        type="button" onclick="examPaperGenerate.save();">
+                    保存
+                </button>
+
+                <button style="margin-top: 40px;" class="btn btn-primary btn-w-m; fa fa-refresh" question-type="1"
+                        type="button" onclick="examPaperGenerate.reset();">
+                    重置
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- html主体代码 end -->
+
+
+<script id="exam-select-template" type="text/x-dot-template">
+    {{ if(it.length == 0 ){ }}
+    <option value=" ">暂无未发布的作业，请先去新增作业</option>
+    {{ }else{ }}
+    <option value=" ">请选择作业</option>
+    {{ for(var i = 0 ; i < it.length ; i++){ }}
+    <option value="{{=it[i].id }}">{{=it[i].name }}</option>
+    {{ } }}
+    {{ } }}
+</script>
+
+
+<script>
+    // 选项序号
+    var optionAlph = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+</script>
+
+
+<!--判断题选项模板-->
+<script id="true-or-false" type="text/x-dot-template">
+
+    <tr>
+        <td style="width: 120px; text-align: center">选项</td>
+        <td style="text-align: center;">选项内容</td>
+        <td style="width: 120px;">正确答案</td>
+    </tr>
+
+    {{ if(typeof it == "undefined" || it.length == 0){ }}
+
+    <tr>
+        <td style="text-align: center">1</td>
+        <td>正确</td>
+        <td><input type="radio" name="answerNumber" value="1"></td>
+    </tr>
+    <tr>
+        <td style="text-align: center">2</td>
+        <td>错误</td>
+        <td><input type="radio" name="answerNumber" value="2"></td>
+    </tr>
+
+    {{ }else{ }}
+    {{ for(var i = 0; i < it.length; i++) { }}
+    <tr>
+        {{ if(it[i].isAnswer == 1 ){ }}
+        <td class="highlight-color" style="text-align: center;">{{=(i+1) }}</td>
+        <td class="highlight-color">{{=it[i].optionInfo }}</td>
+        <td><input checked disabled type="radio" name="answerNumber"></td>
+
+        {{ }else{ }}
+
+        <td style="text-align: center;">{{=(i+1) }}</td>
+        <td>{{=it[i].optionInfo }}</td>
+        <td><input disabled type="radio" name="answerNumber"></td>
+
+        {{ } }}
+    </tr>
+
+    {{ } }}
+    {{ } }}
+</script>
+
+
+<!--单选题-->
+<script id="single-choice" type="text/x-dot-template">
+    <tr>
+        <td class="addSingleOption" style="text-align: center"><span class="glyphicon glyphicon-plus-sign "
+                                                                     aria-hidden="true"></span></td>
+        <td style="width: 120px; text-align: center">选项</td>
+        <td>选项内容</td>
+        <td style="width: 120px;">请选择正确答案</td>
+    </tr>
+    {{ if(typeof it == "undefined" || it.length == 0){ }}
+
+    {{ for(var i = 0; i < 3; i++) { }}
+
+    <tr class="singleOption">
+        <td style="text-align: center"><span class="glyphicon minusSingleOption glyphicon-minus"
+                                             aria-hidden="true"></span></td>
+        <input type="hidden" name="optionNumber" value="{{=(i+1) }}">
+        <td class="singleNum" style="text-align: center">{{= optionAlph[i] }}</td>
+        <td><input required type="text" name="optionInfo" class="form-control" placeholder="请输入选项"></td>
+        <td><input type="radio" name="answerNumber" value="{{=(i+1) }}"></td>
+    </tr>
+    {{ } }}
+
+    {{ }else{ }}
+    {{ for(var i = 0; i < it.length; i++) { }}
+
+    <tr class="singleOption" class="form-control">
+        <input type="hidden" name="optionNumber" value="{{=(i+1) }}">
+
+        {{ if(it[i].isAnswer == 1){ }}
+        <td class="singleNum" style="text-align: center"><span class="highlight-color">{{= optionAlph[i] }}</span>
+        </td>
+        <td><p name="optionInfo" class="highlight-color">{{=it[i].optionInfo }}</p></td>
+        <td><input checked disabled type="radio" name="answerNumber"></td>
+
+        {{ }else{ }}
+        <td class="singleNum" style="text-align: center">{{= optionAlph[i] }}</td>
+        <td><p name="optionInfo">{{=it[i].optionInfo }}</p></td>
+        <td><input type="radio" disabled name="answerNumber"></td>
+        {{ } }}
+    </tr>
+    {{ } }}
+
+    {{ } }}
+</script>
+
+
+<!--多选题-->
+<script id="multiple-choice" type="text/x-dot-template">
+    <tr>
+        <td class="addMultipleOption" style="text-align: center"><span class="glyphicon glyphicon-plus-sign "
+                                                                       aria-hidden="true"></span></td>
+        <td style="width: 120px; text-align: center">选项</td>
+        <td>选项内容</td>
+        <td style="width: 120px;">请选择正确答案</td>
+    </tr>
+    {{ if(typeof it == "undefined" || it.length == 0){ }}
+
+    {{ for(var i = 0; i < 4; i++) {}}
+
+    <tr class="multipleOption">
+        <td style="text-align: center"><span class="glyphicon minusMultipleOption glyphicon-minus"
+                                             aria-hidden="true"></span></td>
+        <input type="hidden" name="optionNumber" value="{{=(i+1) }}">
+        <td class="multipleNum" style="text-align: center">{{= optionAlph[i] }}</td>
+        <td><input required type="text" name="optionInfo" class="form-control" placeholder="请输入选项"></td>
+        <td><input type="checkbox" name="answerNumber" value="{{=(i+1) }}"></td>
+    </tr>
+
+    {{ } }}
+    {{ }else{ }}
+    {{ for(var i = 0; i < 4; i++) {}}
+
+    <tr class="multipleOption">
+        {{ if(it[i].isAnswer == 1){ }}
+
+        <td class="multipleNum" style="text-align: center;"><span class="highlight-color">{{= optionAlph[i] }}</span>
+        </td>
+        <td><p name="optionInfo" class="highlight-color">{{=it[i].optionInfo }}</p></td>
+        <td><input disabled checked type="checkbox" name="answerNumber"></td>
+
+        {{ }else{ }}
+
+        <td class="multipleNum" style="text-align: center">{{= optionAlph[i] }}</td>
+        <td><p name="optionInfo">{{=it[i].optionInfo }}</p></td>
+        <td><input disabled type="checkbox" name="answerNumber" style="text-align: center;"></td>
+
+        {{ } }}
+    </tr>
+    {{ } }}
+
+    {{ } }}
+
+</script>
+
+
+<!--填空题-->
+<script id="gap-filling" type="text/x-dot-template">
+    <tr>
+        <td class="addGapOption" style="text-align: center"><span class="glyphicon glyphicon-plus-sign "
+                                                                  aria-hidden="true"></span></td>
+        <td style="text-align: center;width: 120px" class="addGapOption">对应空格</td>
+        <td>答案</td>
+    </tr>
+    {{ if(typeof it == "undefined" || it.length == 0){ }}
+
+    {{ for(var i = 0; i < 1; i++) {}}
+
+    <tr class="gapOption">
+        <td style="text-align: center"><span class="glyphicon minusGapOption glyphicon-minus" aria-hidden="true"></span>
+        </td>
+        <td class="gapNum" style="text-align: center">{{=(i+1) }}</td>
+        <td><input required type="text" name="optionInfo" class="form-control" placeholder="请输入答案"></td>
+    </tr>
+
+    {{ } }}
+
+    {{ }else{ }}
+    {{ for(var i = 0; i < it.length; i++) {}}
+
+    <tr class="gapOption">
+        </td>
+        <td class="gapNum" style="text-align: center">{{=(i+1) }}</td>
+        <td><p required type="text" name="optionInfo">{{=it[i].optionInfo }}</p></td>
+        <td class="form-item-remark"><span></span></td>
+    </tr>
+
+    {{ } }}
+
+    {{ } }}
+</script>
+
+
+<% include ../inc/js.ejs %>
+
+<script>
+</script>
+
+<script id="question-list-template" type="text/x-dot-template">
+
+
+    {{ if(it.length == 0) { }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i=0;i < it.length;i++){ }}
+    <tr>
+        <td>
+            {{= ((index-1) * size +i+1)}}
+        </td>
+        {{ if(it[i].isCheck) { }}
+        <td style="color: red">
+            已选
+        </td>
+        {{ }else{ }}
+        <td>
+            未选
+        </td>
+        {{ } }}
+        <td>
+            {{= it[i].questionName }}
+        </td>
+
+        <td>
+            <div class="btn-group">
+                {{ if(!it[i].isCheck){ }}
+                <input type="checkbox" name="checkedId" id="{{=it[i].id }}" value="{{=it[i].id }}"
+
+                       data-num="{{=(i+1) }}">
+
+                {{ } }}
+                <!--<a class="btn btn-primary btn-xs dropdown-toggle" style="margin-right: 5px"-->
+                <!--href="#" data-id="{{= it[i].id}}"-->
+                <!--onclick="examPaperGenerate.checked()">选择</a>-->
+            </div>
+        </td>
+    </tr>
+    {{ } }}
+    {{ } }}
+
+</script>
+
+
+<script>
+    var optionAlph = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
+
+    var singleOption = 3;//单选题初始选项数
+
+    //增删单选项
+    $(document).on('click', '.addSingleOption', function () {
+        var index = 0;
+        var len = $('.singleOption').length;
+        $('.singleOption').eq($('.singleOption').length - 1).after(
+            '<tr class="singleOption">'
+            + '<td style="text-align: center"><span class="glyphicon minusSingleOption glyphicon-minus" aria-hidden="true" ></span></td>'
+            + '<input type="hidden" name="optionNumber" value="' + (++singleOption) + '">'
+            + '<td class="singleNum" style="text-align: center">' + optionAlph[len] + '</td>'
+            + '<td><input required type="text" name="optionInfo" class="form-control" placeholder="请输入选项"></td>\n'
+            + '<td><input type="radio" name="answerNumber" value="' + (singleOption) + '"></td>'
+            + '</tr>')
+    });
+    $(document).on('click', '.minusSingleOption', function () {
+        if ($('.singleOption').length - 1 == 0) {
+            return false;
+        }
+        $(this).parent().parent('.singleOption').remove();
+
+        //重新编号
+        $('.singleNum').each(function (i) {
+            $(this).html(optionAlph[i]);
+        });
+
+        // singleOption--;
+    });
+
+
+    var multipleOption = 4;//多选题初始选项数
+
+    //增删多选项
+    $(document).on('click', '.addMultipleOption', function () {
+        var index = 0;
+        var len = $('.multipleOption').length;
+        $('.multipleOption').eq($('.multipleOption').length - 1).after(
+            '<tr class="multipleOption">'
+            + '<td style="text-align: center" ><span class="glyphicon minusMultipleOption glyphicon-minus" aria-hidden="true" ></span></td>'
+            + '<input type="hidden" name="optionNumber" value="' + (++multipleOption) + '">'
+            + '<td class="multipleNum" style="text-align: center">' + optionAlph[len] + '</td>'
+            + '<td><input required type="text" name="optionInfo" class="form-control" placeholder="请输入选项"></td>\n'
+            + '<td><input type="checkbox" name="answerNumber" value="' + (multipleOption) + '"></td>'
+            + '</tr>')
+    });
+    $(document).on('click', '.minusMultipleOption', function () {
+        var len = $('.multipleOption').length;
+        if (len - 1 == 0) {
+            return false;
+        }
+
+        $(this).parent().parent('.multipleOption').remove();
+
+        //重新编号
+        $('.multipleNum').each(function (i) {
+            $(this).html(optionAlph[i]);
+        });
+
+        // multipleOption--;
+    });
+
+    var gapOption = 1;//填空题初始选项数
+
+    //增删填空项
+    $(document).on('click', '.addGapOption', function () {
+        var index = 0;
+        var len = $('.gapOption').length;
+        $('.gapOption').eq($('.gapOption').length - 1).after(
+            '<tr class="gapOption">'
+            + '<td style="text-align: center" ><span class="glyphicon minusGapOption glyphicon-minus" aria-hidden="true" ></span></td>'
+            + '<td class="gapNum" style="width: 120px; text-align: center">' + (len + 1) + '</td>'
+            + '<td><input required type="text" name="optionInfo"  class="form-control" placeholder="请输入答案"></td>'
+            + '</tr>')
+    });
+    $(document).on('click', '.minusGapOption', function () {
+
+        var len = $('.gapOption').length;
+        if (len - 1 == 0) {
+            return false;
+        }
+
+        //获取当前点击的是第几个class
+        // console.log($(this).parent().parent('.gapOption').index())
+
+        $(this).parent().parent('.gapOption').remove();
+
+        //重新编号
+        $('.gapNum').each(function (i) {
+            $(this).html(i + 1);
+        });
+
+        // gapOption--;
+    });
+</script>
+
+
+<!-- 私有脚本 start -->
+<script src="../../js/baseModule/_examPaperGenerate.js"></script>
+<!-- 私有脚本 end -->
+<% include ../inc/footer.ejs %>

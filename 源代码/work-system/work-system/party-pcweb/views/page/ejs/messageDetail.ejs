@@ -1,0 +1,121 @@
+<!DOCTYPE html public "-//w3c//dtd xhtml 1.0 transitional//en"
+        "http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>消息中心>消息详情</title>
+    <meta name="keywords" content="desktop">
+    <meta name="description" content="desktop">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv=“X-UA-Compatible” content=“IE=8″>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link href="page/css/topstyle.css" rel='stylesheet' type='text/css'/><!--头尾部css-->
+    <link href="assets/css/plugins/sweetalert/sweetalert.css" rel="stylesheet"> <!--退出登录弹窗css-->
+    <!-- Bootstrap Core CSS -->
+    <link href="page/css/bootstrap.min.css" rel='stylesheet' type='text/css'/>
+    <!-- Graph CSS -->
+    <link href="page/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="page/css/step/element.min.css"/>
+
+    <link href="page/css/meetingList.css" rel="stylesheet">
+    <link href="page/css/messageDetail.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="page/css/step/myPagination.css"> <!--分页css-->
+
+</head>
+
+<body>
+
+<% include pcwebHeader.ejs %>
+
+<div class="content">
+    <div class="left">
+        <li class="active"><a href="message" style="color: black;text-decoration-line: none">消息中心</a></li>
+    </div>
+
+    <div class="right">
+
+
+        <div class="msg-content" id="message">
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+<div>
+</div>
+</div>
+
+
+<script src="page/js/work/_messageDetail.js"></script>
+
+<!--渲染试卷列表-->
+<script id="message-template" type="text/x-dot-template">
+
+    {{ if(typeof it == "undefined" || it == null) { }}
+    暂无消息提醒
+
+    {{ }else{ }}
+    <div class="location">
+        <div class="title-ms-info">【{{=helper.type(it.type)||""}}】 {{=it.topic||""}} <br>
+            <span class="title-ms-time">{{=(it.sendTimeStr.replace('.0',''))||""}}</span>
+        </div>
+    </div>
+
+    <div class="details">
+        <div class="msg-list-panel ms-info-text">
+
+            <div id="Wrap">
+                <div id="inner">
+
+                    <!--   <h1 id="title" >【{{=helper.type(it.type)}}】{{=it.topic}}</h1>-->
+                    <p id="content">
+                                <span>
+                                   {{=it.content||""}}
+                                </span>
+                    </p>
+
+                    {{ if(it.type!=0&&it.type!=6) { }}
+                    点击下方按钮进入{{=helper.type(it.type)||""}}列表页。
+                    <a href="{{=server_root}}{{=helper.url(it.type)}}" targer="_blank" id="btn" target="_blank">{{=helper.type(it.type)||""}}列表页</a>
+                    {{ }}}
+                    <!--{{ if(it.linkId==null||it.linkId=="") { }}-->
+                    <!-- {{ }else{}}-->
+                    <!--点击下方按钮查看"{{=helper.type(it.type)||""}}"详细信息。-->
+                    <!--<a href="{{=server_root}}{{=helper.detailUrl(it.type)}}{{=it.linkId}}" targer="_blank" id="btn"-->
+                    <!--target="_blank"> {{=helper.type(it.type)||""}}详情</a>-->
+                    <!--{{ }}}-->
+
+                </div>
+            </div>
+        </div>
+
+        <div class="ms-del-btn oper-area">
+            <button class="del-btn" data-id="{{= it.id}}" onclick="location.href='{{=server_root}}message'">返回</button>
+            &nbsp;&nbsp;
+
+            <button class="del-btn" data-id="{{= it.id}}" onclick="message.delete(this)">删除</button>
+        </div>
+
+        <div id="page">
+
+
+        </div>
+
+    </div>
+
+
+    {{ } }}
+</script>
+
+<% include pcwebFooter.ejs %>
+</body>
+</html>

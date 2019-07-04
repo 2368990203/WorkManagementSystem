@@ -1,0 +1,656 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <title>作业>作业回顾</title>
+    <link href="assets/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+    <link href="page/css/question/main.css" rel="stylesheet" type="text/css"/>
+    <link href="page/css/question/iconfont.css" rel="stylesheet" type="text/css"/>
+    <link href="page/css/question/test.css" rel="stylesheet" type="text/css"/>
+    <link href="assets/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="assets/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="page/css/topstyle.css" rel='stylesheet' type='text/css'/><!--头尾部css-->
+    <link href="assets/css/plugins/sweetalert/sweetalert.css" rel="stylesheet"> <!--退出登录弹窗css-->
+    <!-- Bootstrap Core CSS -->
+    <link href="page/css/bootstrap.min.css" rel='stylesheet' type='text/css'/>
+    <!-- Graph CSS -->
+    <link href="page/css/font-awesome.min.css" rel="stylesheet">
+
+    <style>
+        .hasAnswer {
+            color: #fff;
+        }
+
+        .trueAnswer {
+            background: #31d884;
+        }
+
+        .falseAnswer {
+            background: #ec6559;
+        }
+
+        .notAllTrueAnswer {
+            background: linear-gradient(to right, #ec6559 50%, #31D884 50%);
+        }
+
+    </style>
+    <link href="page/css/meetingList.css" rel="stylesheet">
+
+</head>
+
+<body>
+<a name="top"></a>
+
+<% include pcwebHeader.ejs %>
+
+<div class="content">
+    <!--nr start-->
+    <div class="nr_right_record">
+        <div class="nr_rt_main">
+            <div class="rt_nr1">
+                <div class="rt_nr1_title">
+                    <h1>
+                        <!--<i>&#xe692;</i>-->
+                        得分
+                    </h1>
+                    <p>
+                        <!--<i>&#xe6fb;</i>-->
+                        <b style="color: red;font-size: 20px" id="score-card"></b>
+                    </p>
+                </div>
+
+                <div id="single-card">
+
+                </div>
+
+                <div id="multiple-card">
+
+                </div>
+
+                <div id="true-or-false-card">
+
+                </div>
+
+                <div id="gap-filling-card">
+
+                </div>
+
+                <div id="subjective-card">
+
+                </div>
+
+                <a href="#top" style="color: #ffffff; text-decoration-line: none">
+                    <input type="button" class="button" value="返回顶部">
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="exam_right_record">
+        <div class="title" id="test_title"></div>
+        <div class="nr_left">
+            <div class="test">
+                <!--<div class="test_title" id="test_title">-->
+                <!--</div>-->
+                <div id="single-choice">
+
+                </div>
+
+                <div id="multiple-choice">
+
+                </div>
+
+                <div id="true-or-false">
+
+                </div>
+
+                <div id="gap-filling">
+
+                </div>
+
+
+                <div id="subjective">
+
+                </div>
+            </div>
+
+        </div>
+
+        <!--nr end-->
+        <!--<div class="foot"></div>-->
+    </div>
+</div>
+
+
+<script src="page/js/question/jquery.easy-pie-chart.js"></script>
+
+<!--私有脚本-->
+<script src="page/js/work/_examRecord.js"></script>
+
+<!--模板-->
+<!--渲染单选题-->
+<script id="single-template" type="text/x-dot-template">
+    {{ if(typeof it == "undefined" || it.length == 0) { }}
+    <!--    暂无数据-->
+    {{ }else{ }}
+
+
+    <div class="test_content">
+        <div class="test_content_title">
+            <h2>单选题</h2>
+            <p>
+                <span>共</span><i class="content_lit">{{=it.length || "0" }}</i><span>题，</span><span>合计</span><i
+                        class="content_fs">{{=it.length*it[0].score || "0" }}</i><span>分</span>
+            </p>
+        </div>
+    </div>
+
+    <div class="test_content_nr">
+        <ul>
+
+            {{ for(var i = 0; i < it.length; i++ ) { }}
+            <li id="{{=it[i].id }}">
+                <div class="test_content_nr_tt">
+                    <input type="hidden" name="singleQuestionId{{=i }}" id="singleQuestionId{{=i }}"
+                           value="{{=it[i].questionId }}">
+
+                    {{ if(it[i].situation == 1){ }}
+                    <i style="background: #31D884">{{=(i+1) }}</i>
+                    {{ }else if(it[i].situation == 2){ }}
+                    <i style="background: #ec6559">{{=(i+1) }}</i>
+                    {{ } }}
+                    <span>({{=it[i].score }}分)</span><font>{{=it[i].questionName }}</font>
+                    <!--<b>&#xe881;</b>-->
+                </div>
+
+                <div class="test_content_nr_main">
+                    <ul>
+                        {{ var answerStr = ""; }}
+                        {{ for(var j = 0; j < it[i]['options'].length; j++ ) { }}
+
+                        {{ if(it[i]['options'][j].isAnswer == 1){ }}
+                        {{ answerStr += String.fromCharCode(64+it[i]['options'][j].optionNumber); }}
+                        {{ } }}
+
+                        <li class="option">
+                            <!--<input type="radio" class="radioOrCheck" name="SingleAnswer{{=i }}"-->
+                            <!--id="{{=it[i]['options'][j].id }}" value="{{=it[i]['options'][j].id }}"/>-->
+
+
+                            <label for="{{=it[i]['options'][j].id }}">
+                                {{=String.fromCharCode(65+j) }}.
+                                <p class="ue" style="display: inline;">{{=it[i]['options'][j].optionInfo }}</p>
+                            </label>
+
+                        </li>
+                        {{ } }}
+
+                        <p>您的答案：{{=it[i].answerContent}}</p>
+                        <p>正确答案：{{=answerStr }}</p>
+                        {{ if(it[i].answerKeys!=null&&it[i].answerKeys!=""){ }}
+                        <p>解析：{{=it[i].answerKeys}}</p>
+                        {{ } }}
+
+                    </ul>
+                </div>
+            </li>
+            {{ } }}
+
+        </ul>
+    </div>
+    {{ } }}
+</script>
+<!--单选题答题卡-->
+<script id="single-card-template" type="text/x-dot-template">
+    {{ if(typeof it == "undefined" || it.length == 0) { }}
+    <!--暂无数据-->
+    {{ }else{ }}
+    <div class="rt_content">
+        <div class="rt_content_tt">
+            <h2>单选题</h2>
+            <p>
+                <span>共</span><i class="content_lit">{{=it.length || "0"}}</i><span>题</span>
+            </p>
+        </div>
+        <div class="rt_content_nr answerSheet">
+            <ul>
+                {{ for(var i = 0 ; i < it.length; i++){ }}
+
+                {{ if(it[i].situation == 1){ }}
+                <li class="trueAnswer"><a class="hasAnswer" href="#{{=it[i].id }}">{{=(i+1)}}</a></li>
+                {{ }else if(it[i].situation == 2){ }}
+                <li class="falseAnswer"><a class="hasAnswer" href="#{{=it[i].id }}">{{=(i+1)}}</a></li>
+                {{ } }}
+
+                {{ } }}
+
+            </ul>
+        </div>
+    </div>
+    {{ } }}
+
+</script>
+
+
+<!--渲染多选题-->
+<script id="multiple-template" type="text/x-dot-template">
+
+    {{ if(typeof it == "undefined" || it.length == 0) { }}
+    <!--    暂无数据-->
+    {{ }else{ }}
+
+    <div class="test_content">
+        <div class="test_content_title">
+            <h2>多选题</h2>
+            <p>
+                <span>共</span><i class="content_lit">{{=it.length || "0" }}</i><span>题，</span><span>合计</span><i
+                        class="content_fs">{{=it.length*it[0].score || "0" }}</i><span>分</span>
+            </p>
+        </div>
+    </div>
+
+    <div class="test_content_nr">
+        <ul>
+
+            {{ for(var i = 0; i < it.length; i++ ) { }}
+
+            <li id="{{=it[i].id }}">
+
+                <div class="test_content_nr_tt">
+                    <input type="hidden" name="multipleQuestionId{{=i }}" id="multipleQuestionId{{=i }}"
+                           value="{{=it[i].questionId }}">
+
+                    {{ if(it[i].situation == 1){ }}
+                    <i style="background:#31D884">{{=(i+1) }}</i>
+                    {{ }else if(it[i].situation == 2){ }}
+                    <i style="background:#ec6559">{{=(i+1) }}</i>
+                    {{ } }}
+
+                    <span>({{=it[i].score }}分)</span><font>{{=it[i].questionName }}</font>
+                    <!--<b&gt;&#xe881;</b>-->
+                </div>
+
+                <div class="test_content_nr_main">
+                    <ul>
+                        {{ var answerStr = ""; }}
+
+                        {{ for(var j = 0; j < it[i]['options'].length; j++ ) { }}
+                        <li class="option">
+
+
+                            {{ if(it[i]['options'][j].isAnswer == 1){ }}
+                            {{ answerStr += String.fromCharCode(64+it[i]['options'][j].optionNumber) +" "; }}
+                            {{ } }}
+
+                            <!--<input type="checkbox" class="radioOrCheck" name="MultipleAnswer{{=i }}"-->
+                            <!--id="{{=it[i]['options'][j].id }}" value="{{=it[i]['options'][j].id }}"/>-->
+
+                            <label for="{{=it[i]['options'][j].id }}">
+                                {{=String.fromCharCode(65+j) }}.
+                                <p class="ue" style="display: inline;">{{=it[i]['options'][j].optionInfo }}</p>
+                            </label>
+                        </li>
+                        {{ } }}
+
+                        <p>您的答案：{{=it[i].answerContent}}</p>
+                        <p>正确答案：{{=answerStr }}</p>
+                        {{ if(it[i].answerKeys!=null&&it[i].answerKeys!=""){ }}
+                        <p>解析：{{=it[i].answerKeys}}</p>
+                        {{ } }}
+
+                    </ul>
+                </div>
+            </li>
+
+            {{ } }}
+        </ul>
+    </div>
+
+    {{ } }}
+</script>
+<!--多选题答题卡-->
+<script id="multiple-card-template" type="text/x-dot-template">
+
+    {{ if(typeof it == "undefined" || it.length == 0) { }}
+    <!--暂无数据-->
+    {{ }else{ }}
+    <div class="rt_content">
+        <div class="rt_content_tt">
+            <h2>多选题</h2>
+            <p>
+                <span>共</span><i class="content_lit">{{=it.length || "0"}}</i><span>题</span>
+            </p>
+        </div>
+        <div class="rt_content_nr answerSheet">
+            <ul>
+                {{ for(var i = 0 ; i < it.length; i++){ }}
+
+                {{ if(it[i].situation == 1){ }}
+                <li class="trueAnswer"><a class="hasAnswer" href="#{{=it[i].id }}">{{=(i+1)}}</a></li>
+                {{ }else if(it[i].situation == 2){ }}
+                <li class="falseAnswer"><a class="hasAnswer" href="#{{=it[i].id }}">{{=(i+1)}}</a></li>
+                {{ } }}
+
+                {{ } }}
+
+            </ul>
+        </div>
+    </div>
+    {{ } }}
+</script>
+
+
+<!--渲染判断题-->
+<script id="true-or-false-template" type="text/x-dot-template">
+
+    {{ if(typeof it == "undefined" || it.length == 0) { }}
+    <!--    暂无数据-->
+    {{ }else{ }}
+
+    <div class="test_content">
+        <div class="test_content_title">
+            <h2>判断题</h2>
+            <p>
+                <span>共</span><i class="content_lit">{{=it.length || "0" }}</i><span>题，</span><span>合计</span><i
+                        class="content_fs">{{=it.length*it[0].score || "0" }}</i><span>分</span>
+            </p>
+        </div>
+    </div>
+
+    <div class="test_content_nr">
+        <ul>
+
+            {{ for(var i = 0; i < it.length; i++ ) { }}
+            <li id="{{=it[i].id }}">
+                <input type="hidden" name="TFQuestionId{{=i }}" id="TFQuestionId{{=i }}" value="{{=it[i].questionId }}">
+                <div class="test_content_nr_tt">
+
+
+                    {{ if(it[i].situation == 1){ }}
+                    <i style="background: #31D884">{{=(i+1) }}</i>
+                    {{ }else if(it[i].situation == 2){ }}
+                    <i style="background: #ec6559">{{=(i+1) }}</i>
+                    {{ } }}
+
+                    <span>({{=it[i].score }}分)</span><font>{{=it[i].questionName }}</font>
+                    <!--<b>&#xe881;</b>-->
+                </div>
+
+                <div class="test_content_nr_main">
+                    <ul>
+                        {{ var answerStr = ""; }}
+                        {{ for(var j = 0; j < it[i]['options'].length; j++ ) { }}
+
+                        {{ if(it[i]['options'][j].isAnswer == 1){ }}
+                        {{ answerStr += String.fromCharCode(64+it[i]['options'][j].optionNumber); }}
+                        {{ } }}
+
+                        <li class="option">
+
+                            <!--<input type="radio" class="radioOrCheck" name="TFAnswer{{=i}}"-->
+                            <!--id="{{=it[i]['options'][j].id }}" value="{{=it[i]['options'][j].id }}"/>-->
+
+
+                            <label for="{{=it[i]['options'][j].id }}">
+                                {{=String.fromCharCode(65+j) }}.
+                                <p class="ue" style="display: inline;">{{=it[i]['options'][j].optionInfo }}</p>
+                            </label>
+                        </li>
+                        {{ } }}
+                        <p>您的答案：{{=it[i].answerContent}}</p>
+                        <p>正确答案：{{=answerStr }}</p>
+                        {{ if(it[i].answerKeys!=null&&it[i].answerKeys!=""){ }}
+                        <p>解析：{{=it[i].answerKeys}}</p>
+                        {{ } }}
+
+                    </ul>
+                </div>
+            </li>
+            {{ } }}
+        </ul>
+    </div>
+    {{ } }}
+</script>
+
+<!--判断题答题卡-->
+<script id="true-or-false-card-template" type="text/x-dot-template">
+
+    {{ if(typeof it == "undefined" || it.length == 0) { }}
+    <!--暂无数据-->
+    {{ }else{ }}
+    <div class="rt_content">
+        <div class="rt_content_tt">
+            <h2>判断题</h2>
+            <p>
+                <span>共</span><i class="content_lit">{{=it.length || "0"}}</i><span>题</span>
+            </p>
+        </div>
+        <div class="rt_content_nr answerSheet">
+            <ul>
+                {{ for(var i = 0 ; i < it.length; i++){ }}
+
+                {{ if(it[i].situation == 1){ }}
+                <li class="trueAnswer"><a class="hasAnswer" href="#{{=it[i].id }}">{{=(i+1)}}</a></li>
+                {{ }else if(it[i].situation == 2){ }}
+                <li class="falseAnswer"><a class="hasAnswer" href="#{{=it[i].id }}">{{=(i+1)}}</a></li>
+                {{ } }}
+
+                {{ } }}
+
+            </ul>
+        </div>
+    </div>
+    {{ } }}
+</script>
+
+
+<!--渲染填空题-->
+<script id="gap-filling-template" type="text/x-dot-template">
+
+    {{ if(typeof it == "undefined" || it.length == 0) { }}
+    <!--    暂无数据-->
+    {{ }else{ }}
+
+    <div class="test_content">
+        <div class="test_content_title">
+            <h2>填空题</h2>
+            <p>
+                <span>共</span><i class="content_lit">{{=it.length || "0" }}</i><span>题，</span><span>合计</span><i
+                        class="content_fs">{{=it.length*it[0].score || "0" }}</i><span>分</span>
+            </p>
+        </div>
+    </div>
+
+    <div class="test_content_nr">
+        <ul>
+
+            {{ for(var i = 0; i < it.length; i++ ) { }}
+            <li id="{{=it[i].id }}">
+                <input type="hidden" name="GapQuestionId{{=i }}" id="GapQuestionId{{=i }}"
+                       value="{{=it[i].questionId }}">
+                <div class="test_content_nr_tt">
+
+
+                    {{ if(it[i].situation == 1){ }}
+                    <i style="background: #31D884">{{=(i+1) }}</i>
+                    {{ }else if(it[i].situation == 2){ }}
+                    <i style="background: #ec6559">{{=(i+1) }}</i>
+                    {{ }else if(it[i].situation == 3){ }}
+                    <i style="background: linear-gradient(to right, #ec6559 50%, #31D884 50%);">{{=(i+1) }}</i>
+                    {{ } }}
+
+                    <span>({{=it[i].score }}分)</span><font>{{=it[i].questionName }}</font>
+                    <!--<b>&#xe881;</b>-->
+                </div>
+
+                <div class="test_content_nr_main">
+                    <ul>
+                        {{ var answerStr = ""; }}
+                        {{ for(var j = 0; j < it[i]['options'].length; j++ ) { }}
+
+                        {{ answerStr += it[i]['options'][j].optionInfo +"；"; }}
+                        {{ }}
+                        <li class="gap">
+                            <!--{{=(j+1) }}.-->
+                            <!--<input type="hidden" name="GapAnswer{{=i}}"-->
+                            <!--id="{{=it[i]['options'][j].id }}" value="{{=it[i]['options'][j].id }}"/>-->
+                            <!--<input type="text" style="width: 100px" id="{{=it[i]['options'][j].id }}"-->
+                            <!--name="GapAnswer{{=i}}" onclick="clickAnswer(this)" />-->
+
+
+                            <!--<label for="{{=it[i]['options'][j].id }}" onclick="clickAnswer(this)">-->
+                            <!--{{=String.fromCharCode(65+j) }}.-->
+                            <!--<p class="ue" style="display: inline;">{{=it[i]['options'][j].optionInfo }}</p>-->
+                            <!--</label>-->
+                        </li>
+                        {{ } }}
+                        <p>您的答案：{{=it[i].answerContent}}</p>
+                        <p>正确答案：{{=answerStr.substring(0,answerStr.lastIndexOf('；')) }}</p>
+                        {{ if(it[i].answerKeys!=null&&it[i].answerKeys!=""){ }}
+                        <p>解析：{{=it[i].answerKeys}}</p>
+                        {{ } }}
+
+                    </ul>
+                </div>
+            </li>
+            {{ } }}
+        </ul>
+    </div>
+    {{ } }}
+</script>
+<!--填空题答题卡-->
+<script id="gap-filling-card-template" type="text/x-dot-template">
+
+    {{ if(typeof it == "undefined" || it.length == 0) { }}
+    <!--暂无数据-->
+    {{ }else{ }}
+    <div class="rt_content">
+        <div class="rt_content_tt">
+            <h2>填空题</h2>
+            <p>
+                <span>共</span><i class="content_lit">{{=it.length || "0"}}</i><span>题</span>
+            </p>
+        </div>
+        <div class="rt_content_nr answerSheet">
+            <ul>
+                {{ for(var i = 0 ; i < it.length; i++){ }}
+
+                {{ if(it[i].situation == 1){ }}
+                <li class="trueAnswer"><a class="hasAnswer" href="#{{=it[i].id }}">{{=(i+1)}}</a></li>
+                {{ }else if(it[i].situation == 2){ }}
+                <li class="falseAnswer"><a class="hasAnswer" href="#{{=it[i].id }}">{{=(i+1)}}</a></li>
+                {{ }else if(it[i].situation == 3){ }}
+                <li class="notAllTrueAnswer"><a class="hasAnswer" href="#{{=it[i].id }}">{{=(i+1)}}</a></li>
+                {{ } }}
+
+                {{ } }}
+
+            </ul>
+        </div>
+    </div>
+    {{ } }}
+</script>
+
+
+<!--渲染客观题题-->
+<script id="subjective-template" type="text/x-dot-template">
+
+    {{ if(typeof it == "undefined" || it.length == 0) { }}
+    <!--暂无数据-->
+    {{ }else{ }}
+
+    <div class="test_content">
+        <div class="test_content_title">
+            <h2>客观题</h2>
+            <p>
+                <span>共</span><i class="content_lit">{{=it.length || "0" }}</i><span>题，</span><span>合计</span><i
+                        class="content_fs">{{=it.length*it[0].score || "0" }}</i><span>分</span>
+            </p>
+        </div>
+    </div>
+
+    <div class="test_content_nr">
+        <ul>
+
+            {{ for(var i = 0; i < it.length; i++ ) { }}
+            <li id="{{=it[i].id }}">
+                <input type="hidden" name="subjectiveQuestionId{{=i }}" id="subjectiveQuestionId{{=i }}"
+                       value="{{=it[i].questionId }}">
+                <input type="hidden" name="question_{{=it[i].questionId }}" value="{{=it[i]['order']}}">
+
+                <div class="test_content_nr_tt">
+                    <i>{{=(i+1) }}</i><span>({{=it[i].score }}分)</span><font>{{=it[i].questionName }}</font>
+                    <!--<b>&#xe881;</b>-->
+                </div>
+
+                <div class="test_content_nr_main">
+                    <ul>
+
+                        <!--                        <textarea id="subjective_{{=it[i].questionId}}" class="subjective"-->
+                        <!--                                  type-data="{{=it[i]['type'] }}"-->
+                        <!--                                  questionId="{{=it[i].questionId}}"-->
+                        <!--                                  name="SubjectiveAnswer" onblur="checkAnswer(this)">-->
+
+                        <span id="{{=it[i].questionId}}" class="subjective">{{=it[i].answerContent ||"注：考生未作答" }}</span>
+
+                        </span>
+
+                    </ul>
+                </div>
+            </li>
+            {{ } }}
+        </ul>
+    </div>
+    {{ } }}
+</script>
+<!--客观题答题卡-->
+<script id="subjective-card-template" type="text/x-dot-template">
+
+    {{ if(typeof it == "undefined" || it.length == 0) { }}
+    {{ }else{ }}
+    <div class="rt_content">
+        <div class="rt_content_tt">
+            <h2>客观题</h2>
+            <p>
+                <span>共</span><i class="content_lit">{{=it.length || "0"}}</i><span>题</span>
+            </p>
+        </div>
+        <div class="rt_content_nr answerSheet">
+            <ul>
+                {{ for(var i = 0 ; i < it.length; i++){ }}
+
+                {{ if(it[i].scores == 0){ }}
+                <li class="falseAnswer"><a class="hasAnswer" href="#{{=it[i].id }}">{{=(i+1)}}</a></li>
+                {{ }else if(it[i].scores != 0 && it[i].scores != it[i].score){ }}
+                <li class="notAllTrueAnswer"><a class="hasAnswer" href="#{{=it[i].id }}">{{=(i+1)}}</a></li>
+                {{ }else if(it[i].scores == it[i].scores){ }}
+                <li class="trueAnswer"><a class="hasAnswer" href="#{{=it[i].id }}">{{=(i+1)}}</a></li>
+                {{ } }}
+                {{ } }}
+            </ul>
+        </div>
+    </div>
+    {{ } }}
+</script>
+
+<!--<script>-->
+<!--function clickAnswer(event) {-->
+<!--// debugger;-->
+<!--var examId = $(event).closest('.test_content_nr_main').closest('li').attr('id'); // 得到题目ID-->
+<!--var cardLi = $('a[href=#' + examId + ']'); // 根据题目ID找到对应答题卡-->
+<!--// 设置已答题-->
+<!--if (!cardLi.hasClass('hasBeenAnswer')) {-->
+<!--cardLi.addClass('hasBeenAnswer');-->
+<!--}-->
+
+<!--}-->
+<!--</script>-->
+<% include pcwebFooter.ejs %>
+<style>.foot {
+        bottom: auto;
+    }</style>
+</body>
+
+</html>

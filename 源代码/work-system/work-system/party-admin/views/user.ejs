@@ -1,0 +1,148 @@
+<% include inc/header.ejs %>
+<% include inc/body.ejs %>
+<!-- html主体代码 start -->
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>用户列表</h5>
+            <div class="ibox-tools">
+                <button class="btn btn-primary btn-xs" type="button" onclick="user.create(this);">
+                    <i class="fa fa-plus"></i>&nbsp;创建
+                </button>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <div class="input-group" style="width: 200px;">
+                <input style="width: 200px;" type="text" id="select-key" placeholder="请输入关键词"
+                       class="input-sm form-control"> <span class="input-group-btn">
+                            <button onclick="user.select(this);" id="search_button" style="width: 50px;" type="button"
+                                    class="btn btn-sm btn-primary"> 搜索</button> </span>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>登录名</th>
+                    <th>状态</th>
+                    <th>token</th>
+                    <th>注册时间</th>
+                    <th>上次登录时间</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="user-list">
+
+                </tbody>
+            </table>
+            <div class="pages M-box3 list-page">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- html主体代码 end -->
+
+<!-- 用户数据模板 -->
+<script id="user-tmpl" type="text/x-dot-template">
+    {{ if(it.length>0){ }}
+    {{ for(var i=0;i
+    <it.length;i++){ }}
+    <tr>
+        <td>
+            <input type="checkbox" class="i-checks" name="user-ck">
+        </td>
+        <td><a href="#" data-id="{{= it[i].id}}" onclick="user.info(this);">{{= string.cut(it[i].loginName,6)}}</a></td>
+        <td>{{= format_status(it[i].status)}}</td>
+        <td><a href="#" data-id="{{= it[i].token}}" onclick="user.token(this);">{{= it[i].token}}</a></td>
+        <td>
+            {{= time.timestamp2time(it[i].regTime) }}
+        </td>
+        <td>
+            {{= time.timestamp2time(it[i].loginTime) }}
+        </td>
+        <td>
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle">操作 <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="user.initPwd(this);">重置密码</a>
+                    </li>
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="user.update(this);">修改个人信息</a>
+                    </li>
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="user.changeRole(this);">修改角色</a>
+                    </li>
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" data-status="{{= it[i].status}}"
+                           onclick="user.status(this);">
+                            {{ if(it[i].status == 1){ }} 冻结 {{ }else{ }} 恢复 {{ } }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="user.setAuth(this);">子系统配置</a>
+                    </li>
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="user.delete(this);">删除用户</a>
+                    </li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+    {{ } }}
+    {{ } }}
+</script>
+<script id="system-auth-tmpl" type="text/x-dot-template">
+    {{ for(var i=0;i
+    <it.length;i++){ }}
+    <tr>
+        <td>
+            <div class="i-checks">
+                <label>
+                    <input {{ if(it[i].check> 1) { }} checked {{ } }}
+                    name="auth" type="checkbox" data-id="{{= it[i].systemId}}">
+                </label>
+            </div>
+        </td>
+        <td>
+            {{= it[i].systemName}}
+        </td>
+        <td>
+            {{= it[i].roleName}}
+        </td>
+        <td>
+            <select class="form-control" id="role{{= it[i].systemId}}">
+                {{ for(var j=0;j
+                <it
+                [i].role.length;j++){ }}
+                <option {{ if(it[i].role[j].isDefault== 1) { }} check {{ } }} value="{{= it[i].role[j].roleId}}">
+                    {{= it[i].role[j].roleName}}
+                </option>
+                {{ } }}
+            </select>
+        </td>
+    </tr>
+    {{ } }}
+</script>
+
+<script id="roleId-template" type="text/x-dot-template">
+    {{ if(it.length == 0) { }}
+    <option value="*">请选择角色</option>
+    <option value="*">暂无数据</option>
+    {{ }else{ }}
+    <option value="*">请选择角色</option>
+    {{ for(var i=0;i
+    <it.length;i++){ }}
+    <option value="{{= it[i].id}}">{{= it[i].name}}</option>
+    {{ } }}
+    {{ } }}
+</script>
+<% include inc/js.ejs %>
+<!-- 私有脚本 start -->
+
+<script src="../../js/_user.js"></script>
+
+
+<!-- 私有脚本 end -->
+<% include inc/footer.ejs %>

@@ -1,0 +1,193 @@
+<div class="table-responsive">
+    <form id="opt-form">
+        <table class="table table-bordered">
+            <tr>
+                <td class="form-item-title">
+                    姓名
+                </td>
+                <td>
+                    <input required type="text" name="name" maxlength="20" class="form-control"
+                           placeholder="请输入姓名">
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span>  <span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    曾用名
+                </td>
+                <td>
+                    <input  type="text" name="otherName" maxlength="20" class="form-control"
+                           placeholder="请输入曾用名">
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span>  <span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    学号/工号
+                </td>
+                <td>
+                    <input required type="text" name="number" maxlength="20" class="form-control"
+                           placeholder="请输入学号/工号">
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span>  <span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    证件类型
+                </td>
+                <td>
+                    <select required name="certificateType" id="certificateType" maxlength="20" class="form-control"
+                            placeholder="请选择证件类型">
+                        <option value="*">请选择证件类型</option>
+                        <option value="1" >居民身份证</option>
+                    </select>
+                    <!--<input required type="text" name="certificateType" maxlength="20" class="form-control"-->
+                    <!--placeholder="请输入证件类型">-->
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span>  <span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    证件号码
+                </td>
+                <td>
+                    <input required type="text" name="certificateNumber" maxlength="20" class="form-control"
+                           placeholder="请输入证件号码">
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span>  <span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    性别
+                </td>
+                <td>
+                    <select required name="sex" id="sex" maxlength="20" class="form-control"
+                            placeholder="请选择性别">
+                        <option value="*">请选择性别</option>
+                        <option value="0"> 女</option>
+                        <option value="1" >男</option>
+                    </select>
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span>  <span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    国籍
+                </td>
+                <td>
+                    <select required name="nationality" id="nationality" maxlength="20" class="form-control"
+                            placeholder="请选择国籍">
+                        <option value="中国">中国</option>
+                        <option value="海外" >海外</option>
+                    </select>
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span>  <span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    民族
+                </td>
+                <td>
+                    <input required type="text" name="nation" maxlength="20" class="form-control"
+                           placeholder="请输入民族">
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span>  <span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    出生地
+                </td>
+                <td>
+                    <input required type="text" name="birthPlace" maxlength="20" class="form-control"
+                           placeholder="请输入出生地">
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span>  <span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    现居住地
+                </td>
+                <td>
+                    <input required type="text" name="residence" maxlength="20" class="form-control"
+                           placeholder="请输入现居住地">
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span>  <span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    籍贯
+                </td>
+                <td>
+                    <input required type="text" name="nativePlace" maxlength="20" class="form-control"
+                           placeholder="请输入籍贯">
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span>  <span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    政治面貌
+                </td>
+                <td>
+                    <select required name="policitalStatus" id="policitalStatus" maxlength="20" class="form-control"
+                            placeholder="请选择政治面貌">
+                        <option value="*" >请选择政治面貌</option>
+                        <option value="1" >群众</option>
+                        <option value="2" >共青团员</option>
+                        <option value="3" >共产党员</option>
+                    </select>
+                    <!--<input required type="text" name="policitalStatus" maxlength="20" class="form-control"-->
+                           <!--placeholder="请输入政治面貌">-->
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span>  <span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    学院名称
+                </td>
+                <td>
+                    <select required name="academyCode" id="academyCode" maxlength="20" class="form-control"
+                            placeholder="请选择学院">
+                        <option value="*" >请选择学院</option>
+                        <!--<option value="1" >群众</option>-->
+                        <!--<option value="2" >共青团员</option>-->
+                        <!--<option value="3" >共产党员</option>-->
+                    </select>
+                    <!--<input required type="text" name="academyCode" maxlength="20" class="form-control"-->
+                           <!--placeholder="请输入学院代码">-->
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span>  <span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    手机
+                </td>
+                <td>
+                    <input required type="text" name="phone" maxlength="20" class="form-control"
+                           placeholder="请输入手机">
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span>  <span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    出生日期
+                </td>
+                <td>
+                    <input required type="text" name="birthDate" maxlength="20" class="form-control"
+                           placeholder="请输入出生日期">
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span>  <span ></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    邮箱
+                </td>
+                <td>
+                    <input  type="text" name="email" maxlength="20" class="form-control"
+                           placeholder="请输入邮箱">
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span>  <span ></span></td>
+            </tr>
+
+        </table>
+    </form>
+</div>

@@ -1,0 +1,39 @@
+<div class="table-responsive">
+    <form id="opt-form">
+        <table class="table table-bordered">
+            <tr>
+                <td class="form-item-title">
+                    课程号
+                </td>
+                <td>
+                    <input required type="text" name="number" id="number"  tips-id = "number-tips"  data-length="20" maxlength="20"  onblur="checkRegular(this);"  class="form-control"
+                           placeholder="请输入课程号">
+                </td>
+                <td class="form-item-remark" > <span id = "number-tips"></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    课程名
+                </td>
+                <td>
+                    <input required type="text" name="name" id="name"  tips-id = "name-tips"  data-length="20" maxlength="20"  onblur="checkRegular(this);"  class="form-control"
+                           placeholder="请输入课程名">
+                </td>
+                <td class="form-item-remark" > <span id = "name-tips"></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    学分
+                </td>
+                <td>
+                    <input required type="number" name="credit" id="credit"  tips-id = "credit-tips"  data-length="7" maxlength="7"  onblur="checkRegular(this);"  class="form-control"
+                           placeholder="请输入学分">
+                </td>
+                <td class="form-item-remark" > <span id = "credit-tips"></span></td>
+            </tr>
+
+        </table>
+    </form>
+</div>
+<script>
+</script>

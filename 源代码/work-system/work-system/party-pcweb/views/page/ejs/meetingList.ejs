@@ -1,0 +1,103 @@
+<!DOCTYPE html public "-//w3c//dtd xhtml 1.0 transitional//en"
+        "http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>会议安排>会议列表</title>
+    <meta name="keywords" content="desktop">
+    <meta name="description" content="desktop">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv=“X-UA-Compatible” content=“IE=8″>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link href="page/css/topstyle.css" rel='stylesheet' type='text/css'/><!--头尾部css-->
+    <link href="assets/css/plugins/sweetalert/sweetalert.css" rel="stylesheet"> <!--退出登录弹窗css-->
+    <!-- Bootstrap Core CSS -->
+    <link href="page/css/bootstrap.min.css" rel='stylesheet' type='text/css'/>
+    <!-- Graph CSS -->
+    <link href="page/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="page/css/step/element.min.css"/>
+
+    <link href="page/css/meetingList.css" rel="stylesheet">
+    <link rel="stylesheet" href="page/css/step/myPagination.css"> <!--分页css-->
+</head>
+
+<body>
+<% include pcwebHeader.ejs %>
+
+<div class="content">
+    <div class="left">
+        <li class="active"><a href="meetingList" style="color: black;text-decoration-line: none">会议安排</a></li>
+        <!-- <li ><a href="examList" style="color: black;text-decoration-line: none"> 作业</a></li>-->
+    </div>
+
+    <div class="right">
+        <div class="title"><a href="meetingList" style="color:#2B2B2B;text-decoration-line: none">会议安排</a></div>
+
+        <div class="details">
+            <table class="main">
+                <tr bgcolor="#dedede">
+                    <td>会议主题</td>
+                    <td>时间</td>
+                    <td>地点</td>
+                    <td>主持人</td>
+                    <td>状态</td>
+                    <td>考勤</td>
+                    <td>操作</td>
+                </tr>
+
+
+                <tbody id="meeting-list">
+
+
+                </tbody>
+
+
+            </table>
+            <!--分页-->
+            <div id="pagination" class="pagination" style="margin:70px 30% 30px "></div>
+        </div>
+    </div>
+</div>
+
+
+<script src="page/js/work/_meetingList.js"></script>
+
+<!--渲染试卷列表-->
+<script id="meeting-list-template" type="text/x-dot-template">
+
+    {{ if(typeof it == "undefined" || it.length == 0) { }}
+    暂无会议安排
+    {{ }else{ }}
+    {{ for(var i = 0; i < it.length; i++ ) { }}
+
+    {{ if(i % 2 ){ }}
+    <tr bgcolor="#f4f4f4">
+        {{ }else{ }}
+    <tr>
+        {{ } }}
+        <td>{{=it[i].topic||""}}</td>
+        <td>{{=it[i].startTimeStr||""}}</td>
+        <td>{{=it[i].place||""}}</td>
+        <td>{{=it[i].speaker||""}}</td>
+        <td>{{=helper.status(it[i].schedulleStatus)||""}}</td>
+        <td>{{=helper.attendanceStatus(it[i].attendanceStatus) ||"未签到"}}</td>
+
+        <!--<td>暂无数据</td>-->
+        <td>
+            <!--<a href="meetingDetail?meetingId={{=it[i].id }}" data-id="{{=it[i].id }}"-->
+               <!--style="color: #ffffff; text-decoration-line: none">-->
+                <input type="button" class="button" value="详情" onclick="window.location.href='meetingDetail?meetingId={{=it[i].id }}'"/>
+            <!--</a>-->
+        </td>
+    </tr>
+
+    {{ } }}
+    {{ } }}
+</script>
+
+<% include pcwebFooter.ejs %>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<% include ../inc/header.ejs%>
+<style>
+    .date-table {
+        overflow-y: auto;
+    }
+</style>
+
+<% include ../inc/body.ejs%>
+<!-- html主体代码 start -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title" style="padding-top: 3px !important;">
+                <div style="width: 140px; display: block;float: left;padding-top: 10px;">
+                    学生信息列表
+                </div>
+
+                <div class="ibox-tools">
+                    <button style="margin-top: 8px;" class="btn btn-primary btn-xs" type="button"
+                            onclick="student.create(this);">
+                        <i class="fa fa-plus"></i>&nbsp;新增
+                    </button>
+                </div>
+
+            </div>
+            <div class="ibox-content data-view" style="overflow-y: auto;">
+                <div class="col-sm-12">
+                    <div class=" col-sm-12 date-table">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>学院</th>
+                                <th>专业</th>
+                                <th>性别</th>
+                                <th>姓名</th>
+                                <th>学号/账号</th>
+                                <th>账号状态</th>
+                                <th>上次登录ip</th>
+                                <th>登录时间</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody id="item-list">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-12 pages M-box3 list-page">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- html主体代码 end -->
+<!-- 管理的学生信息模板 -->
+<script id="student-template" type="text/x-dot-template">
+    {{ if(it.length == 0) { }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i=0;i < it.length;i++){ }}
+    <tr>
+        <td>
+            {{=(i+1)}}
+        </td>
+        <td>
+            {{= it[i].academyName}}
+        </td>
+        <td>
+            {{= it[i].grade+" "+ it[i].majorName + " " + it[i].classNo}}
+        </td>
+        <td>
+            {{= helper.sex(it[i].sex) }}
+        </td>
+        <td>
+            {{= it[i].name}}
+        </td>
+        <td>
+            {{= it[i].number}}
+        </td>
+        <td>
+            {{= helper.status(it[i].status) }}
+        </td>
+        <td>
+            {{= it[i].loginIp ||""}}
+        </td>
+        <td>
+            {{= time.timestamp2time(it[i].loginTime) }}
+        </td>
+        <td>
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle">操作 <span
+                            class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="student.update(this);">修改</a>
+                    </li>
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="student.delete(this);">删除</a>
+                    </li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+    {{ } }}
+    {{ } }}
+</script>
+
+<script id="academy-select-template" type="text/x-dot-template">
+    {{ if(it.length == 0 ){ }}
+    <option value=" ">暂无学院数据</option>
+    {{ }else{ }}
+    <option value=" ">请选择学院</option>
+    {{ for(var i = 0 ; i < it.length ; i++){ }}
+    <option value="{{=it[i].code }}">{{=it[i].name }}</option>
+    {{ } }}
+    {{ } }}
+</script>
+<script id="major-select-template" type="text/x-dot-template">
+    {{ if(it.length == 0 ){ }}
+    <option value=" ">暂无专业数据</option>
+    {{ }else{ }}
+    <option value=" ">请选择专业</option>
+    {{ for(var i = 0 ; i < it.length ; i++){ }}
+    <option value="{{=it[i].code }}">{{=it[i].name }}</option>
+    {{ } }}
+    {{ } }}
+</script>
+
+
+<script id="class-select-template" type="text/x-dot-template">
+    {{ if(it.length == 0 ){ }}
+    <option value=" ">暂无班级数据</option>
+    {{ }else{ }}
+    <option value=" ">请选择班级</option>
+    {{ for(var i = 0 ; i < it.length ; i++){ }}
+    <option value="{{=it[i].id }}">{{= it[i].grade +" - " + it[i].majorName +" - " + it[i].classNo }}</option>
+    {{ } }}
+    {{ } }}
+</script>
+
+<% include ../inc/js.ejs %>
+
+<!-- 私有脚本 start -->
+<script src="/js/userModule/_student.js"></script>
+<!-- 私有脚本 end -->
+<% include ../inc/footer.ejs %>

@@ -1,0 +1,75 @@
+<% include inc/header.ejs %>
+<% include inc/body.ejs %>
+
+<!-- html主体代码 start -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>子系统SSO管理</h5>
+                <div class="ibox-tools">
+                    <button class="btn btn-primary btn-xs" type="button" onclick="subsystem.create(this);">
+                        <i class="fa fa-plus"></i>&nbsp;创建
+                    </button>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>系统名称</th>
+                        <th>编码</th>
+                        <th class="w120">状态</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="subsystem-list">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- html主体代码 end -->
+
+<script id="subsystem-tmpl" type="text/x-dot-template">
+    {{ if(it.length>0){ }}
+    {{ for(var i=0;i
+    <it.length;i++){ }}
+    <tr>
+        <td>{{= it[i].name}}</td>
+        <td>{{= it[i].code}}</td>
+        <td>
+            <select data-id="{{= it[i].id}}" name="status" onchange="subsystem.status(this);"
+                    class="form-control subsystem-status">
+                <option value="2" {{ if(it[i].status== 2){ }} selected {{ }}}> 维护中</option>
+                <option value="0" {{ if(it[i].status== 0){ }} selected {{ }}}> 停用</option>
+                <option value="1" {{ if(it[i].status== 1){ }} selected {{ }}}> 启用</option>
+            </select>
+        </td>
+        <td>{{= time.timestamp2time(it[i].createTime)}}</td>
+        <td class="w100">
+            <a data-id="{{= it[i].id}}" onclick="subsystem.update(this);" data-toggle="tooltip" data-placement="bottom"
+               title="修改">
+                <i class="fa fa-cog text-navy"></i>
+            </a> &nbsp; &nbsp;
+            <a data-id="{{= it[i].id}}" onclick="subsystem.delete(this);" data-toggle="tooltip" data-placement="bottom"
+               title="删除">
+                <i class="fa fa-remove text-navy"></i>
+            </a>
+        </td>
+    </tr>
+    {{ } }}
+    {{ } else { }}
+    <tr>
+        <td colspan="5">未检索到数据</td>
+    </tr>
+    {{ } }}
+</script>
+<% include inc/js.ejs %>
+<!-- 私有脚本 start -->
+<script src="../../js/_sub_system.js"></script>
+<!-- 私有脚本 end -->
+<% include inc/footer.ejs %>

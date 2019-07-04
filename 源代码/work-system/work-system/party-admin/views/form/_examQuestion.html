@@ -1,0 +1,46 @@
+<div class="table-responsive">
+    <form id="opt-form">
+        <table class="table table-bordered">
+            <tr>
+                <td class="form-item-title">
+                    作业id
+                </td>
+                <td>
+                    <input required type="text" name="examId" maxlength="20" class="form-control"
+                           placeholder="请输入作业id">
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    题目id
+                </td>
+                <td>
+                    <input required type="text" name="questionId" maxlength="20" class="form-control"
+                           placeholder="请输入题目id">
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    分值
+                </td>
+                <td>
+                    <input required type="number" name="score" maxlength="3" class="form-control"
+                           placeholder="请输入分值" onkeyup="keyup(this)">
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script>
+
+    function keyup(obj) {
+        obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
+        obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字
+        obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个, 清除多余的
+        obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
+    }
+</script>

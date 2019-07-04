@@ -1,0 +1,59 @@
+<div class="table-responsive">
+    <form id="opt-add-form">
+        <table class="table table-bordered">
+            <tr>
+                <td class="form-item-title">
+                    题目名称
+                </td>
+                <td>
+                    <textarea required type="text" name="questionName" class="form-control"
+                              rows="5" placeholder="请输入题目名称"></textarea>
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+            <tr>
+                <!--<td class="form-item-title">-->
+                <!--类型-->
+                <!--</td>-->
+                <input type="hidden" name="type" id="add-type">
+                <!--<td>-->
+                <!--<select readonly="readonly" required name="type" id="type" class="form-control"-->
+                <!--onchange="examPaperGenerate.changeType(this[selectedIndex].value)">-->
+                <!--<option value="1">判断</option>-->
+                <!--<option value="2">单选</option>-->
+                <!--<option value="3">多选</option>-->
+                <!--<option value="4">填空</option>-->
+                <!--</select>-->
+                <!--</td>-->
+                <!--<td class="form-item-remark"><span ></span></td>-->
+            </tr>
+        </table>
+
+        <table class="table table-bordered">
+
+            <tbody id="options">
+
+            </tbody>
+
+        </table>
+
+        <table class="table table-bordered">
+            <tr>
+                <td class="form-item-title">
+                    答案解析
+                </td>
+                <td>
+                    <textarea required type="text" name="answerKeys" id="answerKeys"
+                              placeholder="请输入答案解析"></textarea>
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script>
+    $(function () {
+        editor.render('#answerKeys');
+    });
+
+</script>

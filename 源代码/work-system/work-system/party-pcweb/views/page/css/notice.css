@@ -1,0 +1,170 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+/*out-line: nonecolor: #*****;*/
+
+html, ul li {
+    list-style-type: none;
+}
+
+html, body {
+    font-family: "微软雅黑";
+    background-color: #FFFFFF;
+    text-align: center;
+    min-width: 1200px;
+    min-height: 100%;
+    margin: 0px;
+
+    background-image: url(../images/background.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.header {
+    background-image: url(../images/banner.png);
+    height: 10%;
+}
+
+.content {
+    min-width: 960px;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 150px;
+}
+
+.left {
+    width: 12%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.left li {
+    list-style: none;
+    background-color: #FFFFFF;
+    border-radius: 0.3em;
+    height: 45px;
+    line-height: 40px;
+    border: solid 1px #CCCCCC;
+}
+
+.left li.active {
+
+    border-left: solid 4px #B7372A;
+}
+
+.right {
+    width: 78%;
+    margin-left: 10px;
+    display: inline-block;
+
+}
+
+.title {
+    background-color: #FFFFFF;
+    border: solid 1px #CCCCCC;
+    border-radius: 0.3em;
+    height: 45px;
+    line-height: 40px;
+    text-align: left;
+    padding: 0 30px 0 10px;
+    margin-bottom: 8px
+}
+
+.details {
+    height: auto;
+    background-color: #fff;
+    border-radius: 0.3em;
+    padding-bottom: 30px;
+}
+
+.main {
+    border-bottom: solid 1px #CCCCCC;
+    text-align: left;
+    padding: 10px;
+    width: 875px;
+
+}
+
+.date {
+    float: left;
+    text-align: center;
+    height: 60px;
+    padding: 15px 15px 15px 15px;
+    margin-right: 20px;
+    border-right: 1px solid Silver;
+    color: #AAAAAA;
+}
+
+.date-day {
+    font-size: 25px
+}
+
+.date-my {
+    font-size: 18px
+}
+
+.main-content {
+    text-align: left;
+    width: 80%;
+    display: inline-block;
+    line-height: 1.2;
+    vertical-align: top;
+
+}
+
+.main-contents {
+    margin: 20px;
+    line-height: 30px;
+
+}
+
+.content-title {
+    margin-bottom: 5px;
+    font-size: 110%;
+    font-weight: 600;
+}
+
+.contents {
+    font-size: 100%;
+    margin-bottom: 5px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+
+.form {
+    font-size: 80%;
+    color: #AAAAAA;
+}
+
+a {
+    color: #2B2B2B;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:active {
+    text-decoration: none;
+    color: #DD2222;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #337ab7 !important;
+}

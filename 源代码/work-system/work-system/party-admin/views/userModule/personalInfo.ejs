@@ -1,0 +1,100 @@
+<% include ../inc/header.ejs %>
+<link href="../../assets/css/plugins/fancybox/jquery.fancybox.css" rel="stylesheet">
+<link href="../../assets/js/summernote/summernote.css" rel="stylesheet">
+<style type="text/css">
+    .table {
+        width: 48%;
+        float: left;
+        margin-left: 20px;
+        text-align: center;
+    }
+</style>
+<% include ../inc/body.ejs %>
+
+<div class="ibox float-e-margins">
+    <div class="ibox-title" style="padding: 6px 0 3px 24px !important;background-color: #fff;height:47px;">
+        <div style="width: 200px; display: block;float: left;padding-top: 10px;">
+            个人基本信息
+        </div>
+    </div>
+    <div class="table-responsive">
+        <form id="opts-form">
+            <table class="table table-striped">
+                <tbody id="personalBaseInfo">
+
+
+                </tbody>
+            </table>
+        </form>
+
+        <form id="opt-form">
+            <table class="table table-striped">
+                <tbody id="personalDetailInfo">
+
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+<script id="baseInfo-template" type="text/x-dot-template">
+    {{ if(it.length == 0) { }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i=0;i
+    <it.length;i++){ }}
+
+    <tr>
+        <td width="100px" style="text-align: right;">
+            姓名
+        </td>
+        <td>
+            <span class="form-control" >{{= it[i].name ||""}}</span>
+        </td>
+
+    </tr>
+
+
+    <tr>
+        <td width="100px" style="text-align: right;">
+            学号/工号
+        </td>
+        <td>
+            <span name="number" class="form-control">{{= it[i].number||''}}</span>
+        </td>
+
+    </tr>
+
+    <tr>
+        <td width="100px" style="text-align: right;">
+            性别
+        </td>
+        <td>
+            <span name="name" class="form-control">{{= helper.sex(it[i].sex)||''}}</span>
+        </td>
+    </tr>
+
+
+    <tr>
+        <td width="100px" style="text-align: right;">
+           学院
+        </td>
+        <td>
+            <span name="department" class="form-control">
+                {{= it[i].academyName||''}}
+            </span>
+        </td>
+
+        <span></span></td>
+    </tr>
+
+    {{ } }}
+    {{ } }}
+</script>
+
+
+<% include ../inc/js.ejs %>
+
+<!-- 私有脚本 start -->
+<script src="../../js/userModule/_personalInfo.js"></script>
+<!-- 私有脚本 end -->
+<% include ../inc/footer.ejs %>

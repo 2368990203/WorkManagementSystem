@@ -1,0 +1,75 @@
+<!DOCTYPE html public "-//w3c//dtd xhtml 1.0 transitional//en" "http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>集中学习详情</title>
+	<meta name="keywords" content="desktop">
+    <meta name="description" content="desktop">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta http-equiv=“X-UA-Compatible” content=“IE=8″>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	
+	<link href="../css/detail.css" rel="stylesheet">
+	<link href="../css/iframe.css" rel="stylesheet">
+	
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+</head>
+
+<body >
+	<div class="header">
+	
+	</div>
+	<div class="content">
+		<div class="left">
+				<li >集中学习</li>
+				<li>考察记录</li>
+		</div>
+		<div class="right">
+			<div class="location">集中学习列表>集中学习内容</div>
+			<div class="details">
+				<div class="detail">
+					<div class="detail_title">&nbsp;&nbsp;学习主题：</div>
+					<div class="detail_content">学习主题学习主题</div>
+				</div>
+				<div class="detail">
+					<div class="detail_title">&nbsp;&nbsp;学习内容：</div>
+					<div class="detail_content">公司各室： 	学习内容学习内容学习内容学习内容学习内容学习内容学习内容学习内容
+						学习内容学习内容学习内容学习内容学习内容学习内容学习内容，大家一起来学习！
+					</div>
+				</div>
+				<div class="buttom">
+					<a href="#"><button >请假</button></a>
+				</div>
+				<!--请假弹窗-->
+				<div class="popUp">
+        			<div class="mainbox">
+          				
+						<div class="main">
+							<p>请假事由：</p>
+							<textarea class="textarea" placeholder="请填写请假事由"></textarea/>
+							<div class="green_btn">
+								<a href="#"><button >确认</button></a>
+								<button class="close">取消</button>
+							</div>
+						</div>
+        			</div>
+      			</div>
+				
+				</div>
+			</div>
+		</div>
+	</div>
+	
+    <script>
+      $(function(){
+        $(".buttom").click(function(){
+          $(".popUp").fadeIn();
+        });
+        $(".close").click(function(){
+          $(".popUp").fadeOut();
+        });
+      });
+    </script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html public "-//w3c//dtd xhtml 1.0 transitional//en" "http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>思想汇报列表</title>
+	<meta name="keywords" content="desktop">
+    <meta name="description" content="desktop">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta http-equiv=“X-UA-Compatible” content=“IE=8″>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	
+	<link href="../css/meetingList.css" rel="stylesheet">
+	<link rel="stylesheet" href="../css/step/myPagination.css"> <!--分页css-->
+	<script src="../js/file_saver/myPagination.js"></script>	<!--分页js-->
+	
+</head>
+
+<body >
+	<div class="header">	
+	</div>
+
+	<div class="content">
+		<div class="left">
+				<li>思想汇报模板</li>
+				<li>思想汇报管理</li>
+		</div>
+
+		<div class="right">
+			<div class="title">思想汇报列表</div>
+
+			<div class="details">	
+			    <table class="main">
+				  <tr bgcolor="#D3D3D3">
+						   <td>思想汇报</td>
+						   <td>撰写时间</td>
+						   <td>审核状态</td>
+						   <td>操作</td>
+						</tr>
+					    <tr>
+						   <td>第一次思想汇报</td>
+						   <td>2017-8-20</td>
+						   <td>无记录</td>
+						   <td><button class="button">查看详情</button>
+						   		<!--<div class="container">
+									<button class="btn_operation">
+										<span>操作</span>
+										<ul class="dropdown">
+											  <li class="active"><a href="#">Profile Information</a></li>
+											  <li><a href="#">Change Password</a></li>
+											  <li><a href="https://codepen.io/pro">Become <b>PRO</b></a></li>
+											  <li><a href="#">Help</a></li>
+											  <li><a href="#">Log Out</a></li>
+										</ul>
+						   			</button>
+								</div>-->
+								</td>
+						</tr>
+						
+						<tr bgcolor="	#DCDCDC">
+						   <td>第二次思想汇报</td>
+						   <td>2018-1-25</td>
+						   <td>已审核</td>
+						   <td><button class="button">查看详情</button></td>
+						</tr>
+
+						<tr>
+						   <td>第三次思想汇报</td>
+						   <td>2018-3-22</td>
+						   <td>不通过</td>
+						  <td><button class="button">查看详情</button></td>
+						</tr>
+						<tr bgcolor="	#DCDCDC">
+						   <td>第四次思想汇报</td>
+						   <td>2018-5-22</td>
+						   <td>已通过</td>
+						  <td><button class="button">查看详情</button></td>
+						</tr>
+						<tr>
+						   <td>第五次思想汇报</td>
+						   <td>2018-7-22</td>
+						   <td>已通过</td>
+						  <td><button class="button">查看详情</button></td>
+						</tr>
+						<tr bgcolor="	#DCDCDC">
+						   <td>第六次思想汇报</td>
+						   <td>2018-9-22</td>
+						   <td>未通过</td>
+						   <td><button class="button">查看详情</button></td>
+						</tr>
+						<tr>
+						   <td>第七次思想汇报</td>
+						   <td>2018-11-22</td>
+						   <td>已通过</td>
+						  <td><button class="button">查看详情</button></td>
+						</tr>
+					
+				
+				</table>
+					<!--分页-->
+				<div id="pagination" class="pagination"></div>
+
+			</div>
+
+		</div>
+	</div>
+<script>
+//分页js
+	window.onload = function () {
+		new myPagination({
+			id: 'pagination',
+			curPage:1, //初始页码
+			pageTotal: 50, //总页数
+			//pageAmount: 10,  //每页多少条
+			//dataTotal: 500, //总共多少条数据
+			//pageSize: 5, //可选,分页个数
+			//showPageTotalFlag:true, //是否显示数据统计
+			showSkipInputFlag:true, //是否支持跳转
+			getPage: function (page) {
+				//获取当前页数
+				console.log(page);
+			}
+		})
+		
+	}
+</script>
+</body>
+</html>

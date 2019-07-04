@@ -1,0 +1,59 @@
+<div class="table-responsive">
+    <form id="opt-form">
+        <table class="table table-bordered">
+
+            <tr>
+                <td class="form-item-title">
+                    所属学院
+                </td>
+                <td>
+                    <select required name="academyCode" id="academyCode" class="form-control"
+                            onchange="classes.getMajor(this);" placeholder="请选择学院">
+
+                    </select>
+                </td>
+                <td class="form-item-remark">*<span style="color:black">必填</span> <span></span></td>
+            </tr>
+
+            <tr>
+                <td class="form-item-title">
+                    所属专业
+                </td>
+                <td>
+
+                    <select required name="majorCode" id="majorCode" maxlength="20" class="form-control"
+                            placeholder="请选择专业">
+                        <option value=" ">请先选择学院</option>
+
+                    </select>
+
+                </td>
+                <td class="form-item-remark" > *<span style="color:black">必填</span> <span id = "majorCode-tips"></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    年级
+                </td>
+                <td>
+                    <input required type="number" name="grade" id="grade"  tips-id = "grade-tips"  data-length="20" maxlength="20"  onblur="checkRegular(this);"  class="form-control"
+                           placeholder="请输入年级">
+                </td>
+                <td class="form-item-remark" > <span id = "grade-tips"></span></td>
+            </tr>
+
+            <tr>
+                <td class="form-item-title">
+                    班号
+                </td>
+                <td>
+                    <input required type="text" name="classNo" id="classNo"  tips-id = "classNo-tips"  data-length="20" maxlength="20"  onblur="checkRegular(this);"  class="form-control"
+                           placeholder="请输入班号">
+                </td>
+                <td class="form-item-remark" > <span id = "classNo-tips"></span></td>
+            </tr>
+
+        </table>
+    </form>
+</div>
+<script>
+</script>

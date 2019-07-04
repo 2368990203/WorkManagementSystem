@@ -1,0 +1,47 @@
+@charset "utf-8";
+/* CSS Document */
+
+.menu_list {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.menu_head {
+    height: 47px;
+    line-height: 47px;
+    padding-left: 38px;
+    font-size: 14px;
+    color: #525252;
+    cursor: pointer;
+    border: 1px solid #e1e1e1;
+    position: relative;
+    margin: 0px;
+    font-weight: bold;
+url(../images/pro_left.png) center right no-repeat;
+}
+
+.menu_list .current {
+    background: #f1f1f1 url(../images/pro_down.png) center right no-repeat;
+}
+
+.menu_body {
+    line-height: 38px;
+    border-left: 1px solid #e1e1e1;
+    backguound: #fff;
+    border-right: 1px solid #e1e1e1;
+}
+
+.menu_body a {
+    display: block;
+    height: 38px;
+    line-height: 38px;
+    padding-left: 38px;
+    color: #777777;
+    background: #fff;
+    text-decoration: none;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+a {
+    text-decoration: none;
+}

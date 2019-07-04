@@ -1,0 +1,417 @@
+<!DOCTYPE html public "-//w3c//dtd xhtml 1.0 transitional//en"
+        "http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>个人中心>编辑个人信息</title>
+    <meta name="keywords" content="desktop">
+    <meta name="description" content="desktop">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv=“X-UA-Compatible” content=“IE=8″>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="page/css/topstyle.css" rel='stylesheet' type='text/css'/><!--头尾部css-->
+    <link href="assets/css/plugins/sweetalert/sweetalert.css" rel="stylesheet"> <!--退出登录弹窗css-->
+    <!-- Bootstrap Core CSS -->
+    <link href="page/css/bootstrap.min.css" rel='stylesheet' type='text/css'/>
+    <!-- Graph CSS -->
+    <link href="page/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="page/css/detail.css" rel="stylesheet">
+
+    <script type="text/javascript" src="page/js/jquery.min.js"></script>
+</head>
+<style>
+    .table {
+        width: 80% !important;
+    }
+</style>
+
+<body>
+<% include pcwebHeader.ejs %>
+<div class="content">
+
+    <div class="right">
+        <div class="right_top" id="topInfo">
+            <img src="page/images/user.png"/>
+            <div class="user_finish" style="margin-top: 15px">
+
+                <p id="login-name"></p>
+                <!--<div class="bar clearfix">-->
+                <!--<div class="progress-txt">进度：</div>-->
+                <!--<p class="litem"><span style="width: 50px; background-color:#2AA15D;"></span></p>-->
+                <!--<span class="vnum">50%</span>-->
+                <!--</div>-->
+            </div>
+            <div class="edit" style="margin-left: 50%">
+                <button onclick="allUpdate();"><a href="#">保存信息</a></button>
+            </div>
+        </div>
+
+
+        <div class="right_bottom">
+            <form id="opts-form">
+                <table class="table" style="margin-bottom: 0px;" id="personalBaseInfo">
+
+                </table>
+            </form>
+
+            <form id="opt-form">
+                <table class="table" style="margin-bottom: 20px;" id="personalDetailInfo">
+
+                </table>
+            </form>
+
+        </div>
+    </div>
+
+
+</div>
+
+
+</div>
+
+
+<script id="baseInfo-template" type="text/x-dot-template">
+    <tr>
+        <td class="table-title">
+            姓名:
+        </td>
+        <td>
+            <input required type="text" name="name" id="name" tips-id="name-tips" data-type="name" data-length="20"
+                   maxlength="20" onblur="checkRegular(this);"
+                   class="table_input" placeholder="请输入您的姓名" value="{{= it.name||''}}">
+        </td>
+        <td class="table_remark" style="width: 40%">* <span id="name-tips"></span></td>
+    </tr>
+    <tr>
+        <td class="table-title">
+            曾用名:
+        </td>
+        <td>
+            <input type="text" name="oldName" id="oldName" tips-id="oldName-tips" data-type="name" data-length="20"
+                   maxlength="20" onblur="checkRegular(this);"
+                   class="table_input" value="{{= it.oldName||''}}" placeholder="请输入您的曾用名">
+        </td>
+        <td class="table_remark"><span id="oldName-tips"></span></td>
+    </tr>
+    <tr>
+        <td class="table-title">
+            性别:
+        </td>
+        <td>
+            <select required type="text" name="sex" class="table_input" placeholder="请选择您的性别" id="sex"
+                    tips-id="sex-tips" data-length="3" onblur="checkRegular(this);">
+                <option value="">请选择性别</option>
+                {{if(value=it.sex == 1){}}
+                <option value="1" selected="selected">女</option>
+                <option value="2">男</option>
+                {{ }else if(value=it.sex == 2){ }}
+                <option value="1">女</option>
+                <option value="2" selected="selected">男</option>
+                {{ }else{ }}
+                <option value="1">女</option>
+                <option value="2">男</option>
+                {{ } }}
+            </select>
+        </td>
+        <td class="table_remark">* <span id="sex-tips"></span></td>
+    </tr>
+    <tr>
+        <td class="table-title">
+            学号/工号:
+        </td>
+        <td>
+
+            {{ if(it.number==""||it.number==null){ }}
+
+            <input required type="text" name="number" id="number" tips-id="number-tips" data-length="20"
+                   data-type="regnumber" maxlength="20" onblur="checkRegular(this);"
+                   class="table_input" placeholder="请输入您的学号/工号"
+                   value="{{= it.number||''}}">
+
+            {{ }else{ }}
+
+            <input required type="text" name="number" id="number" readonly="readonly"
+                   value="{{= it.number||''}}" class="table_input">
+
+            {{ }}}
+
+
+        </td>
+        <td class="table_remark">* <span id="number-tips"></span></td>
+    </tr>
+    <tr>
+        <td class="table-title">
+            身份证:
+        </td>
+        <td>
+            {{ if(it.idCard==""||it.idCard==null){ }}
+
+            <input required type="text" name="idCard" id="idCard" tips-id="idCard-tips" data-length="18"
+                   data-type="idcard" maxlength="18" onblur="checkRegular(this);" class="table_input"
+                   placeholder="请输入您的身份证" value="{{= it.idCard||''}}">
+
+            {{ }else{ }}
+
+            {{= it.idCard}}
+
+            {{ }}}
+
+
+        </td>
+        <td class="table_remark">* <span id="idCard-tips"></span></td>
+    </tr>
+
+    <tr>
+        <td class="table-title">
+            民族:
+        </td>
+        <td>
+            <select required type="text" id="nationCode" name="nationCode" tips-id="nationCode-tips" data-length="20"
+                    onblur="checkRegular(this);" class="table_input" placeholder="请选择您的民族"
+                    value="{{=it.nationCode||''}}">
+
+            </select>
+        </td>
+        <td class="table_remark">* <span id="nationCode-tips"></span></td>
+    </tr>
+    <tr>
+        <td class="table-title">
+            出生日期:
+        </td>
+        <td>
+            <input required type="text" maxlength="20" name="birthday" id="birthdayStr" tips-id="birthday-tips"
+                   maxlength="10" data-type="date" onblur="checkRegular(this);"
+                   class="table_input" placeholder="请输入您的出生日期" value="{{= it.birthday||''}}">
+        </td>
+        <td class="table_remark">* <span id="birthday-tips"></span></td>
+    </tr>
+    <tr>
+        <td class="table-title">
+            学历:
+        </td>
+        <td>
+            <input required type="text" name="graduate" id="graduate" tips-id="graduate-tips" data-type="chinese"
+                   data-length="20" maxlength="20" onblur="checkRegular(this);"
+                   class="table_input" placeholder="请输入您的学历" value="{{= it.graduate||''}}">
+        </td>
+        <td class="table_remark">* <span id="graduate-tips"></span></td>
+    </tr>
+    <tr>
+        <td class="table-title">
+            学位或职称:
+        </td>
+        <td>
+            <input required type="text" name="degree" id="degree" tips-id="degree-tips" data-type="chinese"
+                   data-length="20" maxlength="20" onblur="checkRegular(this);"
+                   class="table_input" placeholder="请输入您的学位或职称" value="{{= it.degree||''}}">
+        </td>
+        <td class="table_remark">* <span id="degree-tips"></span></td>
+    </tr>
+    <tr>
+        <td class="table-title">
+            国籍:
+        </td>
+        <td>
+            <select required type="text" maxlength="20" name="nationality" id="nationality" class="table_input"
+                    value="{{= it.nationality||''}}" tips-id="nationality-tips" data-length="3"
+                    onblur="checkRegular(this);"
+                    placeholder="请选择您的国籍">
+                <option value="">请选择国籍</option>
+                <option value="1">中国</option>
+                <option value="2">海外</option>
+            </select>
+        </td>
+        <td class="table_remark">* <span id="nationality-tips"></span></td>
+    </tr>
+    <tr>
+        <td class="table-title">
+            手机号:
+        </td>
+        <td>
+            {{ if(it.phone==""||it.phone==null){ }}
+
+            <input required type="text" maxlength="11" name="phone" id="phone" tips-id="phone-tips" data-type="phone"
+                   data-length="11" maxlength="11" onblur="checkRegular(this);"
+                   class="table_input" placeholder="请输入您的手机号" value="{{= it.phone||''}}">
+
+            {{ }else{ }}
+
+            {{= it.phone}}
+
+            {{ }}}
+
+
+        </td>
+        <td class="table_remark">* <span id="phone-tips"></span></td>
+    </tr>
+    <tr>
+        <td class="table-title">
+            出生地:
+        </td>
+        <td>
+            <input required type="text" name="birthPlace" id="birthPlace" tips-id="birthPlace-tips" data-type="address"
+                   data-length="50" maxlength="20" onblur="checkRegular(this);"
+                   class="table_input" placeholder="请输入您的出生地" value="{{= it.birthPlace||''}}">
+        </td>
+        <td class="table_remark">* <span id="birthPlace-tips"></span></td>
+    </tr>
+    <tr>
+        <td class="table-title">
+            现居住地:
+        </td>
+        <td>
+            <input required type="text" name="presentPesidence" id="presentPesidence" data-type="address"
+                   tips-id="presentPesidence-tips" data-length="50" maxlength="20" onblur="checkRegular(this);"
+                   class="table_input" placeholder="请输入您的现居住地" value="{{= it.presentPesidence||''}}">
+        </td>
+        <td class="table_remark">* <span id="presentPesidence-tips"></span></td>
+    </tr>
+    <tr>
+        <td class="table-title">
+            籍贯:
+        </td>
+        <td>
+            <input required type="text" name="originPlace" id="originPlace" tips-id="originPlace-tips"
+                   data-type="address" data-length="50" maxlength="20" onblur="checkRegular(this);"
+                   class="table_input" placeholder="请输入您的籍贯" value="{{= it.originPlace||''}}">
+        </td>
+        <td class="table_remark">* <span id="originPlace-tips"></span></td>
+    </tr>
+    <tr>
+        <td class="table-title">
+            邮箱:
+        </td>
+        <td>
+            <input type="text" name="email" id="email" tips-id="email-tips" data-length="32" data-type="email"
+                   maxlength="32" onblur="checkRegular(this);"
+                   class="table_input" value="{{= it.email||''}}" placeholder="请输入您的邮箱">
+        </td>
+        <td class="table_remark"><span id="email-tips"></span></td>
+    </tr>
+
+</script>
+
+<script id="detailInfo-template" type="text/x-dot-template">
+    <tr>
+        <td class="table-title" style="width: 20%">
+            学院:
+        </td>
+        <td>
+            <select required type="text" name="academyCode" id="academyCode" tips-id="academyCode-tips" data-length="20"
+                    onblur="checkRegular(this);" maxlength="20"
+                    placeholder="请选择您的学院" class="table_input" value="{{= it.academyName||''}}"
+                    onchange="personalBaseInfo.getSyncByAcademyCode()">
+            </select>
+        </td>
+        <td class="table_remark" style="width: 40%">* <span id="academyCode-tips"></span></td>
+    </tr>
+    <tr>
+        <td class="table-title">
+            专业:
+        </td>
+        <td>
+            <select required type="text" maxlength="20" name="majorCode" id="majorCode" tips-id="majorCode-tips"
+                    data-length="20" onblur="checkRegular(this);"
+                    placeholder="请选择您的专业" id="majorCode" class="table_input">
+                <option></option>
+
+            </select>
+        </td>
+        <td class="table_remark">* <span id="majorCode-tips"></span></td>
+    </tr>
+    <tr>
+        <td class="table-title">
+            支部:
+        </td>
+        <td>
+            <select required type="text" maxlength="20" name="departCode" id="departCode" tips-id="departCode-tips"
+                    data-length="20" onblur="checkRegular(this);"
+                    placeholder="请选择您的支部" class="table_input">
+                <option></option>
+            </select>
+        </td>
+        <td class="form-item-remark"><span id="departCode-tips"></span></td>
+
+    </tr>
+    <tr>
+        <td class="table-title">
+            班级:
+        </td>
+        <td>
+            <input required type="text" name="myClass" id="myClass" tips-id="myClass-tips" data-length="20"
+                   maxlength="20" data-type="class" onblur="checkRegular(this);"
+                   class="table_input" placeholder="请输入您的班级"
+            >
+        </td>
+        <td class="table_remark">* <span id="myClass-tips"></span></td>
+    </tr>
+    <tr>
+        <td class="table-title">
+            在读状态:
+        </td>
+        <td>
+            <select required type="text" maxlength="20" name="studyStatus" id="studyStatus" tips-id="studyStatus-tips"
+                    data-length="3" onblur="checkRegular(this);"
+                    class="table_input" placeholder="请选择您的在读状态">
+                <option value="">请选择在读状态</option>
+                <option value="0">在读</option>
+                <option value="1">已毕业</option>
+            </select>
+        </td>
+        </td>
+        <td class="table_remark">* <span id="studyStatus-tips"></span></td>
+        <td></td>
+    </tr>
+</script>
+
+<script id="nation-template" type="text/x-dot-template">
+    {{ if(it.length == 0) { }}
+    <option value="">暂无数据</option>
+    {{ }else{ }}
+    <option value="">请选择民族</option>
+    {{ for(var i = 0 ; i < it.length ; i++){ }}
+    <option value="{{=it[i].code }}">{{=it[i].name }}</option>
+    {{ } }}
+    {{ } }}
+</script>
+
+<script id="academy-template" type="text/x-dot-template">
+
+    {{ if(it.length == 0 ){ }}
+    <option value="">暂无数据</option>
+    {{ }else{ }}
+    <option value="" selected="selected">请选择学院</option>
+    {{ for(var i = 0 ; i < it.length ; i++){ }}
+    <option value="{{=it[i].code }}">{{=it[i].name }}</option>
+    {{ } }}
+    {{ } }}
+</script>
+
+<script id="major-template" type="text/x-dot-template">
+    {{ if(it.length == 0 ){ }}
+    <option value="">暂无数据</option>
+    {{ }else{ }}
+    <option value="" selected="selected">请选择专业</option>
+    {{ for(var i = 0 ; i < it.length ; i++){ }}
+    <option value="{{=it[i].code }}">{{=it[i].name }}</option>
+    {{ } }}
+    {{ } }}
+</script>
+
+
+<script id="depart-template" type="text/x-dot-template">
+    {{ if(it.length == 0 ){ }}
+    <option value="">暂无数据</option>
+    {{ }else{ }}
+    <option value="" selected="selected">请选择党支部</option>
+    {{ for(var i = 0 ; i < it.length ; i++){ }}
+    <option value="{{=it[i].code }}">{{=it[i].name }}</option>
+    {{ } }}
+    {{ } }}
+</script>
+<% include pcwebFooter.ejs %>
+<script src="page/js/work/_updateUserInfo.js"></script>
+</body>
+</html>

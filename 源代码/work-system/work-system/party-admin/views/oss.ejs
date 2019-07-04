@@ -1,0 +1,106 @@
+<% include inc/header.ejs %>
+<% include inc/body.ejs %>
+<!-- html主体代码 start -->
+<div class="table-responsive">
+    <form id="opt-form">
+        <table class="table table-striped">
+            <tr>
+                <td class="form-item-title">
+                    Host
+                </td>
+                <td>
+                    <input required type="text" name="Host" class="form-control" placeholder="请输入上传Host">
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    Region
+                </td>
+                <td>
+                    <input required type="text" name="Region" class="form-control" placeholder="请输入Region">
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    Endpoint
+                </td>
+                <td>
+                    <input required type="text" name="Endpoint" class="form-control" placeholder="请输入Endpoint">
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    Bucket
+                </td>
+                <td>
+                    <input required type="text" name="Bucket" class="form-control" placeholder="请输入Bucket">
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    AccessKeyID
+                </td>
+                <td>
+                    <input required type="text" name="AccessKeyID" class="form-control" placeholder="请输入AccessKeyID">
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+            <tr>
+                <td width="100px" style="text-align: right;">
+                    AccessKeySecret
+                </td>
+                <td>
+                    <input required type="text" name="AccessKeySecret" class="form-control"
+                           placeholder="请输入AccessKeySecret">
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+            <tr>
+                <td width="100px" style="text-align: right;">
+                    RoleArn
+                </td>
+                <td>
+                    <textarea required name="RoleArn" class="form-control" placeholder="请输入RoleArn"></textarea>
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+            <tr>
+                <td width="100px" style="text-align: right;">
+                    TokenExpireTime
+                </td>
+                <td>
+                    <input required type="number" maxlength="6" name="TokenExpireTime" class="form-control"
+                           placeholder="请输入TokenExpireTime">
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+            <tr>
+                <td width="100px" style="text-align: right;">
+                    Policy
+                </td>
+                <td>
+                    <textarea placeholder="请输入Policy" required name="Policy" class="form-control" rows="8"></textarea>
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="right">
+                    <button onclick="oss.test(this);" type="button" class="btn btn-w-m btn-primary">测试</button>
+                    <button onclick="oss.config(this);" type="button" class="btn btn-w-m btn-primary">配置</button>
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<!-- html主体代码 end -->
+
+<% include inc/js.ejs %>
+<!-- 私有脚本 start -->
+<script src="../../js/_tps_config.js"></script>
+<!-- 私有脚本 end -->
+<% include inc/footer.ejs %>

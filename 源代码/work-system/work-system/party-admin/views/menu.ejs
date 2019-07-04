@@ -1,0 +1,203 @@
+<% include inc/header.ejs %>
+<link rel="stylesheet" href="../../assets/css/plugins/footable/footable.core.css"/>
+<style>
+    .opt-fun {
+        margin: 5px 5px 0px 0px !important;
+        float: left;
+    }
+
+    .c1 {
+        color: white;
+    }
+
+    .c2 {
+        color: #ed5565;
+    }
+
+    /*.module-sort{left: 0px;right: unset!important; }
+    .module-name{margin-left: 50px}*/
+    .module-update {
+        right: 45px !important;
+    }
+
+    .module-delete {
+        right: 5px !important;
+    }
+
+</style>
+<% include inc/body.ejs %>
+<!-- html主体代码 start -->
+<div class="row">
+    <div class="col-sm-4">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>权限模块</h5>
+                <div class="ibox-tools">
+                    <button class="btn btn-primary btn-xs" type="button" onclick="module.create();">
+                        <i class="fa fa-plus"></i>&nbsp;创建
+                    </button>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div class="list-group" id="module-list">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <h5 style="text-align: right;">
+                    <button class="btn btn-primary btn-xs" type="button" onclick="menu.create();">
+                        <i class="fa fa-plus"></i>&nbsp;创建
+                    </button>
+                </h5>
+                <div class="list-group" id="menu-list">
+                    <div class="panel-body" style="overflow-y: auto;">
+                        <ul class="list-group" id="menu-list-item">
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 子系统模板 -->
+<script id="subsystem-tmpl" type="text/x-dot-template">
+    {{ if(it.length>0){ }}
+    {{ for(var i=0;i
+    <it.length;i++){ }}
+    <button data-id="{{= it[i].id}}" onclick="subsystem.select(this)"
+            data-check="{{ if(i==0){ }}1  {{ } else { }} 0 {{ } }}" type="button"
+            class="btn btn-w-m {{ if(i==0){ }}btn-danger{{ } }}">{{= it[i].name}}
+    </button>
+    {{ } }}
+    {{ } }}
+</script>
+<!-- 权限模块模板 -->
+<script id="module-tmpl" type="text/x-dot-template">
+    {{ if(it.length>0){ }}
+    {{ for(var i=0;i
+    <it.length;i++){ }}
+    <a data-index="{{=i}}" class="list-group-item {{ if(i==0){}}active {{ }else {}} {{ }}}">
+        <!--<span  class="badge badge-info module-sort" >
+            {{= it[i].sort}}
+        </span>-->
+        <span class="module-name">
+                    {{= it[i].name}}
+                </span>
+        <span class="badge badges badge-primary module-update {{ if(i==0){}} {{ }else {}} hide {{ }}}"
+              onclick="module.update('{{= it[i].id}}');">
+                    <i class="fa fa-cog"></i>
+                </span>
+        <span class="badge badges badge-danger module-delete {{ if(i==0){}} {{ }else {}} hide {{ }}}"
+              onclick="module.delete('{{= it[i].id}}');">
+                    <i class="fa fa-close"></i>
+                </span>
+    </a>
+    {{ } }}
+    {{ } else { }}
+    <h2>未检索到数据</h2>
+    {{ } }}
+</script>
+<!-- 权限下拉选择模板 -->
+<script id="module-select-tepl" type="text/x-dot-template">
+    {{ for(var i=0;i
+    <it.length;i++){ }}
+    <option value="{{= it[i].id}}">{{= it[i].name}}</option>
+    {{ } }}
+</script>
+<!-- 权限菜单模板 -->
+<script id="menu-tmpl" type="text/x-dot-template">
+    {{ if(it.length>0){ }}
+    {{ for(var i=0;i
+    <it.length;i++){ }}
+    <li class="list-group-item active">
+        <i class="fa {{= it[i].icon}}"></i> {{= it[i].name}}
+        <a style="display: block;float: right;color:#ffffff;">
+            <i class="fa fa-plus-circle" data-toggle="tooltip" data-placement="bottom" title="创建子菜单"
+               onclick="sub.create('{{= it[i].id}}');"></i>&nbsp;
+            <i class="fa fa-cog" data-toggle="tooltip" data-placement="bottom" title="修改"
+               onclick="menu.update('{{= it[i].id}}');"></i>&nbsp;
+            <i class="fa fa-remove" data-toggle="tooltip" data-placement="bottom" title="删除"
+               onclick="menu.delete('{{= it[i].id}}');"></i>
+        </a>
+    </li>
+    <li class="list-group-item p0">
+        <table class="table table-striped">
+            <tbody>
+            {{ if(it.length>0){ }}
+            {{ for(var j=0;j
+            <it
+            [i].sub.length;j++){ }}
+            <tr>
+                <td class="w50">
+                    <i class="fa {{= it[i].sub[j].icon }}"></i>
+                </td>
+                <td>
+                    {{= it[i].sub[j].name }}
+                </td>
+                <td>
+                    {{= it[i].sub[j].url }}
+                </td>
+                <td>
+                    {{= it[i].sub[j].code }}
+                </td>
+                <td>
+                    {{= it[i].sub[j].sort }} <span style="color:red;">↓</span>
+                </td>
+                <td class="w100">
+                    <a class="fa fa-cogs text-navy" data-toggle="tooltip" data-placement="bottom" title="配置权限"
+                       onclick="auth.create('{{= it[i].id }}','{{= it[i].sub[j].id}}');"></a>
+                    &nbsp;&nbsp;
+                    <a class="fa fa-cog" data-toggle="tooltip" data-placement="bottom" title="修改子菜单"
+                       onclick="sub.update('{{= it[i].id }}','{{= it[i].sub[j].id}}');"></a>
+                    &nbsp;&nbsp;
+                    <a class="fa fa-remove" data-toggle="tooltip" data-placement="bottom" title="删除子菜单"
+                       onclick="sub.delete('{{= it[i].sub[j].id}}');"></a>
+                </td>
+            </tr>
+            <tr class="info">
+                <td>
+
+                </td>
+                <td colspan="5">
+
+                    {{ for(var k=0;k
+                    <it
+                    [i].sub[j].btns.length;k++){ }}
+                    <div class="opt-fun">
+                        <small class="label label-success">
+                            <a class="c1"
+                               onclick="auth.update('{{= it[i].id }}','{{= it[i].sub[j].id}}','{{= it[i].sub[j].btns[k].id}}')">
+                                {{= it[i].sub[j].btns[k].name}}
+                            </a> &nbsp;
+                            <a class="fa fa-remove c2" onclick="auth.delete('{{= it[i].sub[j].btns[k].id}}')"></a>
+                        </small>
+                    </div>
+                    {{ } }}
+                </td>
+            </tr>
+            {{ } }}
+            {{ } else { }}
+            <tr>
+                <td>没有子菜单数据</td>
+            </tr>
+            {{ } }}
+            </tbody>
+        </table>
+    </li>
+    {{ } }}
+    {{ } else { }}
+    <li class="list-group-item">未检索到数据</li>
+    {{ } }}
+</script>
+<!-- html主体代码 end -->
+<% include inc/js.ejs %>
+<script src="../../assets/js/plugins/footable/footable.all.min.js"></script>
+<!-- 私有脚本 start -->
+<script src="../../js/_menu.js"></script>
+<!-- 私有脚本 end -->
+<% include inc/footer.ejs %>

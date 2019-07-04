@@ -1,0 +1,93 @@
+<% include ../inc/header.ejs %>
+<style>
+    .date-table {
+        overflow-y: auto;
+    }
+
+    a {
+        color: black;
+    }
+</style>
+
+<% include ../inc/body.ejs %>
+<!-- html主体代码 start -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title" style="padding-top: 3px !important;">
+                <div style="width: 140px; display: block;float: left;padding-top: 10px;">
+                    待办事项列表
+                </div>
+
+
+            </div>
+
+            <div class="ibox-content data-view" style="overflow-y: auto;">
+                <div class="col-sm-12">
+                    <div class=" col-sm-12 date-table">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>审核标题</th>
+                                <th>审核类型</th>
+                                <th>审核阶段</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody id="item-list">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-12 pages M-box3 list-page">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div><!-- html主体代码 end -->
+<!-- 管理的消息提醒模板 -->
+<script id="message-template" type="text/x-dot-template">
+    {{ if(it.length == 0) { }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i=0;i < it.length;i++){ }}
+    <tr>
+        <td>
+            {{= ((index-1) * size +i+1)}}
+        </td>
+
+        <td>
+            <a href="{{=server_root.substr(0,server_root.length-1)}}{{=helper.approvalUrl(it[i].approvalType)}}?approvalId={{=it[i].approvalId }}&stage={{=it[i].stage}}"
+               data-id="{{=it[i].approvalId }}">
+                {{=it[i].name||""}} ( {{=it[i].number||""}}
+                ){{=helper.approvalType(it[i].approvalType)||""}}{{=helper.stage(it[i].stage)||""}}
+            </a>
+        </td>
+        <td>
+            {{=helper.approvalType(it[i].approvalType)||""}}
+        </td>
+        <td>
+            {{=helper.stage(it[i].stage)||""}}
+        </td>
+
+        <td>
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle"
+                        onclick="location.href='{{=server_root.substr(0,server_root.length-1)}}{{=helper.approvalUrl(it[i].approvalType)}}?approvalId={{=it[i].approvalId }}&stage={{=it[i].stage}}'">
+                    审批
+                </button>
+            </div>
+        </td>
+    </tr>
+    {{ } }}
+    {{ } }}
+</script>
+<% include ../inc/js.ejs %>
+
+<!-- 私有脚本 start -->
+<script src="../../js/userModule/_userTodo.js"></script>
+<!-- 私有脚本 end -->
+<% include ../inc/footer.ejs %>

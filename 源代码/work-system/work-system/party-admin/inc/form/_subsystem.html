@@ -1,0 +1,38 @@
+<div class="table-responsive">
+    <form id="opt-form">
+        <table class="table table-striped">
+            <tr>
+                <td class="form-item-title">
+                   子系统名称
+                </td>
+                <td>
+                    <input required type="text" name="name" class="form-control" placeholder="请输入模块名称">
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+            <tr>
+                <td width="100px" style="text-align: right;">
+                    编码
+                </td>
+                <td>
+                    <input required type="text" name="code" class="form-control" placeholder="请输入编码">
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+            <tr>
+                <td width="100px" style="text-align: right;">
+                    状态
+                </td>
+                <td>
+                    <select name="status" class="form-control" id="subsystem-status">
+                        <option value="2"> == 维护中 == </option>
+                        <option value="0"> == 停用 == </option>
+                        <option value="1" selected> == 启用 == </option>
+                    </select>
+                </td>
+                <td class="form-item-remark"><span ></span></td>
+            </tr>
+        </table>
+    </form>
+</div>
+

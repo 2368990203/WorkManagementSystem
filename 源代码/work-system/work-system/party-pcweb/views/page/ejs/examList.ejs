@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html public "-//w3c//dtd xhtml 1.0 transitional//en"
+        "http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>作业>作业列表</title>
+    <meta name="keywords" content="desktop">
+    <meta name="description" content="desktop">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv=“X-UA-Compatible” content=“IE=8″>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="page/css/meetingList.css" rel="stylesheet">
+    <link href="page/css/topstyle.css" rel='stylesheet' type='text/css'/><!--头尾部css-->
+    <link href="assets/css/plugins/sweetalert/sweetalert.css" rel="stylesheet"> <!--退出登录弹窗css-->
+    <!-- Bootstrap Core CSS -->
+    <link href="page/css/bootstrap.min.css" rel='stylesheet' type='text/css'/>
+    <!-- Graph CSS -->
+    <link href="page/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="page/css/step/myPagination.css"> <!--分页css-->
+
+</head>
+
+<body>
+
+<% include pcwebHeader.ejs %>
+
+<div class="content">
+    <div class="left">
+<!--        <li><a href="courseArrangementList" style="color: black;text-decoration-line: none"> 课程安排</a></li>-->
+        <li><a href="#" style="color: black;text-decoration-line: none">范例学习</a></li>
+        <li class="active"><a href="examList" style="color: black;text-decoration-line: none"> 作业</a></li>
+    </div>
+
+    <div class="right">
+        <div class="title"><a href="examList" style="color:#2B2B2B;text-decoration-line: none">作业</a></div>
+
+        <div class="details">
+            <form id="exam-form">
+
+                <table class="main" style="width: 874px">
+                    <tr bgcolor="#D3D3D3">
+                        <td>作业</td>
+                        <td>开始时间</td>
+                        <td>结束时间</td>
+                        <td>作业时长(分钟)</td>
+                        <td>得分</td>
+                        <td>操作</td>
+                    </tr>
+                    <tbody id="exam-list">
+
+                    </tbody>
+                </table>
+
+                <div id="pagination" class="pagination" style="margin:70px 30% 30px "></div>
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+
+<script src="page/js/question/jquery.easy-pie-chart.js"></script>
+<!--时间js-->
+<script src="page/js/question/jquery.countdown.js"></script>
+
+
+<!--渲染试卷列表-->
+<script id="exam-list-template" type="text/x-dot-template">
+
+    {{ if(typeof it == "undefined" || it.length == 0) { }}
+    暂无考试安排
+    {{ }else{ }}
+    {{ for(var i = 0; i < it.length; i++ ) { }}
+    <tr>
+        <td>{{=it[i].examName ||"" }}</td>
+        <td>{{=it[i].startTimeStr||"" }}</td>
+        <td>{{=it[i].endTimeStr ||"" }}</td>
+        <td>{{=it[i].duration ||"" }}</td>
+
+        {{ if(it[i].status == 1){ }}
+        <td>未考</td>
+        <td>
+            {{ if(it[i].status == 1){ }}
+                <input type="button" class="button" value="进入作业" examId="{{=it[i].examId }}" roomId="{{=it[i].roomId||""}}"
+            isUnseal = "{{=it[i].isUnseal ||0 }}" onclick="examList.checkCode(this);"/>
+
+            {{ }else if(it[i].examStatus != 1) { }}
+
+            {{= helper.examStatus(it[i].examStatus)||"" }}
+
+            {{ } }}
+
+        </td>
+        {{ }else if(it[i].status == 2) { }}
+        <td>{{=it[i].score||"0"}}</td>
+        <td>
+
+            <input type="button" class="button" data-id="{{=it[i].examId }}" data-status="{{=it[i].examStatus }}"
+                   value="作业解析" onclick="examList.redirectExamRecord(this);"/>
+
+        </td>
+        </td>
+        {{ } }}
+
+
+    </tr>
+    {{ } }}
+    {{ } }}
+</script>
+<% include pcwebFooter.ejs %>
+<script src="page/js/work/_examList.js"></script>
+
+</body>
+</html>

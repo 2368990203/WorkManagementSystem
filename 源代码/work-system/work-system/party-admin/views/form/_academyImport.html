@@ -1,0 +1,105 @@
+<div class="table-responsive">
+
+    <table class="table table-bordered">
+        <tr>
+            <td class="form-item-title" colspan="3" style="text-align: center;color: red;font-weight: bolder;">
+                导入步骤
+            </td>
+
+        </tr>
+
+        <tr>
+            <td class="form-item-title" colspan="3" style="text-align: left;">
+                1、下载学院部门信息模板。
+                <button class="btn btn-primary btn-xs" type="button" onclick="academyInfo.importModel(this);">
+                    <i class="fa fa-download"></i>&nbsp;学院部门信息模板
+                </button>
+                <br>
+                2、在学院信息模板填写学院部门代码，学院部门名称和所在校区，任意一项不填则不做处理。<br>
+                3、在下方导入文件信息模块选择填写后的学院部门信息模板文件。<br>
+                4、然后点击导入按钮。<br>
+                5、耐心等待导入结果，请不要离开界面。<br>
+
+            </td>
+
+        </tr>
+
+
+    </table>
+    <form id="data-form" enctype="multipart/form-data">
+        <table class="table table-bordered">
+            <tr>
+                <td class="form-item-title" colspan="3" style="text-align: center">
+                    导入文件信息
+
+                </td>
+
+            </tr>
+
+            <tr>
+                <td class="form-item-title">
+                    导入文件
+                </td>
+                <td colspan="2">
+                    <input type="file" id="file" name="file"
+                           accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+
+                </td>
+            </tr>
+
+            <tr>
+                <td class="form-item-title">
+                    上传进度
+                </td>
+                <td colspan="2">
+                    <progress id="progressBar" value="0" max="100" style="width: 300px;"></progress>
+                    <span id="percentage"></span><span id="time"></span>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="form-item-title">
+                    处理进度
+                </td>
+                <td colspan="2">
+                    <progress id="todoBar" value="0" max="100" style="width: 300px;"></progress>
+                    <span id="todoPer"></span><span id="mark"></span>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="form-item-title">
+                    完成情况
+                </td>
+                <td colspan="2">
+                    <div id="res"></div>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <div id="error-body" style="text-align: center;display: none">
+        <div>未导入数据
+            <button class="btn btn-primary btn-xs" type="button"
+                    onclick="academyInfo.exportError(this);">
+                <i class="fa fa-download"></i>&nbsp;&nbsp;导出
+            </button>
+        </div>
+
+        <table class="table table-bordered" id="error-table" style="text-align: center">
+            <thead>
+            <tr>
+                <td>序号</td>
+                <td>学院部门代码</td>
+                <td>学院部门名称</td>
+                <td>所在校区</td>
+                <td>报错原因</td>
+            </tr>
+            </thead>
+            <tbody id="error-list">
+
+            </tbody>
+        </table>
+    </div>
+
+</div>

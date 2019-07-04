@@ -1,0 +1,148 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html, ul li {
+    list-style-type: none;
+}
+
+html, body {
+    min-width: 1200px;
+    min-height: 100%;
+    margin: 0px;
+    padding: 0px;
+    background-image: url(../images/backgroud.png);
+    background-color: #FFFFFF;
+    background-size: cover;
+    background-repeat: no-repeat;
+    text-align: center;
+}
+
+.header {
+    background-image: url(../images/banner.png);
+    height: 10%;
+}
+
+.content {
+    min-width: 960px;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+.left {
+    width: 12%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.left li.active {
+    border-left: solid 4px #B7372A;
+}
+
+.left li {
+    list-style: none;
+    background-color: #FFFFFF;
+    border-radius: 0.3em;
+    height: 45px;
+    line-height: 40px;
+    border: solid 1px #CCCCCC;
+}
+
+.right {
+    width: 78%;
+    margin-left: 10px;
+    display: inline-block;
+    margin-bottom: 160px;
+
+}
+
+.title {
+    background-color: #FFFFFF;
+    border: solid 1px #CCCCCC;
+    border-radius: 0.3em;
+    height: 45px;
+    line-height: 40px;
+    text-align: left;
+    padding: 0 30px 0 10px;
+    margin-bottom: 8px
+}
+
+.details {
+    height: auto;
+    background-color: #fff;
+    border-radius: 0.3em;
+    padding-bottom: 30px;
+
+}
+
+.main {
+    background-color: #FFFFFF;
+    border: solid 1px #CCCCCC;
+    border-radius: 0.3em;
+    height: 105px;
+    padding: 10px;
+
+
+}
+
+.picture {
+
+    margin-right: 20px;
+    display: inline-block;
+
+}
+
+.main-content {
+    text-align: left;
+    width: 80%;
+    display: inline-block;
+    line-height: 1.2;
+    vertical-align: top;
+
+
+}
+
+.content-title {
+    margin-bottom: 5px;
+    font-size: 110%;
+    font-weight: 600;
+
+}
+
+.contents {
+    font-size: 100%;
+    margin-bottom: 5px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+}
+
+.form {
+    font-size: 80%;
+    color: #AAAAAA;
+}
+
+a {
+    color: #2B2B2B !important;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:active {
+    text-decoration: none;
+    color: #DD2222;
+}
+
+a:hover {
+    text-decoration: none !important;
+    color: #337ab7 !important;
+}

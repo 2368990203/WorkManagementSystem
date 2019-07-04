@@ -1,0 +1,56 @@
+<div class="table-responsive">
+    <form id="opt-form">
+        <table class="table table-bordered">
+            <tr>
+                <td class="form-item-title">
+                    作业名称
+                </td>
+                <td>
+                    <input readonly="readonly" required type="text" name="name" maxlength="20" class="form-control"
+                           placeholder="请输入作业">
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    题目
+                </td>
+                <td>
+                    <input readonly="readonly" required type="text" name="questionName" maxlength="20"
+                           class="form-control"
+                           placeholder="请输入题目">
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    类型
+                </td>
+                <td>
+                    <input required readonly="readonly" name="type" id="type" class="form-control">
+                </td>
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+        </table>
+
+        <table class="table table-bordered">
+            <tbody id="options">
+
+
+            </tbody>
+
+        </table>
+        <table class="table table-bordered">
+            <tr>
+                <td class="form-item-title" style="text-align: center">
+                    答案解析
+                </td>
+                <td>
+                    <pre required="" type="text" name="answerKeys" id="answerKeys" readonly="readonly"></pre>
+                </td>
+
+                <td class="form-item-remark"><span></span></td>
+            </tr>
+        </table>
+    </form>
+</div>

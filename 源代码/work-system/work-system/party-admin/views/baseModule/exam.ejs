@@ -1,0 +1,472 @@
+<% include ../inc/header.ejs %>
+<style>
+    .date-table {
+        overflow-y: auto;
+    }
+</style>
+
+<% include ../inc/body.ejs %>
+<!-- html主体代码 start -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title" style="padding-top: 3px !important;">
+                <div style="width: 140px; display: block;float: left;padding-top: 10px;">
+                    作业列表
+                </div>
+
+                <div class="ibox-tools">
+
+                    <button style="margin-top: 8px;" class="btn btn-primary btn-xs" type="button"
+                            onclick="exam.create(this);">
+                        <i class="fa fa-plus"></i>&nbsp;新增
+                    </button>
+
+<!--                    <button style="margin-top: 8px;" class="btn btn-primary btn-xs" type="button"-->
+<!--                            onclick="exam.importUserModel(this);">-->
+<!--                        <i class="fa fa-download"></i>&nbsp;下载学生信息模板-->
+<!--                    </button>-->
+
+<!--                    <button style="margin-top: 8px;" class="btn btn-primary btn-xs" type="button"-->
+<!--                            onclick="exam.importUser(this);">-->
+<!--                        <i class="fa fa-user"></i>&nbsp;导入学生信息-->
+<!--                    </button>-->
+
+<!--                    <button style="margin-top: 8px;" class="btn btn-primary btn-xs" type="button"-->
+<!--                            onclick="exam.randomExam(this);">-->
+<!--                        <i class="fa fa-random"></i>&nbsp;随机组卷-->
+<!--                    </button>-->
+
+
+                </div>
+
+            </div>
+            <div class="ibox-content data-view" style="overflow-y: auto;">
+                <div class="col-sm-12">
+                    <div class=" col-sm-12 date-table">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>名称</th>
+                                <th>状态</th>
+                                <th>类型</th>
+                                <th>总分值</th>
+                                <th>开始时间</th>
+                                <th>结束时间</th>
+                                <th>时长(分钟)</th>
+                                <th>发布状态</th>
+                                <th>成绩公布状态</th>
+
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody id="item-list">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-12 pages M-box3 list-page">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- html主体代码 end -->
+<!-- 管理的作业模板 -->
+<script id="exam-template" type="text/x-dot-template">
+    {{ if(it.length == 0) { }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i=0;i < it.length;i++){ }}
+    <tr>
+        <td>
+            {{= ((index-1) * size +i+1)}}
+        </td>
+        <td>
+            {{= it[i].name }}
+        </td>
+        <td>
+            {{= helper.status(it[i].status) }}
+        </td>
+        <td>
+            {{= helper.type(it[i].type) }}
+        </td>
+        <td>
+            {{= it[i].score}}
+        </td>
+        <td>
+            {{= it[i].startTimeStr||""}}
+        </td>
+        <td>
+            {{= it[i].endTimeStr||""}}
+        </td>
+        <td>
+            {{=helper.length(it[i].duration)}}
+        </td>
+        <td>
+            {{= helper.releaseStatus(it[i].releaseStatus) }}
+        </td>
+        <td>
+            {{= helper.publishStatus(it[i].publishStatus) }}
+        </td>
+        <td>
+            <div class="btn-group">
+
+                <!--<a class="btn btn-primary btn-xs dropdown-toggle" style="margin-right: 5px"-->
+                <!--onclick="examAdd()">组卷</a>-->
+                <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle">操作 <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+
+                    {{ if(it[i].status !=2) {}}
+<!--                    <li>-->
+<!--                        <a href="#" data-id="{{= it[i].id}}" onclick="exam.importUser(this);">导入学生</a>-->
+<!--                    </li>-->
+
+                    {{ } }}
+
+<!--                    <li>-->
+<!--                        <a href="#" data-id="{{= it[i].id}}" onclick="exam.redirectExamRoom(this);">考场管理</a>-->
+<!--                    </li>-->
+
+                    {{ if(it[i].releaseStatus == 1) {}}
+
+<!--                    <li>-->
+<!--                        <a href="#" data-id="{{= it[i].id}}" onclick="exam.randomExam(this);">随机组卷</a>-->
+<!--                    </li>-->
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="exam.redirectExamPaperGenerate(this);">手动组卷</a>
+                    </li>
+
+
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="exam.preview(this);">作业预览</a>
+                    </li>
+
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="exam.release(this);">发布作业</a>
+                    </li>
+
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="exam.update(this);">修改作业</a>
+                    </li>
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="exam.delete(this);">删除作业</a>
+                    </li>
+
+
+
+
+                    {{ }else if(it[i].releaseStatus == 2) {}}
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="exam.preview(this);">作业预览</a>
+                    </li>
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="exam.redirectExamStudent(this);">学生管理</a>
+                    </li>
+
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="exam.publish(this);">公布成绩</a>
+                    </li>
+
+                    {{ if(it[i].isNote ==1&&it[i].status !=2) { }}
+
+<!--                    <li>-->
+<!--                        <a href="#" data-id="{{= it[i].id}}" onclick="exam.sendNote(this);">短信推送</a>-->
+<!--                    </li>-->
+                    {{ } }}
+
+                    {{ if(it[i].status ==1) { }}
+
+<!--                    <li>-->
+<!--                        <a href="#" data-id="{{= it[i].id}}" onclick="exam.sync(this);">重置缓存</a>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <a href="#" data-id="{{= it[i].id}}" onclick="exam.finish(this);">结束本次作业</a>-->
+<!--                    </li>-->
+                    {{ } }}
+
+                    {{ } }}
+                </ul>
+            </div>
+        </td>
+    </tr>
+    {{ } }}
+    {{ } }}
+</script>
+
+
+<script id="choice-list-template" type="text/x-dot-template">
+
+    {{ if(it.length == 0) { }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i=0;i < it.length;i++){ }}
+    {{ var answer = ""; }}
+    <tr>
+        <td>
+            <span class="question-number">{{=(i+1)}}</span><span class="highlight-color"> 【{{=it[i].score }}分】</span>
+            {{=it[i].questionName }}<br>
+            {{ for(var j = 0; j < it[i]['options'].length ; j++){ }}
+            {{ if(it[i]['options'][j].isAnswer == 1){ }}
+            {{ answer += String.fromCharCode(65+j);}}
+            {{ } }}
+
+            &emsp;&emsp;&emsp;&nbsp;
+            <span class="option-num">{{=String.fromCharCode(65+j) }}</span> {{=it[i]['options'][j].optionInfo }}<br>
+            {{ } }}
+            &emsp;&emsp;&emsp;
+            正确答案：<span class="highlight-color">{{=answer }}</span><br>
+            答案解析：
+            <div class="answer-main">{{=it[i].answerKeys }}</div>
+        </td>
+    </tr>
+    {{ } }}
+    {{ } }}
+</script>
+
+<!--填空题-->
+<script id="gap-list-template" type="text/x-dot-template">
+
+    {{ if(it.length == 0) { }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i=0;i < it.length;i++){ }}
+    <tr>
+        <td>
+            <span class="question-number">{{=(i+1)}}</span><span class="highlight-color"> 【{{=it[i].score }}分】</span>
+            {{=it[i].questionName }}<br>
+            {{ for(var j = 0; j < it[i]['options'].length ; j++){ }}
+
+            &emsp;&emsp;&emsp;&nbsp;
+            <span class="option-num">{{=(j+1) }}</span> {{=it[i]['options'][j].optionInfo }}<br>
+            {{ } }}
+
+            答案解析：
+            <div class="answer-main">{{=it[i].answerKeys }}</div>
+        </td>
+    </tr>
+    {{ } }}
+    {{ } }}
+</script>
+
+
+<!--客观题-->
+<script id="subjective-list-template" type="text/x-dot-template">
+
+    {{ if(it.length == 0) { }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i=0;i < it.length;i++){ }}
+    <tr>
+        <td>
+            <span class="question-number">{{=(i+1)}}</span><span class="highlight-color"> 【{{=it[i].score }}分】</span>
+            {{=it[i].questionName }}<br>
+            答案解析：
+            <div class="answer-main">{{=it[i].answerKeys }}</div>
+        </td>
+    </tr>
+    {{ } }}
+    {{ } }}
+</script>
+
+<script id="exam-select-template" type="text/x-dot-template">
+    {{ if(it.length == 0 ){ }}
+    <option value=" ">暂无未发布的作业</option>
+    {{ }else{ }}
+    <option value=" ">请选择作业</option>
+    {{ for(var i = 0 ; i < it.length ; i++){ }}
+    <option value="{{=it[i].id }}">{{=it[i].name }}</option>
+    {{ } }}
+    {{ } }}
+</script>
+
+
+<script id="course-template" type="text/x-dot-template">
+
+    {{ if(it.length == 0 ){ }}
+    <option value="">您还没有课程安排</option>
+    {{ }else{ }}
+    <option value="" selected="selected">请选择课程</option>
+    {{ for(var i = 0 ; i < it.length ; i++){ }}
+    <option value="{{=it[i].courseNumber }}">{{=it[i].courseName }}</option>
+    {{ } }}
+    {{ } }}
+</script>
+
+<script id="class-template" type="text/x-dot-template">
+
+    {{ if(it.length == 0 ){ }}
+    <option value="">没有可布置的班级</option>
+    {{ }else{ }}
+    <option value="" selected="selected">请选择班级</option>
+    {{ for(var i = 0 ; i < it.length ; i++){ }}
+    <option value="{{=it[i].classId }}">{{= (it[i].grade+" "+it[i].majorName+" "+it[i].classNo )}}</option>
+    {{ } }}
+    {{ } }}
+</script>
+
+
+<script id="exam-info-template" type="text/x-dot-template">
+    {{ if(it.length == 0 ){ }}
+    暂无数据
+    {{ }else{ }}
+
+    <tr>
+        <td style="width: 100px; ">题型</td>
+        <td style="width: 100px; ">所占分值</td>
+        <td style="width: 100px; ">题库总题量</td>
+        <td style="width: 100px; ">题量</td>
+        <td class="form-item-remark"><span></span></td>
+    </tr>
+
+
+    {{ for(var i = 0 ; i < it.length ; i++){ }}
+
+    <tr>
+        <td>判断题</td>
+        <td>{{=it[i].trueOrFalse }}</td>
+        <td id="trueOrFalseNumberQuestion"></td>
+        <td>
+            <input required score="{{=it[i].trueOrFalse }}" type="number" name="trueOrFalseNumber" class="form-control"
+                   placeholder="请输入判断题题量" onblur="blurs(this)"/>
+        </td>
+        <td class="form-item-remark"><span id="trueOrFalseNumber"></span></td>
+    </tr>q
+
+    <tr>
+        <td>单选题</td>
+        <td>{{=it[i].single }}</td>
+        <td id="singleNumberQuestion"></td>
+        <td>
+            <input required score="{{=it[i].single }}" type="number" name="singleNumber" class="form-control"
+                   placeholder="请输入单选题题量" onblur="blurs(this)"/>
+        </td>
+        <td class="form-item-remark"><span id="singleNumber"></span></td>
+    </tr>
+
+    <tr>
+        <td>多选题</td>
+        <td>{{=it[i].multiple }}</td>
+        <td id="multipleNumberQuestion"></td>
+        <td>
+            <input required score="{{=it[i].multiple }}" type="number" name="multipleNumber" class="form-control"
+                   placeholder="请输入多选题题量" onblur="blurs(this)"/>
+        </td>
+        <td class="form-item-remark"><span id="multipleNumber"></span></td>
+    </tr>
+
+    <tr>
+        <td>填空题</td>
+        <td>{{=it[i].gap }}</td>
+        <td id="gapNumberQuestion"></td>
+        <td>
+            <input required score="{{=it[i].gap }}" type="number" name="gapNumber" class="form-control"
+                   placeholder="请输入填空题题量" onblur="blurs(this)"/>
+        </td>
+        <td class="form-item-remark"><span id="gapNumber"></span></td>
+    </tr>
+
+
+    <tr>
+        <td class="form-item-title" style="text-align: center">
+            作业总分
+        </td>
+        <td>
+            <input disabled required type="text" name="score" maxlength="20" class="form-control"
+                   style="text-align: center" value="{{= it[0].score }}">
+        </td>
+        <td id="allQuestion"></td>
+        <td class="form-item-remark">
+            <input disabled required type="text" id="allNumber" maxlength="20" class="form-control"
+                   style="text-align: center">
+        </td>
+        <td class="form-item-remark"><span></span></td>
+    </tr>
+
+    {{ } }}
+    {{ } }}
+</script>
+
+<script>
+
+    function blurs(event) {
+
+        var score = parseInt( $(event).attr("score"));
+        var tipsId = $(event).attr("name");
+        var inputValue = parseInt($(event).val());
+        if (inputValue > parseInt($('#' + tipsId + "Question").html())) {
+            $('#' + tipsId).html("题库的题量不足" + inputValue + "题");
+            return false;
+        }
+
+        if (inputValue != 0 && !(score % inputValue == 0||score % inputValue == inputValue/2)) {
+            $('#' + tipsId).html("单题分数必须为整数或者0.5分结尾");
+            return false;
+        } else {
+            $('#' + tipsId).html(" ");
+        }
+
+        var valueArr = $('input[type="number"]');
+        var sumValue = 0;
+        if (valueArr.size() > 0 || valueArr != null) {
+            for (var i = 0; i < valueArr.size(); i++) {
+
+                if (isNaN(valueArr[i].value) || valueArr[i].value == null || valueArr[i].value == "") {
+                    sumValue += 0;
+                } else {
+                    sumValue += parseFloat(valueArr[i].value);//强制转换为数字
+                }
+
+            }
+        }
+        if (sumValue > 0) {
+            $('#allNumber').val(parseInt(sumValue));
+        } else {
+            $('#allNumber').val(0);
+        }
+
+    }
+</script>
+
+<script id="error-template" type="text/x-dot-template">
+    {{ if(it.length == 0) { }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i=0;i < it.length;i++){ }}
+    <tr>
+        <td>
+            {{= i+1}}
+        </td>
+        <td>
+            {{= it[i].name|| ""}}
+        </td>
+        <td>
+            {{= it[i].myClass || ""}}
+        </td>
+        <td class="td-number">
+            {{= it[i].number|| ""}}
+        </td>
+        <td class="td-phone">
+            {{= it[i].phone || ""}}
+        </td>
+
+        <td>
+            {{= it[i].info || ""}}
+        </td>
+    </tr>
+    {{ } }}
+    {{ } }}
+</script>
+
+
+<% include ../inc/js.ejs %>
+
+<!-- 私有脚本 start -->
+<script src="../../js/baseModule/_exam.js"></script>
+<!-- 私有脚本 end -->
+<% include ../inc/footer.ejs %>

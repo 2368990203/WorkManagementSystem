@@ -1,0 +1,82 @@
+/* CSS Document */
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.box {
+    width: 100%;
+    height: 100%;
+}
+
+.popUp {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    top: 0;
+    left: 0;
+}
+
+.mainbox {
+    width: 460px;
+    height: 320px;
+    margin: 100px auto;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    text-align: left;
+}
+
+.kkk {
+    width: 100%;
+    height: 1200px;
+}
+
+.close-button {
+    cursor: pointer;
+}
+
+.green_btn {
+    float: right;
+    margin: 10px;
+}
+
+.green_btn button {
+    background-color: #FFFFFF;
+    color: #25B99B;
+    -webkit-border-radius: 6;
+    -moz-border-radius: 6;
+    border-radius: 6px;
+    font-family: Arial;
+    font-size: 16px;
+    padding: 8px 25px;
+    text-decoration: none;
+    border: none;
+    border: solid 1px #25B99B;
+}
+
+.green_btn :hover {
+    color: #ffffff;
+    background: #25B99B;
+    text-decoration: none;
+}
+
+.textarea {
+    resize: none;
+    width: 420px;
+    height: 200px;
+    margin-top: 10px;
+    font-size: 16px;
+    font-family: ΢���ź�;
+    background-color: rgb(255, 255, 255);
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(204, 204, 204);
+    border-image: initial;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+

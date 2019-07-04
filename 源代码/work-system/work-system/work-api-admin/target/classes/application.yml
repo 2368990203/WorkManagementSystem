@@ -1,0 +1,19 @@
+#logging:
+#  CacheConstant: classpath:logback.xml
+#  path: ./logs
+#  level: debug
+
+#主配置文件
+spring:
+  profiles:
+    active: local #local dev production
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Chongqing
+  application:
+      name: work-system
+  http:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <meta name="keywords" content="desktop">
+    <meta name="description" content="desktop">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link href="../assets/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../assets/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../assets/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../assets/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="../assets/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="../assets/css/plugins/pagination/pagination.css" rel="stylesheet">
+    <link href="../assets/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="../assets/css/zTreeStyle/zTreeStyle.css" rel="stylesheet">
+
+    <style>
+        .hide {
+            display: none;
+        }
+
+        .query-btn {
+            height: 34px !important;
+        }
+
+        .form-item-title {
+            width: 120px;
+            text-align: right;
+        }
+
+        .form-item-remark {
+            width: 120px;
+            text-align: left;
+            color: red;
+            font-size: 10px;
+        }
+
+        .modal-dialog {
+            margin: 0 auto !important;
+            padding: 0px !important;
+        }
+
+        .pm0 {
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .p0 {
+            padding: 0px !important;
+        }
+
+        .m0 {
+            margin: 0px !important;
+        }
+
+        .pl2 {
+            padding-left: 20px !important;
+        }
+
+        .pl3 {
+            padding-left: 30px !important;
+        }
+
+        .pl4 {
+            padding-left: 40px !important;
+        }
+
+        .pl5 {
+            padding-left: 50px !important;
+        }
+
+        .mdui-list-item-content {
+            margin-left: 10px !important;
+        }
+
+        .ml2 {
+            margin-left: 20px !important;
+        }
+
+        .ml3 {
+            margin-left: 30px !important;
+        }
+
+        .ml4 {
+            margin-left: 40px !important;
+        }
+
+        .bl {
+            border-left: 1px #BDBDBD solid;
+        }
+
+        .br {
+            border-right: 1px #BDBDBD solid;
+        }
+
+        .h1 {
+            height: 10px;
+        }
+
+        .h2 {
+            height: 20px;
+        }
+
+        .h3 {
+            height: 30px;
+        }
+
+        .h4 {
+            height: 40px;
+        }
+
+        .h5 {
+            height: 50px;
+        }
+
+        .h6 {
+            height: 60px;
+        }
+
+        .h7 {
+            height: 70px;
+        }
+
+        .h8 {
+            height: 80px;
+        }
+
+        .h9 {
+            height: 90px;
+        }
+
+        .h10 {
+            height: 100px;
+        }
+
+        .h20 {
+            height: 200px;
+        }
+
+        .h28 {
+            height: 280px;
+        }
+
+        .h35 {
+            height: 350px;
+        }
+
+        .w1 {
+            width: 10%
+        }
+
+        .w2 {
+            width: 20%
+        }
+
+        .w3 {
+            width: 30%
+        }
+
+        .w4 {
+            width: 40%
+        }
+
+        .w5 {
+            width: 50%
+        }
+
+        .w6 {
+            width: 60%
+        }
+
+        .w7 {
+            width: 70%
+        }
+
+        .w8 {
+            width: 80%
+        }
+
+        .w50 {
+            width: 50px;
+        }
+
+        .w60 {
+            width: 60px;
+        }
+
+        .w80 {
+            width: 80px;
+        }
+
+        .w100 {
+            width: 100px;
+        }
+
+        .w120 {
+            width: 120px;
+        }
+
+        .w150 {
+            width: 150px;
+        }
+
+        .fancybox:hover {
+            cursor: pointer;
+        }
+
+        img {
+            box-sizing: border-box;
+            vertical-align: middle;
+            border: 0;
+        }
+
+        .img-responsive {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .input-group {
+            display: block;
+            float: left;
+            margin-right: 5px;
+        }
+
+        .remove-image:hover {
+            color: red;
+            cursor: pointer;
+        }
+
+        .highlight-color {
+            color: #E5621A;
+        }
+
+        .question-number {
+            background: #E5621A;
+            border-radius: 50%;
+            float: left;
+            color: #FFF;
+            min-width: 20px;
+            min-height: 20px;
+            /*padding: 2px;*/
+            /*margin-top: 3px;*/
+            text-align: center;
+            line-height: 20px;
+            white-space: nowrap;
+        }
+
+        .option-num {
+            display: inline-block;
+            margin-right: 5px;
+            background: #e1e1e1;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            line-height: 22px;
+            font-size: 14px;
+            /*font-weight: 700;*/
+        }
+
+        .answer-main {
+            padding: 10px 25px;
+            border: 1px solid #f3f3f3;
+            background: #f9f9f9;
+            font-size: 14px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+    </style>
+
+    <style>
+        .todo-list li:hover {
+            cursor: pointer;
+            background-color: #23b7e5;
+            color: white;
+        }
+
+        .mt10 {
+            margin-top: 10px;
+        }
+
+        .mb0 {
+            margin-bottom: 0px !important;
+        }
+
+        a {
+            color: black;
+        }
+    </style>
+    <% include inc/body.ejs %>
+    <!-- html主体代码 start -->
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="ibox-content h28">
+                <h2>
+                    待办事项  <!--location.href='/user/todo'-->
+                    <button class="btn btn-link pull-right" onclick="location.href='../user/todo'" id="todoMore"
+                            style="display: none"> 更多...
+                    </button>
+                </h2>
+                <ul class="todo-list m-t" id="todo-list">
+
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="ibox-content h28">
+                <h2>
+                    消息中心 <!--location.href='/user/message'-->
+                    <button class="btn btn-link pull-right" onclick="location.href='../user/message'" id="messageMore"
+                            style="display: none"> 更多...
+                    </button>
+                </h2>
+                <ul class="todo-list m-t" id="message-list"></ul>
+            </div>
+        </div>
+
+    </div>
+
+    </div>
+
+    <!-- html主体代码 end -->
+
+    <script id="message-list-template" type="text/x-dot-template">
+        {{ if(typeof it == "undefined" || it.length == 0) { }}
+        暂无消息
+        {{ }else{ }}
+        {{ for(var i = 0; i < it.length; i++ ) { }}
+        <a href="{{=server_root}}user/message/?id={{=it[i].id }}" data-id="{{=it[i].id }}">
+            <li>
+                {{ if(it[i].readStatus==null||it[i].readStatus==""||it[i].readStatus!=1) { }}
+                <span class="m-l-xs">{{=it[i].topic.length<=12?it[i].topic:it[i].topic.substr(0,12) }}</span>
+                <small class="label label-primary pull-right"><i class="fa fa-clock-o"></i> {{=it[i].sendTimeStr||"" }}
+                </small>
+                {{ }else{ }}
+                <span class="m-l-xs" style="color: #a2a2a2;">{{=(it[i].topic.length<=12?it[i].topic:it[i].topic.substr(0,12))||"" }}</span>
+                <small class="label pull-right" style="color: #a2a2a2;"><i class="fa fa-clock-o"></i>
+                    {{=it[i].sendTimeStr||"" }}
+                </small>
+                {{ } }}
+            </li>
+        </a>
+        {{ } }}
+        {{ } }}
+    </script>
+
+    <script id="message-template" type="text/x-dot-template">
+
+        {{ if(typeof it == "undefined" || it == null) { }}
+        暂无消息提醒
+
+        {{ }else{ }}
+        <div class="location">
+            <div class="title-ms-info">【{{=helper.type(it.type)||""}}】 {{=it.topic||""}}<br>
+                <span class="title-ms-time">{{=(it.sendTimeStr.replace('.0',''))||""}}</span>
+            </div>
+        </div>
+
+        <div class="details">
+            <div class="msg-list-panel ms-info-text">
+
+                <div id="Wrap">
+                    <div id="inner">
+
+                        <p id="content">
+                                <span>
+                                   {{=it.content}}
+                                </span>
+                        </p>
+
+
+                        {{ if(it.type!=0&&it.type!=6) { }}
+                        {{ if(it.linkId==null||it.linkId=="") { }}
+                        详细信息点击下方按钮查看。
+                        <a href="{{=server_root.substr(0,server_root.length-1)}}{{=helper.url(it.type)}}" id="btn">{{=helper.type(it.type)}}管理</a>
+                        {{ }else{}}
+                        详细信息点击下方按钮查看。
+                        <a href="{{=server_root.substr(0,server_root.length-1)}}{{=helper.detailUrl(it.type)}}{{=it.linkId }}"
+                           id="btn">{{=helper.type(it.type)}}详情</a>
+                        {{ }}}
+                        {{ }}}
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        {{ } }}
+    </script>
+
+
+    <script id="todo-list-template" type="text/x-dot-template">
+        {{ if(it == null||typeof it == "undefined" || it.length == 0) { }}
+        暂无待办事项
+        {{ }else{ }}
+        {{ for(var i = 0; i < it.length; i++ ) { }}
+        <a href="{{=server_root.substr(0,server_root.length-1)}}{{=todohelper.approvalUrl(it[i].approvalType)}}?approvalId={{=it[i].approvalId }}&stage={{=it[i].stage}}"
+           data-id="{{=it[i].approvalId }}">
+            <li>
+        <span class="m-l-xs">
+ {{= (it[i].name==null||it[i].name=="")?"":(it[i].name.length<=12?it[i].name:it[i].name.substr(0,12) )||""}}{{=todohelper.approvalType(it[i].approvalType)||""}}{{=todohelper.stage(it[i].stage)||""}}
+        </span>
+                <button class="btn btn-info pull-right fa fa-edit"> 审批</button>
+                <small class="label label-primary pull-right"><i class="fa fa-clock-o"></i>{{=it[i].createTimeStr ||""}}
+                </small>
+            </li>
+        </a>
+
+        {{ } }}
+        {{ } }}
+    </script>
+
+
+    </div>
+
+    <% include inc/js_index.ejs %>
+
+    <!-- 私有脚本 start -->
+    <script src="../js/_welcome.js"></script>
+    <!-- 私有脚本 end -->
+
+    </body>
+</html>
+
+
+

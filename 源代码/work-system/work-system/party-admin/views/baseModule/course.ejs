@@ -1,0 +1,107 @@
+<% include ../inc/header.ejs%>
+<style>
+    .date-table {
+        overflow-y: auto;
+    }
+</style>
+
+<% include ../inc/body.ejs%>
+<!-- html主体代码 start -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title" style="padding-top: 3px !important;">
+                <div style="width: 140px; display: block;float: left;padding-top: 10px;">
+                    课程信息列表
+                </div>
+
+                <div class="ibox-tools">
+                    <button style="margin-top: 8px;" class="btn btn-primary btn-xs" type="button"
+                            onclick="course.create(this);">
+                        <i class="fa fa-plus"></i>&nbsp;新增
+                    </button>
+                </div>
+
+            </div>
+            <div class="ibox-content data-view" style="overflow-y: auto;">
+                <div class="input-group" style="width: 200px;display: flex">
+                    <input style="min-width: 200px;width: 200px;" type="text" id="select-name" placeholder="请输入课程名称"
+                           class="input-sm form-control"/>
+
+
+                    <span class="input-group-btn">
+                            <button onclick="course.select(this);" id="search_button"
+                                    style="width: 50px;height: 34px" type="button"
+                                    class="btn btn-sm btn-primary"> 搜索</button>
+                        </span>
+                </div>
+                <div class="col-sm-12">
+                    <div class=" col-sm-12 date-table">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>课程号</th>
+                                <th>课程名</th>
+                                <th>学分</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody id="item-list">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-12 pages M-box3 list-page">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- html主体代码 end -->
+<!-- 管理的课程信息模板 -->
+<script id="course-template" type="text/x-dot-template">
+    {{ if(it.length == 0) { }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i=0;i < it.length;i++){ }}
+    <tr>
+        <td>
+            {{=(i+1)}}
+        </td>
+        <td>
+            {{= it[i].number}}
+        </td>
+        <td>
+            {{= it[i].name}}
+        </td>
+        <td>
+            {{= it[i].credit}}
+        </td>
+        <td>
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle">操作 <span
+                            class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="course.update(this);">修改</a>
+                    </li>
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="course.delete(this);">删除</a>
+                    </li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+    {{ } }}
+    {{ } }}
+</script>
+<% include ../inc/js.ejs %>
+
+<!-- 私有脚本 start -->
+<script src="/js/baseModule/_course.js"></script>
+<!-- 私有脚本 end -->
+<% include ../inc/footer.ejs %>

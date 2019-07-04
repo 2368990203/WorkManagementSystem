@@ -1,0 +1,77 @@
+<% include ../inc/header.ejs %>
+<% include ../inc/body.ejs %>
+<!-- html主体代码 start -->
+<div class="row">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>数据中心</h5>
+            <div class="ibox-tools">
+                <button class="btn btn-primary btn-xs" type="button" onclick="category.create(this);">
+                    <i class="fa fa-plus"></i>&nbsp;创建
+                </button>
+            </div>
+        </div>
+        <div class="ibox-content" id="data-view">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>code</th>
+                    <th>创建时间</th>
+                    <th>修改时间</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="category-list">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- html主体代码 end -->
+<script id="category-tmpl" type="text/x-dot-template">
+    {{ if(it.length>0){ }}
+    {{ for(var i=0;i
+    <it.length;i++){ }}
+    <tr>
+        <td>
+            {{= it[i].name}}
+        </td>
+        <td>
+            {{= it[i].code}}
+        </td>
+        <td>
+            {{= time.timestamp2time(it[i].createTime) }}
+        </td>
+        <td>
+            {{= time.timestamp2time(it[i].reviseTime) }}
+        </td>
+        <td>
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle">
+                    操作 <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="category.update(this);">修改</a>
+                    </li>
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="category.delete(this);">删除</a>
+                    </li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+    {{ } }}
+    {{ } else{ }}
+    <tr>
+        <td colspan="5">暂无数据</td>
+    </tr>
+    {{ } }}
+</script>
+<% include ../inc/js.ejs %>
+<!-- 私有脚本 start -->
+<script src="../sys/js_sys/_base_category.js"></script>
+<!-- 私有脚本 end -->
+<% include ../inc/footer.ejs %>

@@ -1,0 +1,108 @@
+<!DOCTYPE html public "-//w3c//dtd xhtml 1.0 transitional//en"
+        "http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>作业须知</title>
+    <meta name="keywords" content="desktop">
+    <meta name="description" content="desktop">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv=“X-UA-Compatible” content=“IE=8″>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link href="page/css/topstyle.css" rel='stylesheet' type='text/css'/><!--头尾部css-->
+    <link href="assets/css/plugins/sweetalert/sweetalert.css" rel="stylesheet"> <!--退出登录弹窗css-->
+    <!-- Bootstrap Core CSS -->
+    <link href="page/css/bootstrap.min.css" rel='stylesheet' type='text/css'/>
+    <!-- Graph CSS -->
+    <link href="page/css/font-awesome.min.css" rel="stylesheet">
+    <link href="page/css/detail.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+<style>
+    .detail_title {
+        display: -webkit-box !important;
+    }
+</style>
+<% include ../../inc/js.ejs %>
+
+<div class="content">
+
+    <div class="right">
+        <div class="details" id="examTips">
+
+
+        </div>
+
+    </div>
+</div>
+
+<script src="page/js/work/_examTips.js"></script>
+
+<script id="examTips-template" type="text/x-dot-template">
+    <div class="title" style="margin-bottom: 20px;font-size: 22px;">作业须知</div>
+    <div class="detail_title">&nbsp;&nbsp;学生信息：</div>
+    <div class="text" id="user">
+
+    </div>
+    <br>
+    <div class="detail_title">&nbsp;&nbsp;作业信息：</div>
+    <div class="text">
+				<pre style="font-size: 14px">
+
+                    作业名称： {{= it.examName ||""}}</br>
+                    作业类型： {{= helper.type(it.type)||"" }}</br>
+                    开始时间： {{= it.startTimeStr.replace(".0","")||""}}</br>
+                    结束时间： {{= it.endTimeStr.replace(".0","")||""}}</br>
+                    考试时长： {{=helper.length(it.duration)}}</br>
+                    试卷总分： {{= it.totalScore}}分</br>
+
+
+
+				</pre>
+    </div>
+    <br>
+    <div class="detail_title">&nbsp;&nbsp; 注意事项：</div>
+    <div class="text">
+					<pre style="font-size: 14px">
+                         1、请核对当前界面学生信息和作业信息是否正确。</br>
+                         2、作业进行期间如遇到断电、断网、死机等问题，可以关闭浏览器重新打开作业链接即可继续做题。</br>
+                         3、多选题多选或者漏选均不得分。</br>
+                         4、填空题填对单空即可得分，计算标准为：单空得分=总分/填空数量；全部正确即可得该题总分。</br>
+                         5、最终得分小数部分大于等于0.5分的记为0.5分；少于0.5分的则舍去。</br>
+                            例：85.67分记为85.5分；81.33分记为81分。</br>
+                         6、作业界面右上角会显示答题情况，空白为未答，绿色为已答。</br>
+                         7、考试界面下方和右上角均会显示答题时间，倒计时结束时将会自动提交，请合理安排作业答题时间。</br>
+                         8、离考试结束仅剩五分钟时会弹出提交提醒，请尽快检查题目提交答案。</br>
+                         9、点击开始作业即可进入作业界面进行答题。</br>
+					</pre>
+
+    </div>
+    <div style="display: inline-block;margin-left: 75%">
+        <input type="button" class="button" value="返回" onclick="window.location.href='examList'" style="width:80px;height:30px; background-color:rgb(221,221,221);
+				   border:none;border-radius:5px;"/>
+        <input type="button" class="button" value="进入作业" onclick="window.location.href='exam?examId={{=it.examId }}'" style="color: #ffffff;width:80px;height:30px;
+				   background-color:#d85342;border:none;border-radius:5px;"/>
+
+    </div>
+
+
+</script>
+
+
+<script id="user-template" type="text/x-dot-template">
+    <pre style="font-size: 14px">
+
+        学号： {{= it.number ||""}}</br>
+        姓名： {{= it.name||"" }}</br>
+        学院： {{= it.academyName||""}}</br>
+	</pre>
+
+</script>
+
+</body>
+</html>

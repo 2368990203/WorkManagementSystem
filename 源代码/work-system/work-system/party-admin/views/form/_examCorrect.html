@@ -1,0 +1,105 @@
+<div class="table-responsive">
+    <form id="correct-form">
+        <table class="table table-bordered">
+            <input  type="hidden" name="examId">
+            <input  type="hidden" name="number">
+
+            <tr>
+                <td class="form-item-title">
+                    作业名称
+                </td>
+                <td>
+                    <input readonly required type="text" name="examName" class="form-control">
+                </td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    作业类型
+                </td>
+                <td>
+                    <input readonly required type="text" name="type" id="type" maxlength="20" class="form-control">
+                </td>
+            </tr>
+            <tr>
+                <td class="form-item-title">
+                    学生信息
+                </td>
+                <td>
+                    <input readonly required type="text" name="studentInfo" class="form-control">
+                </td>
+            </tr>
+
+            <tr>
+                <td class="form-item-title">
+                    主观题得分
+                </td>
+                <td>
+                    <input readonly required type="text" id="score" name="score" maxlength="20"
+                           class="form-control" value="0">
+                </td>
+            </tr>
+        </table>
+
+
+        <table>
+            <tr>
+                <br>
+                <h3>客观题</h3>
+            </tr>
+            <tbody id="subjective-list">
+
+
+            </tbody>
+        </table>
+
+
+
+        <table>
+            <tr>
+                <br>
+                <h3>单项选择题</h3>
+            </tr>
+
+            <tbody id="single-list">
+
+
+            </tbody>
+        </table>
+
+        <table>
+            <tr>
+                <br>
+                <h3>不定项选择题</h3>
+            </tr>
+            <tbody id="multiple-list">
+
+
+            </tbody>
+        </table>
+
+
+        <table>
+            <tr>
+                <br>
+                <h3>判断题</h3>
+            </tr>
+            <tbody id="true-or-false-list">
+
+
+            </tbody>
+        </table>
+
+        <table>
+            <tr>
+                <br>
+                <h3>填空题</h3>
+            </tr>
+            <tbody id="gap-list">
+
+
+            </tbody>
+        </table>
+
+    </form>
+</div>
+

@@ -1,0 +1,133 @@
+<!DOCTYPE html public "-//w3c//dtd xhtml 1.0 transitional//en"
+        "http://www.w3.org/tr/xhtml1/dtd/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>会议安排>会议详情</title>
+    <meta name="keywords" content="desktop">
+    <meta name="description" content="desktop">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv=“X-UA-Compatible” content=“IE=8″>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link href="page/css/topstyle.css" rel='stylesheet' type='text/css'/><!--头尾部css-->
+    <link href="assets/css/plugins/sweetalert/sweetalert.css" rel="stylesheet"> <!--退出登录弹窗css-->
+    <!-- Bootstrap Core CSS -->
+    <link href="page/css/bootstrap.min.css" rel='stylesheet' type='text/css'/>
+    <!-- Graph CSS -->
+    <link href="page/css/font-awesome.min.css" rel="stylesheet">
+
+
+    <link href="page/css/detail.css" rel="stylesheet">
+    <link href="page/css/iframe.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<% include pcwebHeader.ejs %>
+<div class="content">
+    <div class="left">
+        <li class="active"><a href="meetingList" style="color: black;text-decoration-line: none">会议安排</a></li>
+        <li><a href="examList" style="color: black;text-decoration-line: none"> 作业</a></li>
+    </div>
+    <div class="right">
+
+        <div class="location"><a href="meetingList" style="color:#2B2B2B">会议安排</a></div>
+        <div class="details" id="meeting-details">
+
+            <!--<div class="last"><a href="#">上一页&nbsp;&nbsp;/&nbsp;&nbsp;</a><a href="#">下一页</a></div>-->
+
+        </div>
+    </div>
+
+
+    <script src="page/js/work/_meetingDetail.js"></script>
+
+    <script id="meeting-details-template" type="text/x-dot-template">
+
+        {{ if(typeof it == "undefined" || it.length == 0) { }}
+        暂无数据
+        {{ }else{ }}
+        {{ for(var i = 0; i < it.length; i++ ) { }}
+        <div class="detail" style="line-height: 25px;">
+            <div class="detail_title">&nbsp;&nbsp;会议主题：</div>
+            <div class="detail_content">{{=it[i].topic||"" }}</div>
+            <div class="detail_title" style="border-left:none ">&nbsp;&nbsp;&nbsp;时间安排：</div>
+            <div class="detail_content">{{=it[i].startTimeStr||"" }} 至 {{=it[i].endTimeStr||"" }}</div>
+            <div class="detail_title" style="border-left:none ">&nbsp;&nbsp;&nbsp;地点：{{=it[i].place||""}}</div>
+            <p>&nbsp;&nbsp;&nbsp;主持人：{{=it[i].speaker||""}}</p>
+            <div class="detail">
+                <div class="detail_title">&nbsp;&nbsp;会议内容：</div>
+                <div class="detail_content">{{=it[i].summary||"" }}</div>
+            </div>
+            <div class="detail">
+            <div class="detail_title">&nbsp;&nbsp;会议状态：{{=helper.status(it[i].status)||""}}</div>
+            </div>
+            <div class="detail">
+                <div class="detail_title">&nbsp;&nbsp;考勤状态：{{=helper.attendance(it[i].attendanceStatus)||"未签到" }}</div>
+            </div>
+            <div class="buttom">
+                {{ if(it[i].attendanceStatus!=2 ){ }}
+                {{ if(it[i].vacateId == undefined ){ }}
+                {{ if(it[i].status == 2 ){ }}
+                <button data-id="{{=it[i].id}}" onclick="meetingDetail.vacate(this)" class="button">请假</button>
+                {{ }}}
+                {{ }else{ }}
+                请假结果：{{=helper.result(it[i].result)||"" }}<br>
+                <button data-id="{{=it[i].vacateId}}" onclick="meetingDetail.vacateDetail(this)" class="button">请假详情
+                </button>
+                {{ } }}
+                {{ } }}
+
+            </div>
+        </div>
+
+
+        {{ } }}
+        {{ } }}
+    </script>
+
+    <!--请假弹窗-->
+    <div class="popUp" id="vacate">
+        <div class="mainbox">
+
+            <div class="main" style="width:420px">
+                <p>请假事由：</p>
+                <textarea class="textarea" id="reason" placeholder="请填写请假事由"></textarea>
+                <div class="green_btn">
+                    <a href="#">
+                        <button data-id="" id="confirm" onclick="meetingDetail.confirm(this)">确认</button>
+                    </a>
+                    <a href="#">
+                        <button class="close-button" onclick="meetingDetail.Close()">取消</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--请假详情弹窗-->
+    <div class="popUp" id="vacateDetail">
+        <div class="mainbox">
+
+            <div class="main" style="width:420px">
+                <p class="title">请假详情</p><br>
+                请假理由：<span id="vacateReason"></span><br>
+                请假状态：<span id="status"></span><br>
+                <span id="result"></span><br>
+                <span id="opinion"></span><br>
+                <div class="green_btn" style="margin-top: 100px">
+                    <button class="close-button" onclick="meetingDetail.Close()">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<% include pcwebFooter.ejs %>
+</body>
+</html>

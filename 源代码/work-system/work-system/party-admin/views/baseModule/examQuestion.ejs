@@ -1,0 +1,391 @@
+<% include ../inc/header.ejs %>
+<style>
+    .date-table {
+        overflow-y: auto;
+    }
+</style>
+
+<% include ../inc/body.ejs %>
+<!-- html主体代码 start -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title" style="padding-top: 3px !important;">
+                <div style="width: 140px; display: block;float: left;padding-top: 10px;">
+                    作业和题目列表
+                </div>
+
+                <div class="ibox-tools">
+                    <button style="margin-top: 8px;" class="btn btn-primary btn-xs" type="button"
+                            onclick="examQuestion.randomExam(this);">
+                        <i class="fa fa-random"></i>&nbsp;随机组卷
+                    </button>
+
+                    <button style="margin-top: 8px;" class="btn btn-primary btn-xs" type="button"
+                            onclick="examQuestion.create(this);">
+                        <i class="fa fa-plus"></i>&nbsp;新增
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="input-group" style="width: 200px;display: flex" id="search-key">
+                <select style="width: 300px;height: 34px" type="text" id="select-paper" placeholder="请选择作业"
+                        class="input-sm form-control">
+                </select>
+                <span class="input-group-btn">
+                            <button onclick="examQuestion.select(this);" id="search_button"
+                                    style="width: 50px;height: 34px" type="button"
+                                    class="btn btn-sm btn-primary"> 搜索</button>
+                        </span>
+            </div>
+
+            <div class="ibox-content data-view" style="overflow-y: auto;">
+                <div class="col-sm-12">
+                    <div class=" col-sm-12 date-table">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>作业</th>
+                                <th>题型</th>
+                                <th>题目</th>
+                                <th>分值</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody id="item-list">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-12 pages M-box3 list-page">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- html主体代码 end -->
+<!-- 管理的作业和题目关系模板 -->
+<script id="examQuestion-template" type="text/x-dot-template">
+    {{ if(it.length == 0) { }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i=0;i < it.length;i++){ }}
+    <tr>
+        <td>
+            {{= ((index-1) * size +i+1)}}
+        </td>
+        <td>
+            {{= it[i].name}}
+        </td>
+        <td>
+            {{= helper.type(it[i].type) }}
+        </td>
+        <td>
+            {{= it[i].questionName}}
+        </td>
+        <td>
+            {{= it[i].score}}
+        </td>
+        <td>
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle">操作 <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <!--<li>-->
+                    <!--<a href="#" data-id="{{= it[i].id}}" onclick="examQuestion.update(this);">修改</a>-->
+                    <!--</li>-->
+
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="examQuestion.read(this);">查看</a>
+                    </li>
+                    <li>
+                        <a href="#" data-id="{{= it[i].id}}" onclick="examQuestion.delete(this);">删除</a>
+                    </li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+    {{ } }}
+    {{ } }}
+</script>
+
+
+<script id="exam-select-template" type="text/x-dot-template">
+    {{ if(it.length == 0 ){ }}
+    <option value=" ">暂无数据</option>
+    {{ }else{ }}
+    <option value=" ">请选择作业</option>
+    {{ for(var i = 0 ; i < it.length ; i++){ }}
+    <option value="{{=it[i].id }}">{{=it[i].name }}</option>
+    {{ } }}
+    {{ } }}
+</script>
+
+
+<script id="exam-info-template" type="text/x-dot-template">
+    {{ if(it.length == 0 ){ }}
+    暂无数据
+    {{ }else{ }}
+
+    <tr>
+        <td style="width: 100px; ">题型</td>
+        <td style="width: 100px; ">所占分值</td>
+        <td style="width: 100px; ">题库总题量</td>
+        <td style="width: 100px; ">题量</td>
+        <td class="form-item-remark"><span></span></td>
+    </tr>
+
+
+    {{ for(var i = 0 ; i < it.length ; i++){ }}
+
+    <tr>
+        <td>判断题</td>
+        <td>{{=it[i].trueOrFalse }}</td>
+        <td id="trueOrFalseNumberQuestion"></td>
+        <td>
+            <input required score="{{=it[i].trueOrFalse }}" type="number" name="trueOrFalseNumber" class="form-control"
+                   placeholder="请输入判断题题量" onblur="blurs(this)"/>
+        </td>
+        <td class="form-item-remark"><span id="trueOrFalseNumber"></span></td>
+    </tr>q
+
+    <tr>
+        <td>单选题</td>
+        <td>{{=it[i].single }}</td>
+        <td id="singleNumberQuestion"></td>
+        <td>
+            <input required score="{{=it[i].single }}" type="number" name="singleNumber" class="form-control"
+                   placeholder="请输入单选题题量" onblur="blurs(this)"/>
+        </td>
+        <td class="form-item-remark"><span id="singleNumber"></span></td>
+    </tr>
+
+    <tr>
+        <td>多选题</td>
+        <td>{{=it[i].multiple }}</td>
+        <td id="multipleNumberQuestion"></td>
+        <td>
+            <input required score="{{=it[i].multiple }}" type="number" name="multipleNumber" class="form-control"
+                   placeholder="请输入多选题题量" onblur="blurs(this)"/>
+        </td>
+        <td class="form-item-remark"><span id="multipleNumber"></span></td>
+    </tr>
+
+    <tr>
+        <td>填空题</td>
+        <td>{{=it[i].gap }}</td>
+        <td id="gapNumberQuestion"></td>
+        <td>
+            <input required score="{{=it[i].gap }}" type="number" name="gapNumber" class="form-control"
+                   placeholder="请输入填空题题量" onblur="blurs(this)"/>
+        </td>
+        <td class="form-item-remark"><span id="gapNumber"></span></td>
+    </tr>
+
+
+    <tr>
+        <td class="form-item-title" style="text-align: center">
+            作业总分
+        </td>
+        <td>
+            <input disabled required type="text" name="score" maxlength="20" class="form-control"
+                   style="text-align: center" value="{{= it[0].score }}">
+        </td>
+        <td id="allQuestion"></td>
+        <td class="form-item-remark">
+            <input disabled required type="text" id="allNumber" maxlength="20" class="form-control"
+                   style="text-align: center">
+        </td>
+        <td class="form-item-remark"><span></span></td>
+    </tr>
+
+    {{ } }}
+    {{ } }}
+</script>
+
+
+<script>
+    // 选项序号
+    var optionAlph = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+</script>
+
+
+<!--判断题选项模板-->
+<script id="true-or-false" type="text/x-dot-template">
+
+    <tr>
+        <td style="width: 120px; text-align: center">选项</td>
+        <td style="text-align: center;">选项内容</td>
+        <td style="width: 120px;">正确答案</td>
+    </tr>
+
+    {{ if(typeof it == "undefined" || it.length == 0){ }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i = 0; i < it.length; i++) { }}
+    <tr>
+        {{ if(it[i].isAnswer == 1 ){ }}
+        <td class="highlight-color" style="text-align: center;">{{=(i+1) }}</td>
+        <td class="highlight-color">{{=it[i].optionInfo }}</td>
+        <td><input checked disabled type="radio" name="answerNumber"></td>
+
+        {{ }else{ }}
+
+        <td style="text-align: center;">{{=(i+1) }}</td>
+        <td>{{=it[i].optionInfo }}</td>
+        <td><input disabled type="radio" name="answerNumber"></td>
+
+        {{ } }}
+    </tr>
+
+    {{ } }}
+    {{ } }}
+</script>
+
+
+<!--单选题-->
+<script id="single-choice" type="text/x-dot-template">
+    <tr>
+        <td style="width: 120px; text-align: center">选项</td>
+        <td style="text-align: center">选项内容</td>
+        <td style="width: 120px;">正确答案</td>
+    </tr>
+    {{ if(typeof it == "undefined" || it.length == 0){ }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i = 0; i < it.length; i++) { }}
+
+    <tr class="singleOption" class="form-control">
+        <input type="hidden" name="optionNumber" value="{{=(i+1) }}">
+
+        {{ if(it[i].isAnswer == 1){ }}
+        <td class="singleNumber" style="text-align: center"><span class="highlight-color">{{= optionAlph[i] }}</span>
+        </td>
+        <td><p name="optionInfo" class="highlight-color">{{=it[i].optionInfo }}</p></td>
+        <td><input checked disabled type="radio" name="answerNumber"></td>
+
+        {{ }else{ }}
+        <td class="singleNumber" style="text-align: center">{{= optionAlph[i] }}</td>
+        <td><p name="optionInfo">{{=it[i].optionInfo }}</p></td>
+        <td><input type="radio" disabled name="answerNumber"></td>
+        {{ } }}
+    </tr>
+    {{ } }}
+
+    {{ } }}
+</script>
+
+
+<!--多选题-->
+<script id="multiple-choice" type="text/x-dot-template">
+    <tr>
+        <td style="width: 120px; text-align: center">选项</td>
+        <td style="text-align: center;">选项内容</td>
+        <td style="width: 120px;">正确答案</td>
+    </tr>
+    {{ if(typeof it == "undefined" || it.length == 0){ }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i = 0; i < 4; i++) {}}
+
+    <tr class="multipleOption">
+        {{ if(it[i].isAnswer == 1){ }}
+
+        <td class="multipleNumber" style="text-align: center;"><span class="highlight-color">{{= optionAlph[i] }}</span>
+        </td>
+        <td><p name="optionInfo" class="highlight-color">{{=it[i].optionInfo }}</p></td>
+        <td><input disabled checked type="checkbox" name="answerNumber"></td>
+
+        {{ }else{ }}
+
+        <td class="multipleNumber" style="text-align: center">{{= optionAlph[i] }}</td>
+        <td><p name="optionInfo">{{=it[i].optionInfo }}</p></td>
+        <td><input disabled type="checkbox" name="answerNumber" style="text-align: center;"></td>
+
+        {{ } }}
+    </tr>
+    {{ } }}
+
+    {{ } }}
+
+</script>
+
+
+<!--填空题-->
+<script id="gap-filling" type="text/x-dot-template">
+
+    <tr>
+        <td style="text-align: center;width: 120px" class="addGapOption">对应空格</td>
+        <td>正确答案</td>
+        <td class="form-item-remark"><span></span></td>
+    </tr>
+    {{ if(typeof it == "undefined" || it.length == 0){ }}
+    暂无数据
+    {{ }else{ }}
+    {{ for(var i = 0; i < it.length; i++) {}}
+
+    <tr class="gapOption">
+        </td>
+        <td class="gapNumber" style="text-align: center">{{=(i+1) }}</td>
+        <td><p required type="text" name="optionInfo">{{=it[i].optionInfo }}</p></td>
+        <td class="form-item-remark"><span></span></td>
+    </tr>
+
+    {{ } }}
+
+    {{ } }}
+</script>
+
+
+<% include ../inc/js.ejs %>
+
+<script>
+
+    function blurs(event) {
+
+        var score = $(event).attr("score");
+        var tipsId = $(event).attr("name");
+        var inputValue = $(event).val();
+        if (inputValue > parseInt($('#' + tipsId + "Question").html())) {
+            $('#' + tipsId).html("题库的题量不足" + inputValue + "题");
+            return false;
+        }
+
+        if (inputValue != 0 && score % inputValue != "0") {
+            $('#' + tipsId).html("请输入整数或可整除分值的数");
+            return false;
+        } else {
+            $('#' + tipsId).html(" ");
+        }
+
+        var valueArr = $('input[type="number"]');
+        var sumValue = 0;
+        if (valueArr.size() > 0 || valueArr != null) {
+            for (var i = 0; i < valueArr.size(); i++) {
+
+                if (isNaN(valueArr[i].value) || valueArr[i].value == null || valueArr[i].value == "") {
+                    sumValue += 0;
+                } else {
+                    sumValue += parseFloat(valueArr[i].value);//强制转换为数字
+                }
+
+            }
+        }
+        if (sumValue > 0) {
+            $('#allNumber').val(parseInt(sumValue));
+        } else {
+            $('#allNumber').val(0);
+        }
+
+    }
+</script>
+
+
+<!-- 私有脚本 start -->
+<script src="../../js/baseModule/_examQuestion.js"></script>
+<!-- 私有脚本 end -->
+<% include ../inc/footer.ejs %>
